@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>使用 pyart 绘制多雷达拼图 | Syize の blog</title>
+
+
+    <meta name="keywords" content="pyart, Python">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="前言这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制单个雷达图以及多雷达拼图的教程。 这篇文章是我在去年暑假–也就是 2020年8月–做大创项目的时候写的，想着既然要写自己的博客了那就一块搬过来吧，当然原博客的地址还是要加的 由于中间修改过代码，并不确定代码 100% 正确 原地址：Py-ART 简易中文教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 pyart 绘制多雷达拼图">
+<meta property="og:url" content="https://blog.syize.cn/2021/09/10/multiple-radar/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="前言这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制单个雷达图以及多雷达拼图的教程。 这篇文章是我在去年暑假–也就是 2020年8月–做大创项目的时候写的，想着既然要写自己的博客了那就一块搬过来吧，当然原博客的地址还是要加的 由于中间修改过代码，并不确定代码 100% 正确 原地址：Py-ART 简易中文教程">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2021/09/10/multiple-radar/map_one_radar.png">
+<meta property="og:image" content="https://blog.syize.cn/2021/09/10/multiple-radar/map_three_radars.png">
+<meta property="article:published_time" content="2021-09-10T15:01:28.000Z">
+<meta property="article:modified_time" content="2021-09-14T14:47:04.259Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="pyart">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2021/09/10/multiple-radar/map_one_radar.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        使用 pyart 绘制多雷达拼图
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2021/09/" class="post-meta__date button">2021-09-10</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E5%8D%95%E4%B8%AA%E9%9B%B7%E8%BE%BE%E5%9B%BE%E5%83%8F%E7%BB%98%E5%88%B6%E5%9C%A8%E7%AC%9B%E5%8D%A1%E5%B0%94%E5%9D%90%E6%A0%87%E7%B3%BB%E4%B8%AD"><span class="toc-number">2.</span> <span class="toc-text">将单个雷达图像绘制在笛卡尔坐标系中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E9%9B%B7%E8%BE%BE%E6%8B%BC%E5%9B%BE"><span class="toc-number">3.</span> <span class="toc-text">多雷达拼图</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E5%8D%95%E4%B8%AA%E9%9B%B7%E8%BE%BE%E5%9B%BE%E5%83%8F%E7%BB%98%E5%88%B6%E5%9C%A8%E7%AC%9B%E5%8D%A1%E5%B0%94%E5%9D%90%E6%A0%87%E7%B3%BB%E4%B8%AD"><span class="toc-number">2.</span> <span class="toc-text">将单个雷达图像绘制在笛卡尔坐标系中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E9%9B%B7%E8%BE%BE%E6%8B%BC%E5%9B%BE"><span class="toc-number">3.</span> <span class="toc-text">多雷达拼图</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2021-09-14"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制单个雷达图以及多雷达拼图的教程。</p>
+<p>这篇文章是我在去年暑假–也就是 2020年8月–做大创项目的时候写的，想着既然要写自己的博客了那就一块搬过来吧，当然原博客的地址还是要加的</p>
+<p>由于中间修改过代码，并不确定代码 100% 正确</p>
+<p>原地址：<a target="_blank" rel="noopener" href="https://syize.gitee.io/">Py-ART 简易中文教程</a></p>
+<span id="more"></span>
+
+<h2 id="将单个雷达图像绘制在笛卡尔坐标系中"><a href="#将单个雷达图像绘制在笛卡尔坐标系中" class="headerlink" title="将单个雷达图像绘制在笛卡尔坐标系中"></a>将单个雷达图像绘制在笛卡尔坐标系中</h2><p>下面是绘制单个雷达拼图的示例  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pyart <span class="keyword">as</span> pa</span><br><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> exit</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    radar=pa.io.read_cfradial(<span class="string">&#x27;one_radar.nc&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#检查扫描方式</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> radar.scan_type!=<span class="string">&#x27;ppi&#x27;</span>:</span><br><span class="line">        exit(<span class="string">&#x27;Error: 请使用扫描方式为PPI的数据文件&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#将一个或多个雷达画进一个坐标系中，返回一个Grid对象</span></span><br><span class="line">    <span class="comment">#第一个参数带入读取的文件或者读取的文件组成的tuple</span></span><br><span class="line">    <span class="comment">#grid_shape代表绘制的点的个数，格式为(z,y,x)，推荐z轴写为1，因为就此程序来说不写成1也没什么用:)</span></span><br><span class="line">    <span class="comment">#grid_limits代表绘制的距离的上下限，单位是米</span></span><br><span class="line">    <span class="comment">#注意最大值最小值要对称。至于为什么不从0开始，咱也不清楚</span></span><br><span class="line">    <span class="comment">#fields接受要用到的数据在radar对象的fields中对应的键值，以列表形式可带入多个</span></span><br><span class="line"></span><br><span class="line">    grid=pa.<span class="built_in">map</span>.grid_from_radars((radar,),</span><br><span class="line">            grid_shape=(<span class="number">1</span>,<span class="number">1001</span>,<span class="number">1001</span>),</span><br><span class="line">            grid_limits=((<span class="number">3000</span>,<span class="number">3000</span>),(-<span class="number">275000</span>,<span class="number">275000</span>),(-<span class="number">275000</span>,<span class="number">275000</span>)),</span><br><span class="line">            fields=[<span class="string">&#x27;reflectivity&#x27;</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment">#grid.fields里面的键值与上面fields接受的键值有关</span></span><br><span class="line">    <span class="comment">#imshow()函数用来绘制热图,vmin、vmax规定了colormap覆盖的范围</span></span><br><span class="line">    <span class="comment">#origin设置原点(0,0)在左上还是左下，按照习惯来说填lower就可以，然而默认是upper......</span></span><br><span class="line">    <span class="comment">#colorbar第一个参数是映射颜色的对象，理解成绘制的图像似乎也可以</span></span><br><span class="line">    <span class="comment">#cax指示colorbar绘制的位置，参数依次为left,bottom,width,height,小数实际代表百分比</span></span><br><span class="line">    <span class="comment">#例如left=0.84指在离画布左边距离总长84%的地方</span></span><br><span class="line">    <span class="comment">#spacing的模式控制是否给予色块均匀的空间还是根据之间的距离，</span></span><br><span class="line">    <span class="comment">#按照比例变化，然而更改后发现图像似乎没有变化</span></span><br><span class="line"></span><br><span class="line">    fig=plt.figure()</span><br><span class="line">    ax=fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">    myax=ax.imshow(grid.fields[<span class="string">&#x27;reflectivity&#x27;</span>][<span class="string">&#x27;data&#x27;</span>][<span class="number">0</span>],</span><br><span class="line">            origin=<span class="string">&#x27;lower&#x27;</span>,vmin=<span class="number">0</span>,vmax=<span class="number">50</span>)</span><br><span class="line">    cax=fig.add_axes([<span class="number">0.84</span>,<span class="number">0.2</span>,<span class="number">0.03</span>,<span class="number">0.6</span>])</span><br><span class="line">    fig.colorbar(myax,cax,spacing=<span class="string">&#x27;proportional&#x27;</span>,orientation=<span class="string">&#x27;vertical&#x27;</span>)</span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>绘制出的图像如下图所示</p>
+<div align=center>
+
+<img src="/2021/09/10/multiple-radar/map_one_radar.png" class="" alt="绘制单个雷达">
+
+</div>
+
+<hr>
+<h2 id="多雷达拼图"><a href="#多雷达拼图" class="headerlink" title="多雷达拼图"></a>多雷达拼图</h2><p>下面是将三个相近雷达的数据绘制到一张图上的示例，与上面的例子十分类似，不同的地方仅在于第38行  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> netCDF4</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pyart</span><br><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> exit</span><br><span class="line"></span><br><span class="line">name1=<span class="string">&#x27;CfRadial1.nc&#x27;</span></span><br><span class="line">name2=<span class="string">&#x27;CfRadial2.nc&#x27;</span></span><br><span class="line">name3=<span class="string">&#x27;CfRadial3.nc&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#将读取文件的函数包装进一个名称更简单的函数,方便调用</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read</span>(<span class="params">name</span>):</span></span><br><span class="line">    <span class="keyword">return</span> pyart.io.read_cfradial(name)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment">#读取文件</span></span><br><span class="line"></span><br><span class="line">    radar1=read(name1)</span><br><span class="line">    radar2=read(name2)</span><br><span class="line">    radar3=read(name3)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#检查扫描方式</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> radar.scan_type!=<span class="string">&#x27;ppi&#x27;</span>:</span><br><span class="line">        exit(<span class="string">&#x27;Error: 请使用扫描方式为PPI的数据文件&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#将一个或多个雷达画进一个坐标系中，返回一个Grid对象</span></span><br><span class="line">    <span class="comment">#第一个参数带入读取的文件或者读取的文件组成的tuple</span></span><br><span class="line">    <span class="comment">#grid_shape代表绘制的点的个数，格式为(z,y,x)，推荐z轴写为1，因为不写成1也没什么用:)</span></span><br><span class="line">    <span class="comment">#grid_limits代表绘制的距离的上下限，单位是米</span></span><br><span class="line">    <span class="comment">#注意最大值最小值要对称。至于为什么不从0开始，咱也不清楚</span></span><br><span class="line">    <span class="comment">#grid_origin是拼图的中心点的坐标，与雷达文件有关</span></span><br><span class="line">    <span class="comment">#fields接受要用到的数据在radar对象的fields中对应的键值，以列表形式可带入多个</span></span><br><span class="line">    </span><br><span class="line">    grid=pyart.<span class="built_in">map</span>.grid_from_radars((radar1,radar2,radar3),</span><br><span class="line">            grid_shape=(<span class="number">1</span>,<span class="number">1001</span>,<span class="number">1001</span>),</span><br><span class="line">            grid_limits=((<span class="number">3000</span>,<span class="number">3000</span>),(-<span class="number">300000</span>,<span class="number">300000</span>),(-<span class="number">300000</span>,<span class="number">300000</span>)),</span><br><span class="line">            grid_origin=(<span class="number">32.8</span>,<span class="number">119.5</span>),fields=[<span class="string">&#x27;reflectivity&#x27;</span>])</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#grid.fields里面的键值与上面fields接受的键值有关</span></span><br><span class="line">    <span class="comment">#imshow()函数用来绘制热图,vmin、vmax规定了colormap覆盖的范围</span></span><br><span class="line">    <span class="comment">#origin设置原点(0,0)在左上还是左下，按照习惯来说填lower就可以，然而默认是upper......</span></span><br><span class="line">    <span class="comment">#colorbar第一个参数是映射颜色的对象，理解成绘制的图像似乎也可以</span></span><br><span class="line">    <span class="comment">#cax指示colorbar绘制的位置，参数依次为left,bottom,width,height,小数实际代表百分比</span></span><br><span class="line">    <span class="comment">#例如left=0.84指在离画布左边距离总长84%的地方</span></span><br><span class="line">    <span class="comment">#spacing的模式控制是否给予色块均匀的空间还是根据之间的距离</span></span><br><span class="line">    <span class="comment">#按照比例变化，然而更改后发现图像似乎没有变化</span></span><br><span class="line"></span><br><span class="line">    fig=plt.figure()</span><br><span class="line">    ax=fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">    myax=ax.imshow(grid.fields[<span class="string">&#x27;reflectivity&#x27;</span>][<span class="string">&#x27;data&#x27;</span>][<span class="number">0</span>],origin=<span class="string">&#x27;lower&#x27;</span>,</span><br><span class="line">            vmin=<span class="number">0</span>,vmax=<span class="number">50</span>)</span><br><span class="line">    cax=fig.add_axes([<span class="number">0.84</span>,<span class="number">0.2</span>,<span class="number">0.03</span>,<span class="number">0.6</span>])</span><br><span class="line">    fig.colorbar(myax,cax,spacing=<span class="string">&#x27;uniform&#x27;</span>,orientation=<span class="string">&#x27;vertical&#x27;</span>)</span><br><span class="line">            plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>绘制出的图像如下图所示，其中三个空心圆代表雷达基站的位置</p>
+<div align=center>
+
+<img src="/2021/09/10/multiple-radar/map_three_radars.png" class="" alt="三雷达拼图">
+
+</div>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2021/09/10/multiple-radar/">https://blog.syize.cn/2021/09/10/multiple-radar/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2021-09-14</p></div> 
+    <div class="post-entry__tags"><a href="/tags/pyart/" class="post-tags__link button"># pyart</a><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2021/12/26/read-cython-and-learn/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            Cython 学习和使用
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2021/09/10/reflectivity-recorrection/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            用 pyart 绘制雷达图像并进行反射率修正
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2022 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+    
+
+    
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

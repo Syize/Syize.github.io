@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>Cpywpa：控制 wpa 的另一个工具 | Syize の blog</title>
+
+
+    <meta name="keywords" content="Python, Cython, Linux">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="前言其实我很久之前就想用 Python 来控制 Linux 的 WiFi 了。由于 Linux 基本都是用 wpa 来连接 WiFi 的 (iwd 也挺好用的)，所以控制了 wpa (以下我就这么简称了) 就能控制 WiFi。 我以前在 Ubuntu 上试过 pywifi，Windows 上是可以正常工作的，但是我的 Ubuntu 就不行。由于是大一时候的事情了，我也就懒得再深究原因。最近几个月断">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cpywpa：控制 wpa 的另一个工具">
+<meta property="og:url" content="https://blog.syize.cn/2022/01/30/Cpywpa/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="前言其实我很久之前就想用 Python 来控制 Linux 的 WiFi 了。由于 Linux 基本都是用 wpa 来连接 WiFi 的 (iwd 也挺好用的)，所以控制了 wpa (以下我就这么简称了) 就能控制 WiFi。 我以前在 Ubuntu 上试过 pywifi，Windows 上是可以正常工作的，但是我的 Ubuntu 就不行。由于是大一时候的事情了，我也就懒得再深究原因。最近几个月断">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-01-30T15:47:02.000Z">
+<meta property="article:modified_time" content="2022-01-31T08:26:38.751Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Cython">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        Cpywpa：控制 wpa 的另一个工具
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2022/01/" class="post-meta__date button">2022-01-30</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Cython/" class="button">Cython</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">3.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E5%A4%96%E8%AF%9D"><span class="toc-number">3.1.</span> <span class="toc-text">题外话</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E9%A2%98"><span class="toc-number">3.2.</span> <span class="toc-text">正题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-cpw-core"><span class="toc-number">5.</span> <span class="toc-text">使用 cpw_core</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E7%9A%84%E7%BB%93%E5%B0%BE"><span class="toc-number">6.</span> <span class="toc-text">最后的结尾</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">3.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E5%A4%96%E8%AF%9D"><span class="toc-number">3.1.</span> <span class="toc-text">题外话</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E9%A2%98"><span class="toc-number">3.2.</span> <span class="toc-text">正题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-cpw-core"><span class="toc-number">5.</span> <span class="toc-text">使用 cpw_core</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E7%9A%84%E7%BB%93%E5%B0%BE"><span class="toc-number">6.</span> <span class="toc-text">最后的结尾</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2022-01-31"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>其实我很久之前就想用 Python 来控制 Linux 的 WiFi 了。由于 Linux 基本都是用 wpa 来连接 WiFi 的 (<del>iwd 也挺好用的</del>)，所以控制了 wpa (以下我就这么简称了) 就能控制 WiFi。</p>
+<p>我以前在 Ubuntu 上试过 pywifi，Windows 上是可以正常工作的，但是我的 Ubuntu 就不行。由于是大一时候的事情了，我也就懒得再深究原因。最近几个月断断续续的在 Github 和 Google 上找了好久，都没有搜索到符合我要求的包：</p>
+<ul>
+<li>使用 wpa 的官方接口</li>
+</ul>
+<p>于是我就索性自己写了一个。</p>
+<span id="more"></span>
+
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Cpywpa，名称取自 Cython 与 wpa 的缩写，表示着这个包是使用 Cython 编写的。包的底层与 wpa 通讯的部分是使用 C 语言写的 (wpa 官方什么时候出 Python 的接口呀)，然后用 Cython 对其包装，封装成一个 Cython 扩展类，这样就达到了在 Python 中使用官方接口的目的。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h3><p>考虑到跨平台，我仅往 pypi 上传了项目的源码，但是之后我发现，pypi 似乎帮我编译好了对应平台的二进制安装包。所以，<strong>以下的依赖库中 Cython 并不是必须的，在将来我会考虑将 Cython 从项目的依赖库中移除。</strong></p>
+<h3 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h3><p>直接从 pypi 安装即可，需要的依赖库会被自动安装，当然这些库只在安装过程中会用到，安装完成以后不想要的可以删掉。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install Cpywpa</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>Cpywpa 中有我写好的一个 NetworkManager 类，直接使用即可。</p>
+<ol>
+<li>获取当前网络状态</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Cpywpa <span class="keyword">import</span> NetworkManager</span><br><span class="line"><span class="keyword">from</span> pprint <span class="keyword">import</span> pprint</span><br><span class="line"></span><br><span class="line">manager = NetworkManager()</span><br><span class="line">pprint(manager.getStatus())</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>列出已知的网络</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Cpywpa <span class="keyword">import</span> NetworkManager</span><br><span class="line"><span class="keyword">from</span> pprint <span class="keyword">import</span> pprint</span><br><span class="line"></span><br><span class="line">manager = NetworkManager()</span><br><span class="line">pprint(manager.listNetwork())</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>扫描周围的网络并返回结果</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Cpywpa <span class="keyword">import</span> NetworkManager</span><br><span class="line"><span class="keyword">from</span> pprint <span class="keyword">import</span> pprint</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line">manager = NetworkManager()</span><br><span class="line"><span class="comment"># 你可以使用 scan() 来同时扫描和返回结果</span></span><br><span class="line"><span class="comment"># scan_time 控制了中间睡眠的时间</span></span><br><span class="line">pprint(manager.scan(scan_time=<span class="number">8</span>))</span><br><span class="line"><span class="comment"># 或者使用 onlyScan() 只进行扫描并调用 scanResults() 来获得结果</span></span><br><span class="line">manager.onlyScan()</span><br><span class="line">sleep(<span class="number">10</span>)</span><br><span class="line">pprint(manager.scanResults())</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>连接到一个网络</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Cpywpa <span class="keyword">import</span> NetworkManager</span><br><span class="line"></span><br><span class="line">manager = NetworkManager()</span><br><span class="line"><span class="comment"># 连接到一个已知的网络</span></span><br><span class="line"><span class="comment"># Syize 是 wifi 名称</span></span><br><span class="line">manager.connect(<span class="string">&#x27;Syize&#x27;</span>)</span><br><span class="line"><span class="comment"># 连接到一个新的网络，这个网络必须是存在的</span></span><br><span class="line">manager.connect(<span class="string">&#x27;Syize&#x27;</span>, passwd=<span class="string">&#x27;wifi-password&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>添加一个网络，但是不连接</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Cpywpa <span class="keyword">import</span> NetworkManager</span><br><span class="line"></span><br><span class="line">manager = NetworkManager()</span><br><span class="line">manager.addNetwork(<span class="string">&#x27;Syize&#x27;</span>, <span class="string">&#x27;wifi-password&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>删除一个保存的网络</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Cpywpa <span class="keyword">import</span> NetworkManager</span><br><span class="line"></span><br><span class="line">manager = NetworkManager()</span><br><span class="line">manager.removeNetwork(<span class="string">&#x27;Syize&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-cpw-core"><a href="#使用-cpw-core" class="headerlink" title="使用 cpw_core"></a>使用 cpw_core</h2><p>cpw_core 是 Cpywpa 中 Cython 的扩展类，提供了很原始的方法来与 wpa 通讯。<del>再原始就变成 C 了</del></p>
+<p>你可以直接定义一个 Python 类来继承 cpw_core，这样你就可以使用 cpw_core 中的函数了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Cpywpa.ccore <span class="keyword">import</span> cpw_core</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">YourOwnClass</span>(<span class="params">cpw_core</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(YourOwnClass, self).__init__()</span><br></pre></td></tr></table></figure>
+
+<p>下面是 cpw_core 中能够使用的函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cpw_core funtions</span></span><br><span class="line"><span class="comment"># all funtions below except _AddNetwork() return message if success or 1 if error occurs</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Get network status</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_GetStatus</span>(<span class="params">self</span>)</span></span><br><span class="line"><span class="function"># <span class="title">List</span> <span class="title">saved</span> <span class="title">network</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_ListNetworks</span>(<span class="params">self</span>)</span></span><br><span class="line"><span class="function"># <span class="title">Get</span> <span class="title">scan</span> <span class="title">results</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_ScanResults</span>(<span class="params">self</span>)</span></span><br><span class="line"><span class="function"># <span class="title">Tell</span> <span class="title">wpa</span> <span class="title">to</span> <span class="title">scan</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_Scan</span>(<span class="params">self</span>)</span></span><br><span class="line"><span class="function"># <span class="title">Disconnect</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_Disconnect</span>(<span class="params">self</span>)</span></span><br><span class="line"><span class="function"># <span class="title">connect</span> <span class="title">to</span> <span class="title">a</span> <span class="title">network</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_SelectNetwork</span>(<span class="params">self, network_id</span>)</span></span><br><span class="line"><span class="function"># <span class="title">enable</span> <span class="title">a</span> <span class="title">network</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_EnableNetwork</span>(<span class="params">self, network_id</span>)</span></span><br><span class="line"><span class="function"># <span class="title">disable</span> <span class="title">a</span> <span class="title">network</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_DisableNetwork</span>(<span class="params">self, network_id</span>)</span></span><br><span class="line"><span class="function"># <span class="title">remove</span> <span class="title">a</span> <span class="title">network</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_RemoveNetwork</span>(<span class="params">self, network_id</span>)</span></span><br><span class="line"><span class="function"># <span class="title">set</span> <span class="title">network</span> <span class="title">variable</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_SetNetwork</span>(<span class="params">self, network_id, variable, value</span>)</span></span><br><span class="line"><span class="function"># <span class="title">get</span> <span class="title">network</span> <span class="title">variable</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_GetNetwork</span>(<span class="params">self, network_id, variable</span>)</span></span><br><span class="line"><span class="function"># <span class="title">add</span> <span class="title">a</span> <span class="title">network</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_AddNetwork</span>(<span class="params">self</span>)</span></span><br><span class="line"><span class="function"># <span class="title">save</span> <span class="title">a</span> <span class="title">network</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_SaveConfig</span>(<span class="params">self</span>)</span></span><br><span class="line"><span class="function"># <span class="title">reconnect</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">_Recconect</span>(<span class="params">self</span>)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="最后的结尾"><a href="#最后的结尾" class="headerlink" title="最后的结尾"></a>最后的结尾</h2><p>如果你不小心从搜索引擎中找到了这里，又不小心喜欢上了我写的项目，麻烦给个 ⭐star 呗 😋</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Syize/Cpywpa">传送门</a></p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2022/01/30/Cpywpa/">https://blog.syize.cn/2022/01/30/Cpywpa/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2022-01-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cython/" class="post-tags__link button"># Cython</a><a href="/tags/Linux/" class="post-tags__link button"># Linux</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2022/01/13/dirty-flash-run-away/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            禁止禁止 dirty flash
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2022 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+    
+
+    
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
