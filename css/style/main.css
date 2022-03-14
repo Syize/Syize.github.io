@@ -168,6 +168,7 @@ a .index-title {
 }
 img {
   max-width: 100%;
+  margin: 0 auto;
 }
 img.lazy {
   -webkit-transition: -webkit-filter 0.375s ease 0s;
@@ -771,15 +772,15 @@ overflows table td {
 .post__content img.inline {
   display: inline;
 }
-margin 0 auto div>img,
-margin 0 auto p>img,
-margin 0 auto div>picture>img,
-margin 0 auto p>picture>img {
+.post__content div>img,
+.post__content p>img,
+.post__content div>picture>img,
+.post__content p>picture>img {
   display: block;
   margin: auto;
   border-radius: 4px;
 }
-margin 0 auto span img {
+.post__content span img {
   display: inline;
   margin: auto;
 }
