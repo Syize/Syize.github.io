@@ -50,7 +50,7 @@
 <meta property="og:image" content="https://blog.syize.cn/2022/03/13/kde-framework-with-cmake/make-log.png">
 <meta property="og:image" content="https://blog.syize.cn/2022/03/13/kde-framework-with-cmake/window.png">
 <meta property="article:published_time" content="2022-03-13T12:41:08.000Z">
-<meta property="article:modified_time" content="2022-03-13T15:10:35.961Z">
+<meta property="article:modified_time" content="2022-03-14T07:20:02.616Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="KDE">
 <meta property="article:tag" content="C++">
@@ -195,7 +195,7 @@
     </div>
     <script>
         (() => {
-            var update = Date.parse("2022-03-13"),
+            var update = Date.parse("2022-03-14"),
                 date = new Date(),
                 now = date.getTime(),
                 expire = now - update,
@@ -226,7 +226,7 @@
 <img src="/2022/03/13/kde-framework-with-cmake/lazy.png" class="">
 
 <p>暂时不知道有没有什么好的方法，就先这样吧，<del>能跑就行</del>。这里是<code>CMakeLists.txt</code>的内容</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(<span class="keyword">test</span>)</span><br><span class="line"><span class="keyword">find_package</span>(Qt5Widgets REQUIRED Qt5Core Qt5Gui)</span><br><span class="line"><span class="keyword">find_package</span>(KF5WidgetsAddons)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main src/main.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(main</span><br><span class="line">    Qt5::Widgets</span><br><span class="line">    KF5::WidgetsAddons)</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.0</span>)	<span class="comment"># cmake 最小版本要求</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(<span class="keyword">test</span>)	<span class="comment"># 项目名称，这里还可以把版本号加上</span></span><br><span class="line"><span class="comment"># QApplication 是在 Qt5Widgets 里面的，我直接暴力 find /usr/include/qt -name &quot;QApplication&quot; 找到的</span></span><br><span class="line"><span class="comment"># 后面的 REQUIRED 是 QApplication 所依赖的头文件所在的模块，但是实际测试发现不加也没事</span></span><br><span class="line"><span class="keyword">find_package</span>(Qt5Widgets REQUIRED Qt5Core Qt5Gui)</span><br><span class="line"><span class="keyword">find_package</span>(KF5WidgetsAddons)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置需要编译的可执行文件，前面一个是生成文件的名称，后面一个是文件的地址</span></span><br><span class="line"><span class="keyword">add_executable</span>(main src/main.cpp)</span><br><span class="line"><span class="comment"># 这个是需要链接的库，其实也就是 main 的需要链接的依赖，不加的话编译时还是回报找不到 QApplication 的错误</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(main</span><br><span class="line">    Qt5::Widgets</span><br><span class="line">    KF5::WidgetsAddons)</span><br></pre></td></tr></table></figure>
 
 <p>然后执行下面的命令就好了</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir build <span class="comment">#文件夹存在就跳过</span></span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">cmake ..</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
@@ -256,7 +256,7 @@
         
     </div>
  
-    <div class="post-footer__meta"><p>updated at 2022-03-13</p></div> 
+    <div class="post-footer__meta"><p>updated at 2022-03-14</p></div> 
     <div class="post-entry__tags"><a href="/tags/KDE/" class="post-tags__link button"># KDE</a><a href="/tags/C/" class="post-tags__link button"># C++</a><a href="/tags/CMake/" class="post-tags__link button"># CMake</a></div> 
 </article>
 
