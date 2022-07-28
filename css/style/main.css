@@ -168,7 +168,6 @@ a .index-title {
 }
 img {
   max-width: 100%;
-  margin: 0 auto;
 }
 img.lazy {
   -webkit-transition: -webkit-filter 0.375s ease 0s;
@@ -450,10 +449,6 @@ overflows table td {
 }
 .post-entry__content,
 .post__content {
-  -webkit-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  text-size-adjust: 100%;
   color: var(--body-color);
   font-size: 16px;
   word-wrap: break-word;
@@ -771,19 +766,18 @@ overflows table td {
 }
 .post__content img.inline {
   display: inline;
-  margin: 0 auto;
 }
 .post__content div>img,
 .post__content p>img,
 .post__content div>picture>img,
 .post__content p>picture>img {
   display: block;
-  margin: 0 auto;
+  margin: auto;
   border-radius: 4px;
 }
 .post__content span img {
   display: inline;
-  margin: 0 auto;
+  margin: auto;
 }
 .post__comments {
   max-width: var(--content-width);
@@ -1267,7 +1261,8 @@ overflows table td {
   .post-side .post-side__toc .toc {
     width: calc(100vw / 6 - 20px);
   }
-  .post__with-toc {
+  .post__with-toc,
+  .nav {
     max-width: calc(100vw / 6 * 4);
   }
 }
@@ -1278,7 +1273,8 @@ overflows table td {
   .post-side .post-side__toc .toc {
     width: calc(100vw / 4 - 30px);
   }
-  .post__with-toc {
+  .post__with-toc,
+  .nav {
     max-width: calc(100vw / 4 * 3);
     margin-left: 0;
   }
@@ -1289,7 +1285,8 @@ overflows table td {
   }
 }
 @media screen and (max-width: 764px) {
-  .post__with-toc {
+  .post__with-toc,
+  .nav {
     max-width: var(--w);
   }
   #btn-toc {
