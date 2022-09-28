@@ -27,27 +27,27 @@
     <!-- meta -->
 
 
-<title>2022年9月26日在海大 | Syize の blog</title>
+<title>没有网络没有root权限在RHEL7上安装zsh并设置为默认shell | Syize の blog</title>
 
 
-    <meta name="keywords" content="diary">
+    <meta name="keywords" content="Linux">
 
 
 
 
     <!-- OpenGraph -->
  
-    <meta name="description" content="我发现我好像把博客当作日记本了，算了，无所谓，反正好像我到垃圾也没啥人看 (悲)">
+    <meta name="description" content="首先当然是下载好zsh的安装包然后传到服务器上了。 在这个网站可以搜索所有的rpm包，并下载，适用于RHEL 7的zsh安装包下载地址如下 下载地址">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2022年9月26日在海大">
-<meta property="og:url" content="https://blog.syize.cn/2022/09/26/9-26-in-ouc/index.html">
+<meta property="og:title" content="没有网络没有root权限在RHEL7上安装zsh并设置为默认shell">
+<meta property="og:url" content="https://blog.syize.cn/2022/09/28/install-zsh-on-rhel7-without-root-and-network/index.html">
 <meta property="og:site_name" content="Syize の blog">
-<meta property="og:description" content="我发现我好像把博客当作日记本了，算了，无所谓，反正好像我到垃圾也没啥人看 (悲)">
+<meta property="og:description" content="首先当然是下载好zsh的安装包然后传到服务器上了。 在这个网站可以搜索所有的rpm包，并下载，适用于RHEL 7的zsh安装包下载地址如下 下载地址">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-09-26T12:00:19.000Z">
-<meta property="article:modified_time" content="2022-09-26T12:16:28.262Z">
+<meta property="article:published_time" content="2022-09-28T11:14:48.000Z">
+<meta property="article:modified_time" content="2022-09-28T11:34:36.091Z">
 <meta property="article:author" content="Syize">
-<meta property="article:tag" content="diary">
+<meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary_large_image">
 
 
@@ -142,12 +142,12 @@
 
 <div class="post-title">
     <h1 class="post-title__text">
-        2022年9月26日在海大
+        没有网络没有root权限在RHEL7上安装zsh并设置为默认shell
     </h1>
     <div class="post-title__meta">
-        <a href="/archives/2022/09/" class="post-meta__date button">2022-09-26</a>
+        <a href="/archives/2022/09/" class="post-meta__date button">2022-09-28</a>
         
-    <span class="separate-dot"></span><a href="/categories/diary/" class="button">diary</a>
+    <span class="separate-dot"></span><a href="/categories/Linux/" class="button">Linux</a>
 
  
         
@@ -187,7 +187,7 @@
     </div>
     <script>
         (() => {
-            var update = Date.parse("2022-09-26"),
+            var update = Date.parse("2022-09-28"),
                 date = new Date(),
                 now = date.getTime(),
                 expire = now - update,
@@ -200,17 +200,25 @@
     </script>
 </div>
     <div class="post__content">
-        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=29392945&auto=1&height=66"></iframe>
-
-<p>我发现我好像把博客当作日记本了，算了，无所谓，反正好像我到垃圾也没啥人看 (悲)</p>
+        <p>首先当然是下载好<code>zsh</code>的安装包然后传到服务器上了。</p>
+<p>在<a target="_blank" rel="noopener" href="http://rpm.pbone.net/">这个</a>网站可以搜索所有的<code>rpm</code>包，并下载，适用于<strong>RHEL 7</strong>的<code>zsh</code>安装包下载地址如下</p>
+<p><a href="ftp5.gwdg.de/pub/opensuse/repositories/home:/fusion809/RHEL_7/x86_64/%5Bzsh-5.7-3.1.x86_64.rpm%5D(http://rpm.pbone.net/info_idpl_54810577_distro_redhatel7_com_zsh-5.7-3.1.x86_64.rpm.html)">下载地址</a></p>
 <span id="more"></span>
 
-<p>最近听的都是自己听了很久很久的音乐了，回想一下确实，从考研开始一直没有很多时间耐心去听、去发现新的音乐。自己以前一直想着以后要学一门乐器，探索一下音乐，结果似乎一直没时间。</p>
-<p>今天学校发通知了，国庆放三天，我只想说一句，傻逼。</p>
-<p>国庆放假三天 (实际上是一天+周末双休)，然后寒假早放假两天。剩下的两天去哪了呢，放到下个周末了，这是人能想出来的？老子的周末本来就他妈应该不上课，到底是他妈那个杂种想出来的放三天，我真想鲨了他。</p>
-<p>还有疫情，封你妈校呢，只要不是个傻子都能看出来，这疫情肯定是没完了，一直说，没疫情了再放开，没疫情了再出去玩，等到你妈骨灰都扬了都等不了解封。不如趁早共存算了。</p>
-<p>今天的负能量有点多啊，也难怪，国庆放三天找不了女朋友了。今日推荐歌曲是来自 <em>Niha</em> 的 *Imitation Heart (赝品之心)*，歌曲的旋律非常欢快，能够把我充满负能量的心暂时支撑起来，也希望支撑每一个来到我博客看我倒垃圾的，被垃圾事情恶心到的人。</p>
-<p>不说了，老子的文献讲解PPT还他妈没弄完，真是草了。</p>
+<p>然后使用<code>rpm2cpio</code>和<code>cpio</code>命令解包，这里要吐槽一下，<code>rpm</code>解包是挺麻烦的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm2cpio zsh-5.7-3.1.x86_64.rpm | cpio -dev</span><br></pre></td></tr></table></figure>
+
+<p>这样会解包出两个文件夹，<code>etc</code>和<code>usr</code>，将这两个文件夹放置到你喜欢的任意位置 (我这里放置到 <code>~/.local/</code>)，然后创建文件 <code>~/.zshenv</code>，写入以下配置</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">MODULE_PATH</span>=<span class="string">&quot;/path_to_your_home/.local/usr/lib64/zsh/5.7&quot;</span></span><br><span class="line"><span class="attr">FPATH</span>=<span class="string">&quot;/path_to_your_home/.local/usr/share/zsh/5.7/functions&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>MODULE_PATH</code>指定了<code>zsh</code>需要用到的动态链接库的位置，<code>FPATH</code>指定了<code>zsh</code>自带的函数文件的位置。接下来需要更改默认的<code>shell</code>。由于<code>zsh</code>没有安装在系统路径，使用<code>chsh</code>命令会报错，这里使用一个曲线救国的方法。在<code>~/.bash_profile</code>最后添加一行</p>
+<blockquote>
+<p>由于我的服务器上默认的<code>shell</code>是<code>bash</code>，因此下面需要编辑<code>.bash_profile</code>，请根据你的默认<code>shell</code>自行调整。</p>
+</blockquote>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec ~<span class="regexp">/.local/u</span>sr<span class="regexp">/bin/</span>zsh -l</span><br></pre></td></tr></table></figure>
+
+<p>此命令让<code>zsh</code>以<code>login shell</code>启动，并且<code>exec command</code>会让当前的进程转而执行<code>command</code>命令，这样退出时只需输入一次<code>exit</code>。(参考 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/71467861/how-to-change-my-default-shell-on-server">dan</a> 的回答)</p>
+<p>这些工作做完以后退出服务器重新登录，就会发现<code>shell</code>已变成<code>zsh</code>了，接下来按照自己喜欢配置<code>oh-my-zsh</code>吧！</p>
 
     </div>
     
@@ -222,7 +230,7 @@
             <strong>
                 Permalink: 
             </strong>
-            <a href="https://blog.syize.cn/2022/09/26/9-26-in-ouc/">https://blog.syize.cn/2022/09/26/9-26-in-ouc/</a>
+            <a href="https://blog.syize.cn/2022/09/28/install-zsh-on-rhel7-without-root-and-network/">https://blog.syize.cn/2022/09/28/install-zsh-on-rhel7-without-root-and-network/</a>
         </p>
         
             <strong>
@@ -232,38 +240,24 @@
         
     </div>
  
-    <div class="post-footer__meta"><p>updated at 2022-09-26</p></div> 
-    <div class="post-entry__tags"><a href="/tags/diary/" class="post-tags__link button"># diary</a></div> 
+    <div class="post-footer__meta"><p>updated at 2022-09-28</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Linux/" class="post-tags__link button"># Linux</a></div> 
 </article>
 
 
     <div class="nav">
         <div class="nav__prev">
             
-                <a href="/2022/09/28/9-28-in-ouc/" class="nav__link">
-                    <div>
-                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
-                    </div>
-                    <div>
-                        <div class="nav__label">
-                            Previous Post
-                        </div>
-                        <div class="nav__title">
-                            2022年9月28日在海大
-                        </div>
-                    </div>
-                </a>
-            
         </div>
         <div class="nav__next">
             
-                <a href="/2022/09/24/new-day-in-new-school/" class="nav__link">
+                <a href="/2022/09/28/9-28-in-ouc/" class="nav__link">
                     <div>
                         <div class="nav__label">
                             Next Post
                         </div>
                         <div class="nav__title">
-                            来学校第三天
+                            2022年9月28日在海大
                         </div>
                     </div>
                     <div>
