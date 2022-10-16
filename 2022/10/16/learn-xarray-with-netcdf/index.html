@@ -37,15 +37,15 @@
 
     <!-- OpenGraph -->
  
-    <meta name="description" content="最近做课程论文需要读取气象数据 (nc格式)，之前处理雷达数据时一直都是用 netCDF4 直接梭哈，但是处理全球大尺度的数据时，经常搞日平均月平均，单独取某些月做操作，这个时候 netCDF 就不够看了。正好学一学 xarray，水几篇博客。 读取 netCDF 文件读取文件部分没什么好说的，直接读取就可以 12345from xarray import open_datasetfilename">
+    <meta name="description" content="最近做课程论文需要读取气象数据 (nc格式)，之前处理雷达数据时一直都是用 netCDF4 直接梭哈，但是处理全球大尺度的数据时，经常搞日平均月平均，单独取某些月做操作，这个时候 netCDF 就不够看了。正好学一学 xarray，水几篇博客。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="xarray处理气象数据">
 <meta property="og:url" content="https://blog.syize.cn/2022/10/16/learn-xarray-with-netcdf/index.html">
 <meta property="og:site_name" content="Syize の blog">
-<meta property="og:description" content="最近做课程论文需要读取气象数据 (nc格式)，之前处理雷达数据时一直都是用 netCDF4 直接梭哈，但是处理全球大尺度的数据时，经常搞日平均月平均，单独取某些月做操作，这个时候 netCDF 就不够看了。正好学一学 xarray，水几篇博客。 读取 netCDF 文件读取文件部分没什么好说的，直接读取就可以 12345from xarray import open_datasetfilename">
+<meta property="og:description" content="最近做课程论文需要读取气象数据 (nc格式)，之前处理雷达数据时一直都是用 netCDF4 直接梭哈，但是处理全球大尺度的数据时，经常搞日平均月平均，单独取某些月做操作，这个时候 netCDF 就不够看了。正好学一学 xarray，水几篇博客。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-10-16T07:44:55.000Z">
-<meta property="article:modified_time" content="2022-10-16T08:58:54.801Z">
+<meta property="article:modified_time" content="2022-10-16T09:01:27.188Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
@@ -201,6 +201,8 @@
 </div>
     <div class="post__content">
         <p>最近做课程论文需要读取气象数据 (<code>nc</code>格式)，之前处理雷达数据时一直都是用 <code>netCDF4</code> 直接梭哈，但是处理全球大尺度的数据时，经常搞日平均月平均，单独取某些月做操作，这个时候 <code>netCDF</code> 就不够看了。正好学一学 <code>xarray</code>，水几篇博客。</p>
+<span id="more"></span>
+
 <h2 id="读取-netCDF-文件"><a href="#读取-netCDF-文件" class="headerlink" title="读取 netCDF 文件"></a>读取 netCDF 文件</h2><p>读取文件部分没什么好说的，直接读取就可以</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> xarray <span class="keyword">import</span> open_dataset</span><br><span class="line"></span><br><span class="line">filename = <span class="string">&#x27;1979-2021-monthly-average-SST.nc&#x27;</span></span><br><span class="line">dataset = open_dataset(filename)</span><br><span class="line"><span class="built_in">print</span>(dataset)</span><br></pre></td></tr></table></figure>
 
