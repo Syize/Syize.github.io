@@ -27,32 +27,28 @@
     <!-- meta -->
 
 
-<title>Cartopy学习使用 | Syize の blog</title>
+<title>2022年10月17日在海大 | Syize の blog</title>
 
 
-    <meta name="keywords" content="Python, Cartopy">
+    <meta name="keywords" content="diary">
 
 
 
 
     <!-- OpenGraph -->
  
-    <meta name="description" content="昨天本来打算用 matplotlib 和 Cartopy 画几张海温图的，结果意外发现我的 Arch Linux 更新软件包以后，估计是 libc 版本太新导致 matplotlib break 了，只要一调用 plt.show 或者是 plt.savefig 必崩，给我人整傻了，又是更换内核又是搞虚拟机，今天下午临时装了一个 Ubuntu 22.04 用着，白白折腾了一天的时间 🤡。 我之前就">
+    <meta name="description" content="明天就是和女朋友两周年纪念日咯，一定要送一束大大的鲜花😘 这两天属实是摆烂状态，只顾着摆弄自己的电脑，一点作业没做。 Arch 更新软件包以后，matplotlib break 了，今天花了一下午时间，装了个 Ubuntu，现在我的电脑可以算是三系统了。 今天中午没睡觉，晚上看文献的时候真的要被困死了，实在是顶不住了。这个 sci 文献是真的水，属实是我上我也行。 晚上吃了几根辣条，现在感觉有些">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Cartopy学习使用">
-<meta property="og:url" content="https://blog.syize.cn/2022/10/17/learn-cartopy/index.html">
+<meta property="og:title" content="2022年10月17日在海大">
+<meta property="og:url" content="https://blog.syize.cn/2022/10/17/10-17-in-ouc/index.html">
 <meta property="og:site_name" content="Syize の blog">
-<meta property="og:description" content="昨天本来打算用 matplotlib 和 Cartopy 画几张海温图的，结果意外发现我的 Arch Linux 更新软件包以后，估计是 libc 版本太新导致 matplotlib break 了，只要一调用 plt.show 或者是 plt.savefig 必崩，给我人整傻了，又是更换内核又是搞虚拟机，今天下午临时装了一个 Ubuntu 22.04 用着，白白折腾了一天的时间 🤡。 我之前就">
+<meta property="og:description" content="明天就是和女朋友两周年纪念日咯，一定要送一束大大的鲜花😘 这两天属实是摆烂状态，只顾着摆弄自己的电脑，一点作业没做。 Arch 更新软件包以后，matplotlib break 了，今天花了一下午时间，装了个 Ubuntu，现在我的电脑可以算是三系统了。 今天中午没睡觉，晚上看文献的时候真的要被困死了，实在是顶不住了。这个 sci 文献是真的水，属实是我上我也行。 晚上吃了几根辣条，现在感觉有些">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://blog.syize.cn/2022/10/17/learn-cartopy/1.png">
-<meta property="og:image" content="https://blog.syize.cn/2022/10/17/learn-cartopy/image-20221017212204820.png">
-<meta property="article:published_time" content="2022-10-17T12:46:33.000Z">
-<meta property="article:modified_time" content="2022-10-17T13:31:43.648Z">
+<meta property="article:published_time" content="2022-10-17T14:17:46.000Z">
+<meta property="article:modified_time" content="2022-10-17T14:55:47.452Z">
 <meta property="article:author" content="Syize">
-<meta property="article:tag" content="Python">
-<meta property="article:tag" content="Cartopy">
+<meta property="article:tag" content="diary">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog.syize.cn/2022/10/17/learn-cartopy/1.png">
 
 
     
@@ -146,12 +142,12 @@
 
 <div class="post-title">
     <h1 class="post-title__text">
-        Cartopy学习使用
+        2022年10月17日在海大
     </h1>
     <div class="post-title__meta">
         <a href="/archives/2022/10/" class="post-meta__date button">2022-10-17</a>
         
-    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+    <span class="separate-dot"></span><a href="/categories/diary/" class="button">diary</a>
 
  
         
@@ -168,7 +164,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Pycharm-%E4%B8%AD%E4%BD%BF%E7%94%A8-Cartopy-%E6%97%B6%E6%B2%A1%E6%9C%89%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95%E6%8F%90%E7%A4%BA"><span class="toc-number">1.</span> <span class="toc-text">Pycharm 中使用 Cartopy 时没有属性和方法提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cartopy-%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E7%9A%84%E6%98%BE%E7%A4%BA%E8%8C%83%E5%9B%B4"><span class="toc-number">2.</span> <span class="toc-text">Cartopy 设置图片的显示范围</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cartopy-%E7%9A%84-minor-%E5%8F%82%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">Cartopy 的 minor 参数</span></a></li></ol>
+            
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -178,7 +174,7 @@
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Pycharm-%E4%B8%AD%E4%BD%BF%E7%94%A8-Cartopy-%E6%97%B6%E6%B2%A1%E6%9C%89%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95%E6%8F%90%E7%A4%BA"><span class="toc-number">1.</span> <span class="toc-text">Pycharm 中使用 Cartopy 时没有属性和方法提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cartopy-%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E7%9A%84%E6%98%BE%E7%A4%BA%E8%8C%83%E5%9B%B4"><span class="toc-number">2.</span> <span class="toc-text">Cartopy 设置图片的显示范围</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cartopy-%E7%9A%84-minor-%E5%8F%82%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">Cartopy 的 minor 参数</span></a></li></ol>
+        
     </div>
 
 
@@ -204,33 +200,12 @@
     </script>
 </div>
     <div class="post__content">
-        <p>昨天本来打算用 <code>matplotlib</code> 和 <code>Cartopy</code> 画几张海温图的，结果意外发现我的 <code>Arch Linux</code> 更新软件包以后，估计是 <code>libc</code> 版本太新导致 <code>matplotlib</code> break 了，只要一调用 <code>plt.show</code> 或者是 <code>plt.savefig</code> 必崩，给我人整傻了，又是更换内核又是搞虚拟机，今天下午临时装了一个 <code>Ubuntu 22.04</code> 用着，白白折腾了一天的时间 🤡。</p>
-<p>我之前就用过 <code>Cartopy</code>，但是并不是特别熟。今天画海温图的时候顺便探索了一下，发现了几件有趣的事情，所以分享一下。</p>
-<span id="more"></span>
-
-<h2 id="Pycharm-中使用-Cartopy-时没有属性和方法提示"><a href="#Pycharm-中使用-Cartopy-时没有属性和方法提示" class="headerlink" title="Pycharm 中使用 Cartopy 时没有属性和方法提示"></a>Pycharm 中使用 Cartopy 时没有属性和方法提示</h2><p>这是困扰我许久的问题了，在使用  <code>Cartopy</code> 时，如果要绘制多个子图，通常会以一下方法绘图</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fig = plt.figure()</span><br><span class="line">ax = fig.add_subplot()</span><br><span class="line">ax.plot()</span><br></pre></td></tr></table></figure>
-
-<p>但是奇怪的是，敲完 <code>ax</code> 以后竟然没有任务有关的方法提示，原因是 <code>Pycharm</code> 并不知道 <code>ax</code> 的类型是什么 (同理，对于 <code>fig</code> 类似。)。我们要做的，就是给变量添加上类型注解。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib.figure <span class="keyword">import</span> Figure</span><br><span class="line"><span class="keyword">from</span> cartopy.mpl.geoaxes <span class="keyword">import</span> GeoAxes</span><br><span class="line"></span><br><span class="line">fig: Figure = plt.figure()</span><br><span class="line">ax: GeoAxes = fig.add_subplot()</span><br><span class="line">ax.plot()</span><br></pre></td></tr></table></figure>
-
-<h2 id="Cartopy-设置图片的显示范围"><a href="#Cartopy-设置图片的显示范围" class="headerlink" title="Cartopy 设置图片的显示范围"></a>Cartopy 设置图片的显示范围</h2><p><code>set_extent</code> 函数一定要放到绘制完图片后的下一行，否则最后图片的显示范围会出现异常</p>
-<h2 id="Cartopy-的-minor-参数"><a href="#Cartopy-的-minor-参数" class="headerlink" title="Cartopy 的 minor 参数"></a>Cartopy 的 minor 参数</h2><p>在添加经纬度坐标的时候，通常要使用以下函数添加坐标</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ax.set_xticks(A, crs=projection)</span><br><span class="line">ax.set_yticks(B, crs=projection)</span><br></pre></td></tr></table></figure>
-
-<p>这里的  <code>A</code> 和 <code>B</code> 通常是一个列表、数组之类的，我一般都是直接根据经纬度范围直接用 <code>np.arange</code> 生成，例如</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 经度范围：120 - 170 °E</span></span><br><span class="line"><span class="comment"># 纬度范围：5 °S - 5 °N</span></span><br><span class="line">ax.set_xticks(np.arange(-<span class="number">170</span>, -<span class="number">110</span>, <span class="number">20</span>), crs=projection)</span><br><span class="line">ax.set_yticks(np.arange(-<span class="number">5</span>, <span class="number">10</span>, <span class="number">5</span>), crs=projection)</span><br></pre></td></tr></table></figure>
-
-<p>但是今天下午上课太困了，错写成了下面的代码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 经度范围：120 - 170 °E</span></span><br><span class="line"><span class="comment"># 纬度范围：5 °S - 5 °N</span></span><br><span class="line">ax.set_xticks(np.arange(-<span class="number">170</span>, -<span class="number">110</span>）, <span class="number">20</span>, crs=projection)</span><br><span class="line">ax.set_yticks(np.arange(-<span class="number">5</span>, <span class="number">5</span>）, <span class="number">5</span>, crs=projection)</span><br></pre></td></tr></table></figure>
-
-<p>于是我神奇的发现，该代码不仅没有出错 ，绘制出的坐标也是正确的，而且还多出了小刻度</p>
-<img src="/2022/10/17/learn-cartopy/1.png" class="">
-
-<p>然后我去翻阅了 <code>Cartopy</code> 的手册中 <code>set_ticks</code> 的部分</p>
-<img src="/2022/10/17/learn-cartopy/image-20221017212204820.png" class="" alt="image-20221017212204820">
-
-<p>按道理来讲，这里的 20 和 5 应该是赋给了形参 <code>minor</code>，于是我把 20 和 5 换成了 <code>minor=True</code>，发现得出了一个一模一样的图。没想到我犯个困还能无意中发现这么一个好用的参数，好耶！</p>
+        <p>明天就是和女朋友两周年纪念日咯，一定要送一束大大的鲜花😘</p>
+<p>这两天属实是摆烂状态，只顾着摆弄自己的电脑，一点作业没做。</p>
+<p><code>Arch</code> 更新软件包以后，<code>matplotlib</code> break 了，今天花了一下午时间，装了个 <code>Ubuntu</code>，现在我的电脑可以算是三系统了。</p>
+<p>今天中午没睡觉，晚上看文献的时候真的要被困死了，实在是顶不住了。这个 sci 文献是真的水，<del>属实是我上我也行</del>。</p>
+<p>晚上吃了几根辣条，现在感觉有些辣肚子了，痛并快乐着。</p>
+<p>好想爽快的打一天游戏啊。</p>
 
     </div>
     
@@ -242,7 +217,7 @@
             <strong>
                 Permalink: 
             </strong>
-            <a href="https://blog.syize.cn/2022/10/17/learn-cartopy/">https://blog.syize.cn/2022/10/17/learn-cartopy/</a>
+            <a href="https://blog.syize.cn/2022/10/17/10-17-in-ouc/">https://blog.syize.cn/2022/10/17/10-17-in-ouc/</a>
         </p>
         
             <strong>
@@ -253,37 +228,23 @@
     </div>
  
     <div class="post-footer__meta"><p>updated at 2022-10-17</p></div> 
-    <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a></div> 
+    <div class="post-entry__tags"><a href="/tags/diary/" class="post-tags__link button"># diary</a></div> 
 </article>
 
 
     <div class="nav">
         <div class="nav__prev">
             
-                <a href="/2022/10/17/10-17-in-ouc/" class="nav__link">
-                    <div>
-                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
-                    </div>
-                    <div>
-                        <div class="nav__label">
-                            Previous Post
-                        </div>
-                        <div class="nav__title">
-                            2022年10月17日在海大
-                        </div>
-                    </div>
-                </a>
-            
         </div>
         <div class="nav__next">
             
-                <a href="/2022/10/16/learn-xarray-with-netcdf/" class="nav__link">
+                <a href="/2022/10/17/learn-cartopy/" class="nav__link">
                     <div>
                         <div class="nav__label">
                             Next Post
                         </div>
                         <div class="nav__title">
-                            xarray处理气象数据
+                            Cartopy学习使用
                         </div>
                     </div>
                     <div>
