@@ -45,7 +45,7 @@
 <meta property="og:description" content="最近做课程论文需要读取气象数据 (nc格式)，之前处理雷达数据时一直都是用 netCDF4 直接梭哈，但是处理全球大尺度的数据时，经常搞日平均月平均，单独取某些月做操作，这个时候 netCDF 就不够看了。正好学一学 xarray，水几篇博客。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-10-16T07:44:55.000Z">
-<meta property="article:modified_time" content="2022-10-16T09:01:27.188Z">
+<meta property="article:modified_time" content="2022-10-16T12:01:43.446Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
@@ -164,7 +164,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96-netCDF-%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">读取 netCDF 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Positional-indexing"><span class="toc-number">2.</span> <span class="toc-text">Positional indexing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dataset-%E4%B8%AD%E7%9A%84-positional-indexing"><span class="toc-number">2.1.</span> <span class="toc-text">Dataset 中的 positional indexing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-%E4%B8%AD%E7%9A%84-positional-indexing"><span class="toc-number">2.2.</span> <span class="toc-text">DataArray 中的 positional indexing</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96-netCDF-%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">读取 netCDF 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Positional-indexing"><span class="toc-number">2.</span> <span class="toc-text">Positional indexing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dataset-%E4%B8%AD%E7%9A%84-positional-indexing"><span class="toc-number">2.1.</span> <span class="toc-text">Dataset 中的 positional indexing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-%E4%B8%AD%E7%9A%84-positional-indexing"><span class="toc-number">2.2.</span> <span class="toc-text">DataArray 中的 positional indexing</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E7%85%A7%E6%9F%90%E4%B8%80%E7%BB%B4%E5%BA%A6%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">按照某一维度进行排序</span></a></li></ol>
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -174,7 +174,7 @@
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96-netCDF-%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">读取 netCDF 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Positional-indexing"><span class="toc-number">2.</span> <span class="toc-text">Positional indexing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dataset-%E4%B8%AD%E7%9A%84-positional-indexing"><span class="toc-number">2.1.</span> <span class="toc-text">Dataset 中的 positional indexing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-%E4%B8%AD%E7%9A%84-positional-indexing"><span class="toc-number">2.2.</span> <span class="toc-text">DataArray 中的 positional indexing</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96-netCDF-%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">读取 netCDF 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Positional-indexing"><span class="toc-number">2.</span> <span class="toc-text">Positional indexing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dataset-%E4%B8%AD%E7%9A%84-positional-indexing"><span class="toc-number">2.1.</span> <span class="toc-text">Dataset 中的 positional indexing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-%E4%B8%AD%E7%9A%84-positional-indexing"><span class="toc-number">2.2.</span> <span class="toc-text">DataArray 中的 positional indexing</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E7%85%A7%E6%9F%90%E4%B8%80%E7%BB%B4%E5%BA%A6%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">按照某一维度进行排序</span></a></li></ol>
     </div>
 
 
@@ -241,6 +241,7 @@
 <blockquote class="blockquote-note blockquote-note__important"><div class="blockquote-note__header"><div class="blockquote-note__icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></div>索引范围</div><div class="blockquote-note__content"><p>需要注意的是，这里的索引填写顺序要和坐标维度顺序相对应，具体的维度顺序可以查看打印出的 <code>Dataset</code> 的 <code>Data variables</code> 一栏。</p>
 </div></blockquote>
 
+<h2 id="按照某一维度进行排序"><a href="#按照某一维度进行排序" class="headerlink" title="按照某一维度进行排序"></a>按照某一维度进行排序</h2>
     </div>
     
     <div class="post__license">
@@ -268,6 +269,20 @@
 
     <div class="nav">
         <div class="nav__prev">
+            
+                <a href="/2022/10/17/learn-cartopy/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            Cartopy学习使用
+                        </div>
+                    </div>
+                </a>
             
         </div>
         <div class="nav__next">
