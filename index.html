@@ -172,6 +172,9 @@
     </h2>
     
         <p>昨天本来打算用 <code>matplotlib</code> 和 <code>Cartopy</code> 画几张海温图的，结果意外发现我的 <code>Arch Linux</code> 更新软件包以后，估计是 <code>libc</code> 版本太新导致 <code>matplotlib</code> break 了，只要一调用 <code>plt.show</code> 或者是 <code>plt.savefig</code> 必崩，给我人整傻了，又是更换内核又是搞虚拟机，今天下午临时装了一个 <code>Ubuntu 22.04</code> 用着，白白折腾了一天的时间 🤡。</p>
+<p>更新：我发现不是 <code>matplotlib</code> break 了，是 <code>Cartopy</code> 和新版的 <code>Shapely</code> 不兼容导致的。执行以下命令从源码重新安装 <code>Shapely</code> 即可恢复正常。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install <span class="string">&quot;shapely&lt;2&quot;</span> --no-binary shapely --force-reinstall</span><br></pre></td></tr></table></figure>
+
 <p>我之前就用过 <code>Cartopy</code>，但是并不是特别熟。今天画海温图的时候顺便探索了一下，发现了几件有趣的事情，所以分享一下。</p>
     
 </div>
