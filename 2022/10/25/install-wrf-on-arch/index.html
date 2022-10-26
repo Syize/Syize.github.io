@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>在Arch上安装WRF | Syize の blog</title>
+
+
+    <meta name="keywords" content="WRF">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="老高让我学 WRF，我就装 WRF。装 WRf 的过程出现了很多问题，就开贴记录一下。  WRF 版本 V4.4.1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Arch上安装WRF">
+<meta property="og:url" content="https://blog.syize.cn/2022/10/25/install-wrf-on-arch/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="老高让我学 WRF，我就装 WRF。装 WRf 的过程出现了很多问题，就开贴记录一下。  WRF 版本 V4.4.1">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2022/10/25/install-wrf-on-arch/image-20221026133310607.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/10/25/install-wrf-on-arch/WRF-fk-u.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/10/25/install-wrf-on-arch/image-20221026140105987.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/10/25/install-wrf-on-arch/image-20221026140725866.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/10/25/install-wrf-on-arch/image-20221026142907877.png">
+<meta property="article:published_time" content="2022-10-25T08:56:31.000Z">
+<meta property="article:modified_time" content="2022-10-26T06:29:46.690Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="WRF">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2022/10/25/install-wrf-on-arch/image-20221026133310607.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        在Arch上安装WRF
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2022/10/" class="post-meta__date button">2022-10-25</a>
+        
+    <span class="separate-dot"></span><a href="/categories/WRF/" class="button">WRF</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#clone-%E6%BA%90%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">clone 源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="toc-number">2.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90-configure-wrf"><span class="toc-number">3.</span> <span class="toc-text">生成 configure.wrf</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9-CPP-%E7%BC%96%E8%AF%91%E5%99%A8%E8%B7%AF%E5%BE%84"><span class="toc-number">3.1.</span> <span class="toc-text">修改 CPP 编译器路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%BB%E9%99%A4%E8%B0%83%E7%94%A8-time-%E5%91%BD%E4%BB%A4%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.2.</span> <span class="toc-text">去除调用 time 命令的设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E7%BC%96%E8%AF%91"><span class="toc-number">4.</span> <span class="toc-text">开始编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%8A%A5%E9%94%99"><span class="toc-number">5.</span> <span class="toc-text">解决报错</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dfft1f-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">5.1.</span> <span class="toc-text">dfft1f_ 符号未定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-dims-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">5.2.</span> <span class="toc-text">get_dims_ 符号未定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#module-wps-io-arw-mod-%E6%96%87%E4%BB%B6%E6%89%BE%E4%B8%8D%E5%88%B0"><span class="toc-number">5.3.</span> <span class="toc-text">module_wps_io_arw.mod 文件找不到</span></a></li></ol></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#clone-%E6%BA%90%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">clone 源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="toc-number">2.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90-configure-wrf"><span class="toc-number">3.</span> <span class="toc-text">生成 configure.wrf</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9-CPP-%E7%BC%96%E8%AF%91%E5%99%A8%E8%B7%AF%E5%BE%84"><span class="toc-number">3.1.</span> <span class="toc-text">修改 CPP 编译器路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%BB%E9%99%A4%E8%B0%83%E7%94%A8-time-%E5%91%BD%E4%BB%A4%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.2.</span> <span class="toc-text">去除调用 time 命令的设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E7%BC%96%E8%AF%91"><span class="toc-number">4.</span> <span class="toc-text">开始编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%8A%A5%E9%94%99"><span class="toc-number">5.</span> <span class="toc-text">解决报错</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dfft1f-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">5.1.</span> <span class="toc-text">dfft1f_ 符号未定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-dims-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">5.2.</span> <span class="toc-text">get_dims_ 符号未定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#module-wps-io-arw-mod-%E6%96%87%E4%BB%B6%E6%89%BE%E4%B8%8D%E5%88%B0"><span class="toc-number">5.3.</span> <span class="toc-text">module_wps_io_arw.mod 文件找不到</span></a></li></ol></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2022-10-26"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <p>老高让我学 <code>WRF</code>，我就装 <code>WRF</code>。装 <code>WRf</code> 的过程出现了很多问题，就开贴记录一下。</p>
+<blockquote>
+<p>WRF 版本 V4.4.1</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="clone-源码"><a href="#clone-源码" class="headerlink" title="clone 源码"></a>clone 源码</h2><p>根据 <a target="_blank" rel="noopener" href="https://www2.mmm.ucar.edu/wrf/users/download/get_sources_new.php">官网</a> 的描述，先执行以下代码将源代码 clone 下来。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recurse-submodules https://github.com/wrf-model/WRF</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S netcdf hdf5 netcdf-fortran</span><br></pre></td></tr></table></figure>
+
+<p>gcc、gcc-fortran什么的都默认你已经装好了嗷，没有的话快装。</p>
+<h2 id="生成-configure-wrf"><a href="#生成-configure-wrf" class="headerlink" title="生成 configure.wrf"></a>生成 configure.wrf</h2><p>首先需要在环境变量中设置以下 <code>NETCDF</code>、<code>NETCDF_INC</code> 和 <code>NETCDF_LIB</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> NETCDF=/usr</span><br><span class="line"><span class="built_in">export</span> NETCDF_INC=/usr/include</span><br><span class="line"><span class="built_in">export</span> NETCDF_LIB=/usr/lib</span><br></pre></td></tr></table></figure>
+
+<p>然后执行下面的命令运行 configure</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash ./configure</span><br></pre></td></tr></table></figure>
+
+<p>选择编译器的那里我选择的 <code>34</code>，因为用到了 <code>GCC</code> 的编译器。</p>
+<p>在输出一长串日志以后，<code>configure.wrf</code> 就生成成功了。</p>
+<p>但是需要注意的是，需要修改几个地方，否则后面编译的时候会报错。</p>
+<h3 id="修改-CPP-编译器路径"><a href="#修改-CPP-编译器路径" class="headerlink" title="修改 CPP 编译器路径"></a>修改 CPP 编译器路径</h3><p>定位到 <code>configure.wrf</code> 的第 162 行，这里的内容应该是</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">CPP</span>             <span class="operator">=</span>      /lib/cpp -P -nostdinc</span><br></pre></td></tr></table></figure>
+
+<p>将其修改为</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">CPP</span>             <span class="operator">=</span>      cpp -P -nostdinc</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>正常人谁特么会写死编译器路径？</p>
+</blockquote>
+<h3 id="去除调用-time-命令的设置"><a href="#去除调用-time-命令的设置" class="headerlink" title="去除调用 time 命令的设置"></a>去除调用 time 命令的设置</h3><p>之所以要去掉，是因为编译的时候会出现 <code>make</code> 找不到 <code>time</code> 命令的错误。翻了一下 Github 的 issue，开发者说 <code>time</code> 命令无关紧要，可以去掉。<del>那你特么调这个命令干啥</del>。定位到 <code>configure.wrf</code> 的第 139 行，内容应该如下</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">FC</span>              =       time $(DM_FC)</span><br></pre></td></tr></table></figure>
+
+<p>将其修改为</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">FC</span>              =       $(DM_FC)</span><br></pre></td></tr></table></figure>
+
+<h2 id="开始编译"><a href="#开始编译" class="headerlink" title="开始编译"></a>开始编译</h2><p>做完上面的修改以后执行下面命令开始编译，然后等待编译程序报错🐶。(该报错的时候我才发现，留一份完整的日志是多么的重要)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./compile em_real &gt; compile.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>上面的命令会将所有的输出 (包括 <code>make</code> 报的错误) 全部重定向进文件，先看会文献然后等待程序运行完成。</p>
+<h2 id="解决报错"><a href="#解决报错" class="headerlink" title="解决报错"></a>解决报错</h2><h3 id="dfft1f-符号未定义"><a href="#dfft1f-符号未定义" class="headerlink" title="dfft1f_ 符号未定义"></a>dfft1f_ 符号未定义</h3><p>从后往前查找日志，定位到第一个出现问题的地方，出现如下错误</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/usr/</span>bin/ld: libwrflib.a(module_polarfft.o): <span class="keyword">in</span> <span class="keyword">function</span> `__module_polarfft_MOD_polar_filter_fft_2d_nca<span class="string">r&#x27;:</span></span><br><span class="line"><span class="string">module_polarfft.f90:(.text+0x5883): undefined reference to `rfftmi_&#x27;</span></span><br><span class="line"><span class="regexp">/usr/</span>bin/ld: module_polarfft.f90:(.text+<span class="number">0</span>x5c69): undefined reference to `dfft1f_<span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>看样子是 <code>module_polarfft</code> 这个代码出了问题。对吗？不对。通过谷歌发现，在 <code>external/fftpack/fftpack5</code> 下存在一个名叫 <code>dfftf1.F</code> 的文件，使用 <code>nm</code> 看一眼这个目录下编译出来的静态链接库 <code>libfftpack.a</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nm -n libfftpack.a</span><br></pre></td></tr></table></figure>
+
+<img src="/2022/10/25/install-wrf-on-arch/image-20221026133310607.png" class="" alt="image-20221026133310607">
+
+<p><strong>WRF，你tm在逗我吗？</strong></p>
+<p>在日志里向上搜寻编译出 <code>libfftpack.a</code> 的命令，结果发现只调用了 <code>ar</code> 来打包，没有编译过程。<strong>原来这些 .o 文件在 clone 下来的时候就出问题了。。。</strong></p>
+<p>于是我只好现场查询 Makefile 的用法，对 Makefile 进行了修改并自己手动编译。</p>
+<p>首先现在 Makefile 开头 <code>.SUFFIXES</code> 的下一行加入以下内容</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CPP = cpp -P -nostdinc</span><br><span class="line">CPPFLAGS = -DEM_CORE=1 -DNMM_CORE=0 -DNMM_MAX_DIM=2600 -DDA_CORE=0 -DWRFPLUS=0 -DIWORDSIZE=4 -DDWORDSIZE=8 -DRWORDSIZE=4 -DLWORDSIZE=4 -DNONSTANDARD_SYSTEM_SUBR  -DWRF_USE_CLM -DUSE_NETCDF4_FEATURES -DWRFIO_NCD_LARGE_FILE_SUPPORT  -DDM_PARALLEL -DNETCDF -DLANDREAD_STUB=1 -DUSE_ALLOCATABLES -Dwrfmodel -DGRIB1 -DINTIO -DKEEP_INT_AROUND -DLIMIT_ARGS -DBUILD_RRTMG_FAST=0 -DBUILD_RRTMK=0 -DBUILD_SBM_FAST=1 -DSHOW_ALL_VARS_USED=0 -DCONFIG_BUF_LEN=65536 -DMAX_DOMAINS_F=21 -DMAX_HISTORY=25 -DNMM_NEST=0  -I. -traditional-cpp -DUSE_NETCDF4_FEATURES -DWRFIO_NCD_LARGE_FILE_SUPPORT</span><br><span class="line">FC = mpif90</span><br><span class="line">FFLAGS = -w -ffree-form -ffree-line-length-none -fconvert=big-endian -frecord-marker=4 -fallow-argument-mismatch -fallow-invalid-boz</span><br><span class="line">RM = rm -f</span><br></pre></td></tr></table></figure>
+
+<p>然后在最后添加以下部分</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">build:</span></span><br><span class="line">        <span class="variable">$(CPP)</span> <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(name)</span>.F  &gt; <span class="variable">$(name)</span>.f90</span><br><span class="line">        <span class="variable">$(FC)</span> -c <span class="variable">$(FFLAGS)</span> <span class="variable">$(name)</span>.f90</span><br><span class="line">        <span class="variable">$(RM)</span> -f <span class="variable">$(name)</span>.f90</span><br></pre></td></tr></table></figure>
+
+<p>最后在终端中运行以下命令重新把文件全部编译一遍</p>
+<blockquote class="blockquote-note blockquote-note__warning"><div class="blockquote-note__header"><div class="blockquote-note__icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.06-1.78C8.18 5.31 8.68 2.45 5.05.32L5.03.3l.02.01z"></path></svg></div>注意</div><div class="blockquote-note__content"><p>我使用的是 zsh，若你使用其他类型的 shell，请注意修改 make 那一行的字符串切片</p>
+</div></blockquote>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> *.F | <span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">make build name=<span class="variable">$&#123;line[1,-3]&#125;</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>在输出一长串编译日志以后，<code>.o</code> 文件都已经重新编译好了。然后在直接运行 <code>make</code> 命令打包出 <code>libfftpack.a</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>最后再重新去运行一下下面的命令编译出 <code>wrf.exe</code>，可以发现 <code>dfft1f_</code> 符号未定义的错误已经消失了，但是还有其他符号未定义问题需要解决。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mpif90  -o wrf.exe  -O2 -ftree-vectorize -funroll-loops -w -ffree-form -ffree-line-length-none -fconvert=big-endian -frecord-marker=4 -fallow-argument-mismatch -fallow-invalid-boz    wrf.o ../main/module_wrf_top.o libwrflib.a  /home/syize/Apps/WRF/external/fftpack/fftpack5/libfftpack.a /home/syize/Apps/WRF/external/io_grib1/libio_grib1.a /home/syize/Apps/WRF/external/io_grib_share/libio_grib_share.a /home/syize/Apps/WRF/external/io_int/libwrfio_int.a -L/home/syize/Apps/WRF/external/esmf_time_f90 -lesmf_time /home/syize/Apps/WRF/external/RSL_LITE/librsl_lite.a /home/syize/Apps/WRF/frame/module_internal_header_util.o /home/syize/Apps/WRF/frame/pack_utils.o -L/home/syize/Apps/WRF/external/io_netcdf -lwrfio_nf -L/usr/lib -lnetcdff -lnetcdf</span><br></pre></td></tr></table></figure>
+
+<p><strong>上面的 <code>/home/syize/Apps/</code> 需要替换成你自己的 WRF 路径，若你觉得麻烦，直接在 compile.log 里面找就好了</strong></p>
+<img src="/2022/10/25/install-wrf-on-arch/WRF-fk-u.png" class="">
+
+<h3 id="get-dims-符号未定义"><a href="#get-dims-符号未定义" class="headerlink" title="get_dims_ 符号未定义"></a>get_dims_ 符号未定义</h3><p>使用 <code>grep</code> 命令在 WRF 目录递归搜索字符串 get_dims_，将问题定位到 <code>external/io_grib_share/io_grib_share.o</code> 这个文件，再用 <code>nm</code> 命令看一下 <code>libio_grib_share.a</code>，第一行就发现了猫腻</p>
+<img src="/2022/10/25/install-wrf-on-arch/image-20221026140105987.png" class="" alt="image-20221026140105987">
+
+<p>好吧，看来又要我手动修了。首先执行以下命令清理 <code>.o</code> 文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make clean</span><br></pre></td></tr></table></figure>
+
+<p>然后执行以下命令重新进行编译打包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -j 2 CC=<span class="string">&quot;gcc&quot;</span> CFLAGS=<span class="string">&quot;-w -O3 -c  -DRPC_TYPES=2  -DDM_PARALLEL -DLANDREAD_STUB=1 -DMAX_HISTORY=25 -DNMM_CORE=0&quot;</span> RM=<span class="string">&quot;rm -f&quot;</span> RANLIB=<span class="string">&quot;ranlib&quot;</span> CPP=<span class="string">&quot;cpp -P -nostdinc&quot;</span> FC=<span class="string">&quot;gfortran  -I.  -w -ffree-form -ffree-line-length-none -fconvert=big-endian -frecord-marker=4 -fallow-argument-mismatch -fallow-invalid-boz  &quot;</span> TRADFLAG=<span class="string">&quot;-traditional-cpp -DUSE_NETCDF4_FEATURES -DWRFIO_NCD_LARGE_FILE_SUPPORT&quot;</span> AR=<span class="string">&quot;ar&quot;</span> ARFLAGS=<span class="string">&quot;ru&quot;</span> archive</span><br></pre></td></tr></table></figure>
+
+<p>编译好以后看一眼 <code>libio_grib_share.a</code>，发现修好了</p>
+<img src="/2022/10/25/install-wrf-on-arch/image-20221026140725866.png" class="" alt="image-20221026140725866">
+
+<p>再执行命令编译 <code>wrf.exe</code>，终于修好了。但是，你先别急，还有其他错误呢🐶。</p>
+<h3 id="module-wps-io-arw-mod-文件找不到"><a href="#module-wps-io-arw-mod-文件找不到" class="headerlink" title="module_wps_io_arw.mod 文件找不到"></a>module_wps_io_arw.mod 文件找不到</h3><blockquote>
+<p>还是那句话，你要是觉得敲命令麻烦，就自己去日志文件里面复制就好了</p>
+</blockquote>
+<p>还是使用递归搜索，定位带文件 <code>dyn_em/module_wps_io_arw.o</code>，检查一遍发现由 F 文件生成的 f90 文件的大小竟然是0。。。</p>
+<p>分别使用下面的命令重新生成 <code>module_wps_io_arw.o</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sed -e <span class="string">&quot;s/^\!.*&#x27;.*//&quot;</span> -e <span class="string">&quot;s/^ *\!.*&#x27;.*//&quot;</span> module_wps_io_arw.F &gt; module_wps_io_arw.G</span><br><span class="line"></span><br><span class="line">cpp -P -nostdinc -I/home/syize/Apps/WRF/inc -DEM_CORE=1 -DNMM_CORE=0 -DNMM_MAX_DIM=2600 -DDA_CORE=0 -DWRFPLUS=0 -DIWORDSIZE=4 -DDWORDSIZE=8 -DRWORDSIZE=4 -DLWORDSIZE=4 -DNONSTANDARD_SYSTEM_SUBR  -DWRF_USE_CLM -DUSE_NETCDF4_FEATURES -DWRFIO_NCD_LARGE_FILE_SUPPORT  -DDM_PARALLEL -DNETCDF -DLANDREAD_STUB=1 -DUSE_ALLOCATABLES -Dwrfmodel -DGRIB1 -DINTIO -DKEEP_INT_AROUND -DLIMIT_ARGS -DBUILD_RRTMG_FAST=0 -DBUILD_RRTMK=0 -DBUILD_SBM_FAST=1 -DSHOW_ALL_VARS_USED=0 -DCONFIG_BUF_LEN=65536 -DMAX_DOMAINS_F=21 -DMAX_HISTORY=25 -DNMM_NEST=0  -I. -traditional-cpp -DUSE_NETCDF4_FEATURES -DWRFIO_NCD_LARGE_FILE_SUPPORT   module_wps_io_arw.G  &gt; module_wps_io_arw.bb</span><br><span class="line"></span><br><span class="line">/home/syize/Apps/WRF/tools/standard.exe module_wps_io_arw.bb | cpp -P -nostdinc -traditional-cpp -DUSE_NETCDF4_FEATURES -DWRFIO_NCD_LARGE_FILE_SUPPORT &gt; module_wps_io_arw.f90</span><br><span class="line"></span><br><span class="line">mpif90  -o module_wps_io_arw.o -c -O2 -ftree-vectorize -funroll-loops -w -ffree-form -ffree-line-length-none -fconvert=big-endian -frecord-marker=4 -fallow-argument-mismatch -fallow-invalid-boz   -I../dyn_em  -I/home/syize/Apps/WRF/external/esmf_time_f90  -I/home/syize/Apps/WRF/main -I/home/syize/Apps/WRF/external/io_netcdf -I/home/syize/Apps/WRF/external/io_int -I/home/syize/Apps/WRF/frame -I/home/syize/Apps/WRF/share -I/home/syize/Apps/WRF/phys -I/home/syize/Apps/WRF/wrftladj -I/home/syize/Apps/WRF/chem -I/home/syize/Apps/WRF/inc -I/usr/include    module_wps_io_arw.f90</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意修改命令中的路径为你自己的 WRF 路径</strong></p>
+<p>然后在执行命令重新编译 <code>real_em.o</code> 文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mpif90  -o real_em.o -c -O2 -ftree-vectorize -funroll-loops -w -ffree-form -ffree-line-length-none -fconvert=big-endian -frecord-marker=4 -fallow-argument-mismatch -fallow-invalid-boz   -I../dyn_em  -I/home/syize/Apps/WRF/external/esmf_time_f90  -I/home/syize/Apps/WRF/main -I/home/syize/Apps/WRF/external/io_netcdf -I/home/syize/Apps/WRF/external/io_int -I/home/syize/Apps/WRF/frame -I/home/syize/Apps/WRF/share -I/home/syize/Apps/WRF/phys -I/home/syize/Apps/WRF/wrftladj -I/home/syize/Apps/WRF/chem -I/home/syize/Apps/WRF/inc -I/usr/include    real_em.f90</span><br></pre></td></tr></table></figure>
+
+<p>到此为止，基本所有额外的修复工作均已完成，剩下的工作就是复制编译失败的命令重新执行以下就可以了，为了保持博客简洁我就不再赘述了。</p>
+<p>贴一张完成的图片，根据日志需要编译出的4个可执行文件均已成功编译出。</p>
+<img src="/2022/10/25/install-wrf-on-arch/image-20221026142907877.png" class="" alt="image-20221026142907877">
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2022/10/25/install-wrf-on-arch/">https://blog.syize.cn/2022/10/25/install-wrf-on-arch/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2022-10-26</p></div> 
+    <div class="post-entry__tags"><a href="/tags/WRF/" class="post-tags__link button"># WRF</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2022/10/17/10-17-in-ouc/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            2022年10月17日在海大
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2022 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
