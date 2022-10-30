@@ -27,7 +27,7 @@
     <!-- meta -->
 
 
-<title>Archive: 2022/10 | Syize の blog</title>
+<title>Tag: EOF | Syize の blog</title>
 
 
 
@@ -37,7 +37,7 @@
  
     <meta property="og:type" content="website">
 <meta property="og:title" content="Syize の blog">
-<meta property="og:url" content="https://blog.syize.cn/archives/2022/10/index.html">
+<meta property="og:url" content="https://blog.syize.cn/tags/EOF/index.html">
 <meta property="og:site_name" content="Syize の blog">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Syize">
@@ -141,9 +141,10 @@
     </div>
 
             
-<main class='main'>
+
     
-		
+        <main class="main">
+            
     <div class="post-list">
         
             
@@ -166,123 +167,14 @@
 <a href="/2022/10/30/what-the-fk-is-EOF-mode/" class="post-entry__link">EOF的模态到底tm的是什么东西？</a>
                 </div>
             
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        在Arch上安装WRF和WPS
-    </h2>
-    
-        <p>老高让我学 <code>WRF</code>，我就装 <code>WRF</code>。装 <code>WRf</code> 的过程出现了很多问题，就开贴记录一下。</p>
-<blockquote>
-<p>WRF 版本 V4.4.1</p>
-</blockquote>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/10/" class="post-meta__date button">2022-10-25</a>
-    
-    <span class="separate-dot"></span><a href="/categories/WRF/" class="button">WRF</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/WRF/" class="post-tags__link button"># WRF</a></div> 
-<a href="/2022/10/25/install-wrf-on-arch/" class="post-entry__link">在Arch上安装WRF和WPS</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        2022年10月17日在海大
-    </h2>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/10/" class="post-meta__date button">2022-10-17</a>
-    
-    <span class="separate-dot"></span><a href="/categories/diary/" class="button">diary</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/diary/" class="post-tags__link button"># diary</a></div> 
-<a href="/2022/10/17/10-17-in-ouc/" class="post-entry__link">2022年10月17日在海大</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        Cartopy学习使用
-    </h2>
-    
-        <p>昨天本来打算用 <code>matplotlib</code> 和 <code>Cartopy</code> 画几张海温图的，结果意外发现我的 <code>Arch Linux</code> 更新软件包以后，估计是 <code>libc</code> 版本太新导致 <code>matplotlib</code> break 了，只要一调用 <code>plt.show</code> 或者是 <code>plt.savefig</code> 必崩，给我人整傻了，又是更换内核又是搞虚拟机，今天下午临时装了一个 <code>Ubuntu 22.04</code> 用着，白白折腾了一天的时间 🤡。</p>
-<p>更新：我发现不是 <code>matplotlib</code> break 了，是 <code>Cartopy</code> 和新版的 <code>Shapely</code> 不兼容导致的。执行以下命令从源码重新安装 <code>Shapely</code> 即可恢复正常。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install <span class="string">&quot;shapely&lt;2&quot;</span> --no-binary shapely --force-reinstall</span><br></pre></td></tr></table></figure>
-
-<p>我之前就用过 <code>Cartopy</code>，但是并不是特别熟。今天画海温图的时候顺便探索了一下，发现了几件有趣的事情，所以分享一下。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/10/" class="post-meta__date button">2022-10-17</a>
-    
-    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a></div> 
-<a href="/2022/10/17/learn-cartopy/" class="post-entry__link">Cartopy学习使用</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        xarray处理气象数据
-    </h2>
-    
-        <p>最近做课程论文需要读取气象数据 (<code>nc</code>格式)，之前处理雷达数据时一直都是用 <code>netCDF4</code> 直接梭哈，但是处理全球大尺度的数据时，经常搞日平均月平均，单独取某些月做操作，这个时候 <code>netCDF</code> 就不够看了。正好学一学 <code>xarray</code>，水几篇博客。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/10/" class="post-meta__date button">2022-10-16</a>
-    
-    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
-<a href="/2022/10/16/learn-xarray-with-netcdf/" class="post-entry__link">xarray处理气象数据</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        2022年10月10日在海大
-    </h2>
-    
-        <p>距离上次写日记是10天前，这期间到也没什么事，就只是忙于作业，也没遇到什么困难。昨天开始想期末的课程论文，人要麻了，又是天气学，又是气象卫星数据应用，最后还要答辩，感觉好多事情。今天一天除了上课吃饭就是窝在宿舍里，天气很晴，阳光很足，也不热，tmd，为什么我要窝在宿舍里搞作业，操。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/10/" class="post-meta__date button">2022-10-10</a>
-    
-    <span class="separate-dot"></span><a href="/categories/diary/" class="button">diary</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/diary/" class="post-tags__link button"># diary</a></div> 
-<a href="/2022/10/10/10-10-in-ouc/" class="post-entry__link">2022年10月10日在海大</a>
-                </div>
-            
         
     </div>
     
 
 
-	
-</main>
+        </main>
+    
+
 
             <footer class="footer">
     
