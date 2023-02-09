@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>女朋友教程第一弹：hexo 使用 | Syize の blog</title>
+
+
+    <meta name="keywords" content="Girl Friend, Hexo">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="温馨提示，本教程右边有目录  把一个文件夹设置为你的 hexo 目录在终端用以下命令就能设置，由于 npm 会拉取 hexo 仓库的文件，所以要用到 小飞机 1proxychains -q hexo init  出现下图结果就是说明文件夹设置成功了   此时你可以看到以下文件   在终端运行以下命令 在本地运行博客 就可以查看最初始的博客啦 1hexo s    按住 ctrl，鼠标单击网址，就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="女朋友教程第一弹：hexo 使用">
+<meta property="og:url" content="https://blog.syize.cn/hexo-guide-for-my-girl/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="温馨提示，本教程右边有目录  把一个文件夹设置为你的 hexo 目录在终端用以下命令就能设置，由于 npm 会拉取 hexo 仓库的文件，所以要用到 小飞机 1proxychains -q hexo init  出现下图结果就是说明文件夹设置成功了   此时你可以看到以下文件   在终端运行以下命令 在本地运行博客 就可以查看最初始的博客啦 1hexo s    按住 ctrl，鼠标单击网址，就">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/hexo-init.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/hexo-file.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/hexo-s.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/hexo-hello-world.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/hexo-open-theme.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/card-clone.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/theme-card.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/card-view.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/theme-config-1.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/theme-config-2.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/theme-config-3.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/theme-config-4.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/theme-config-5.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/github-1.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/github-2.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/github-3.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/github-4.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/hexo-new.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/hexo-new-2.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/hexo-new-3.png">
+<meta property="article:published_time" content="2022-01-06T08:52:44.000Z">
+<meta property="article:modified_time" content="2022-01-06T13:15:18.351Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="Girl Friend">
+<meta property="article:tag" content="Hexo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2022/01/06/hexo-guide-for-my-girl/hexo-init.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        女朋友教程第一弹：hexo 使用
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2022/01/" class="post-meta__date button">2022-01-06</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Girl-Friend/" class="button">Girl Friend</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%8A%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9%E8%AE%BE%E7%BD%AE%E4%B8%BA%E4%BD%A0%E7%9A%84-hexo-%E7%9B%AE%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">把一个文件夹设置为你的 hexo 目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%99-hexo-%E6%8D%A2%E4%B8%BB%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">给 hexo 换主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E4%B8%AA%E6%80%A7%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">主题个性化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E7%BD%AE%E5%88%B0-Github-%E4%B8%8A"><span class="toc-number">4.</span> <span class="toc-text">布置到 Github 上</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Github-%E4%B8%8A%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-number">4.1.</span> <span class="toc-text">Github 上的设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hexo-%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-number">4.2.</span> <span class="toc-text">hexo 的设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E5%86%99%E6%96%87%E7%AB%A0"><span class="toc-number">5.</span> <span class="toc-text">开始写文章</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%8A%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9%E8%AE%BE%E7%BD%AE%E4%B8%BA%E4%BD%A0%E7%9A%84-hexo-%E7%9B%AE%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">把一个文件夹设置为你的 hexo 目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%99-hexo-%E6%8D%A2%E4%B8%BB%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">给 hexo 换主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E4%B8%AA%E6%80%A7%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">主题个性化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E7%BD%AE%E5%88%B0-Github-%E4%B8%8A"><span class="toc-number">4.</span> <span class="toc-text">布置到 Github 上</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Github-%E4%B8%8A%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-number">4.1.</span> <span class="toc-text">Github 上的设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hexo-%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-number">4.2.</span> <span class="toc-text">hexo 的设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E5%86%99%E6%96%87%E7%AB%A0"><span class="toc-number">5.</span> <span class="toc-text">开始写文章</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2022-01-06"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <blockquote>
+<p>温馨提示，本教程右边有目录</p>
+</blockquote>
+<h2 id="把一个文件夹设置为你的-hexo-目录"><a href="#把一个文件夹设置为你的-hexo-目录" class="headerlink" title="把一个文件夹设置为你的 hexo 目录"></a>把一个文件夹设置为你的 hexo 目录</h2><p>在终端用以下命令就能设置，由于 npm 会拉取 hexo 仓库的文件，所以要用到 小飞机</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains -q hexo init</span><br></pre></td></tr></table></figure>
+
+<p>出现下图结果就是说明文件夹设置成功了</p>
+<img src="/2022/01/06/hexo-guide-for-my-girl/hexo-init.png" class="">
+
+<p>此时你可以看到以下文件</p>
+<img src="/2022/01/06/hexo-guide-for-my-girl/hexo-file.png" class="">
+
+<p>在终端运行以下命令 <strong>在本地运行博客</strong> 就可以查看最初始的博客啦</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<img src="/2022/01/06/hexo-guide-for-my-girl/hexo-s.png" class="">
+
+<p>按住 ctrl，鼠标单击网址，就能在浏览器中打开</p>
+<img src="/2022/01/06/hexo-guide-for-my-girl/hexo-hello-world.png" class="">
+
+<h2 id="给-hexo-换主题"><a href="#给-hexo-换主题" class="headerlink" title="给 hexo 换主题"></a>给 hexo 换主题</h2><p>默认的主题太丑了，换个跟我一样的 card 主题 (也可以去 <a target="_blank" rel="noopener" href="https://hexo.io/themes/">Hexo主题网站</a> 看一看其他的)</p>
+<p>在 hexo 的 themes 文件夹中打开终端</p>
+<img src="/2022/01/06/hexo-guide-for-my-girl/hexo-open-theme.png" class="">
+
+<p>并运行以下命令把 card 的仓库拉去下来</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains -q git clone https://github.com/ChrAlpha/hexo-theme-cards.git cards</span><br></pre></td></tr></table></figure>
+
+<img src="/2022/01/06/hexo-guide-for-my-girl/card-clone.png" class="">
+
+<p><strong>回到 hexo 的文件夹中</strong>，编辑 _config.yml 启用主题</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line">vim _config.yml</span><br></pre></td></tr></table></figure>
+
+<p>搜索 theme，改为 cards。(vim 中搜索的命令：输入”/“，然后输入要搜索的字符串)</p>
+<img src="/2022/01/06/hexo-guide-for-my-girl/theme-card.png" class="">
+
+<p>再运行以下命令看一看主题是否生效</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g	<span class="comment"># 生成文件</span></span><br><span class="line">hexo s	<span class="comment"># 运行服务</span></span><br></pre></td></tr></table></figure>
+
+<img src="/2022/01/06/hexo-guide-for-my-girl/card-view.png" class="">
+
+<p>主题改了，好耶</p>
+<h2 id="主题个性化"><a href="#主题个性化" class="headerlink" title="主题个性化"></a>主题个性化</h2><p>可以看到这个主题有许多地方是不太想出现的，比如左上角的名称叫 Demo，还有右上角的一些标签。</p>
+<p>编辑 themes/cards/_config.yml 文件就能更改了</p>
+<img src="/2022/01/06/hexo-guide-for-my-girl/theme-config-1.png" class="">
+
+<img src="/2022/01/06/hexo-guide-for-my-girl/theme-config-2.png" class="">
+
+<img src="/2022/01/06/hexo-guide-for-my-girl/theme-config-3.png" class="">
+
+<img src="/2022/01/06/hexo-guide-for-my-girl/theme-config-4.png" class="">
+
+<p>要加的文字在这里</p>
+<blockquote>
+<p>本博客所有文章除特别声明外，均采用 [CC BY-NC-SA 4.0](<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0//">https://creativecommons.org/licenses/by-nc-sa/4.0/\</a>) 许可协议。转载请注明来自 [Syizeのblog](<a target="_blank" rel="noopener" href="https://syize.github.io/)%EF%BC%81">https://syize.github.io\)！</a></p>
+</blockquote>
+<img src="/2022/01/06/hexo-guide-for-my-girl/theme-config-5.png" class="">
+
+<p>到这里基本配置就搞好了，可以再执行下面的命令运行看看效果</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<h2 id="布置到-Github-上"><a href="#布置到-Github-上" class="headerlink" title="布置到 Github 上"></a>布置到 Github 上</h2><h3 id="Github-上的设置"><a href="#Github-上的设置" class="headerlink" title="Github 上的设置"></a>Github 上的设置</h3><p>首先打开你的 Github 页面，点击 new 新建仓库</p>
+<img src="/2022/01/06/hexo-guide-for-my-girl/github-1.png" class="">
+
+<p><strong>仓库要命名为：你的github名字.github.io。注意要保持完全一致，大小写也要一样！</strong></p>
+<blockquote>
+<p>我的已经建好了，所以提示名字重复</p>
+</blockquote>
+<img src="/2022/01/06/hexo-guide-for-my-girl/github-2.png" class="">
+
+<p>其他的不用改，直接 Create repository。</p>
+<h3 id="hexo-的设置"><a href="#hexo-的设置" class="headerlink" title="hexo 的设置"></a>hexo 的设置</h3><p>首先需要安装一个插件，让你可以把博客发布到 Github 上。终端运行以下命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 要在 hexo 的文件夹里面运行命令</span></span><br><span class="line">proxychains -q npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>然后编辑 _config.yml 文件 (<strong>注意不是主题的 _config.yml！</strong>)，修改最后的 deploy 选项</p>
+<img src="/2022/01/06/hexo-guide-for-my-girl/github-3.png" class="">
+
+<p>这里的仓库地址是 Github 页面上显示的仓库地址</p>
+<img src="/2022/01/06/hexo-guide-for-my-girl/github-4.png" class="">
+
+<blockquote>
+<p>也可以用 SSH 的地址，但是需要提前生成好密钥，略麻烦，稍后再修改，先用 HTTPS 的吧</p>
+</blockquote>
+<p>到这里设置基本上就结束了</p>
+<h2 id="开始写文章"><a href="#开始写文章" class="headerlink" title="开始写文章"></a>开始写文章</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 执行以下命令来生成一篇新的博客，强烈建议名称是英文的，这个名称是显示在网址上的，不是文章真正的名称</span></span><br><span class="line">hexo new 博客名称</span><br></pre></td></tr></table></figure>
+
+<img src="/2022/01/06/hexo-guide-for-my-girl/hexo-new.png" class="">
+
+<p>hexo 已经把新的博客所在的路径告诉我们了，打开对应的目录就能看到文章</p>
+<img src="/2022/01/06/hexo-guide-for-my-girl/hexo-new-2.png" class="">
+
+<p>可以看到有一个 hello-world，这个是自带的，可以删掉不要了。</p>
+<p>用 Typora 打开进行编辑，修改最上面的 tittle 为文章的名称，在下面写一点内容，保存</p>
+<img src="/2022/01/06/hexo-guide-for-my-girl/hexo-new-3.png" class="">
+
+<p>然后执行以下命令就可以布置到 Github 上了！</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains -q hexo g -d</span><br></pre></td></tr></table></figure>
+
+<p>期间会要求你输入密码，这个密码就是你的 Github 的密码😋</p>
+<p>最后访问你的博客地址 (你的仓库名称就是你的博客地址)，看一下自己的成果</p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/hexo-guide-for-my-girl/">https://blog.syize.cn/hexo-guide-for-my-girl/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2022-01-06</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Girl-Friend/" class="post-tags__link button"># Girl Friend</a><a href="/tags/Hexo/" class="post-tags__link button"># Hexo</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/dirty-flash-run-away/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            禁止禁止 dirty flash
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/clash-web-dashboard-with-nginx/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            clash for linux 的设置与 web 控制台
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2023 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
