@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>Cartopy学习使用 | Syize の blog</title>
+
+
+    <meta name="keywords" content="Python, Cartopy">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="昨天本来打算用 matplotlib 和 Cartopy 画几张海温图的，结果意外发现我的 Arch Linux 更新软件包以后，估计是 libc 版本太新导致 matplotlib break 了，只要一调用 plt.show 或者是 plt.savefig 必崩，给我人整傻了，又是更换内核又是搞虚拟机，今天下午临时装了一个 Ubuntu 22.04 用着，白白折腾了一天的时间 🤡。 更新：我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cartopy学习使用">
+<meta property="og:url" content="https://blog.syize.cn/2022/10/17/learn-cartopy/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="昨天本来打算用 matplotlib 和 Cartopy 画几张海温图的，结果意外发现我的 Arch Linux 更新软件包以后，估计是 libc 版本太新导致 matplotlib break 了，只要一调用 plt.show 或者是 plt.savefig 必崩，给我人整傻了，又是更换内核又是搞虚拟机，今天下午临时装了一个 Ubuntu 22.04 用着，白白折腾了一天的时间 🤡。 更新：我">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2022/10/17/learn-cartopy/1.png">
+<meta property="og:image" content="https://blog.syize.cn/2022/10/17/learn-cartopy/image-20221017212204820.png">
+<meta property="article:published_time" content="2022-10-17T12:46:33.000Z">
+<meta property="article:modified_time" content="2022-10-19T15:49:40.018Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Cartopy">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2022/10/17/learn-cartopy/1.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        Cartopy学习使用
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2022/10/" class="post-meta__date button">2022-10-17</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Pycharm-%E4%B8%AD%E4%BD%BF%E7%94%A8-Cartopy-%E6%97%B6%E6%B2%A1%E6%9C%89%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95%E6%8F%90%E7%A4%BA"><span class="toc-number">1.</span> <span class="toc-text">Pycharm 中使用 Cartopy 时没有属性和方法提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cartopy-%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E7%9A%84%E6%98%BE%E7%A4%BA%E8%8C%83%E5%9B%B4"><span class="toc-number">2.</span> <span class="toc-text">Cartopy 设置图片的显示范围</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cartopy-%E7%9A%84-minor-%E5%8F%82%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">Cartopy 的 minor 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cartopy-%E7%BB%98%E5%9B%BE%E4%B8%AD%E5%BF%83%E7%BB%8F%E5%BA%A6%E5%92%8C%E6%95%B0%E6%8D%AE%E7%BB%8F%E5%BA%A6%E9%97%AE%E9%A2%98"><span class="toc-number">4.</span> <span class="toc-text">Cartopy 绘图中心经度和数据经度问题</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Pycharm-%E4%B8%AD%E4%BD%BF%E7%94%A8-Cartopy-%E6%97%B6%E6%B2%A1%E6%9C%89%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95%E6%8F%90%E7%A4%BA"><span class="toc-number">1.</span> <span class="toc-text">Pycharm 中使用 Cartopy 时没有属性和方法提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cartopy-%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E7%9A%84%E6%98%BE%E7%A4%BA%E8%8C%83%E5%9B%B4"><span class="toc-number">2.</span> <span class="toc-text">Cartopy 设置图片的显示范围</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cartopy-%E7%9A%84-minor-%E5%8F%82%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">Cartopy 的 minor 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cartopy-%E7%BB%98%E5%9B%BE%E4%B8%AD%E5%BF%83%E7%BB%8F%E5%BA%A6%E5%92%8C%E6%95%B0%E6%8D%AE%E7%BB%8F%E5%BA%A6%E9%97%AE%E9%A2%98"><span class="toc-number">4.</span> <span class="toc-text">Cartopy 绘图中心经度和数据经度问题</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2022-10-19"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <p>昨天本来打算用 <code>matplotlib</code> 和 <code>Cartopy</code> 画几张海温图的，结果意外发现我的 <code>Arch Linux</code> 更新软件包以后，估计是 <code>libc</code> 版本太新导致 <code>matplotlib</code> break 了，只要一调用 <code>plt.show</code> 或者是 <code>plt.savefig</code> 必崩，给我人整傻了，又是更换内核又是搞虚拟机，今天下午临时装了一个 <code>Ubuntu 22.04</code> 用着，白白折腾了一天的时间 🤡。</p>
+<p>更新：我发现不是 <code>matplotlib</code> break 了，是 <code>Cartopy</code> 和新版的 <code>Shapely</code> 不兼容导致的。执行以下命令从源码重新安装 <code>Shapely</code> 即可恢复正常。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install <span class="string">&quot;shapely&lt;2&quot;</span> --no-binary shapely --force-reinstall</span><br></pre></td></tr></table></figure>
+
+<p>我之前就用过 <code>Cartopy</code>，但是并不是特别熟。今天画海温图的时候顺便探索了一下，发现了几件有趣的事情，所以分享一下。</p>
+<span id="more"></span>
+
+<h2 id="Pycharm-中使用-Cartopy-时没有属性和方法提示"><a href="#Pycharm-中使用-Cartopy-时没有属性和方法提示" class="headerlink" title="Pycharm 中使用 Cartopy 时没有属性和方法提示"></a>Pycharm 中使用 Cartopy 时没有属性和方法提示</h2><p>这是困扰我许久的问题了，在使用  <code>Cartopy</code> 时，如果要绘制多个子图，通常会以一下方法绘图</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fig = plt.figure()</span><br><span class="line">ax = fig.add_subplot()</span><br><span class="line">ax.plot()</span><br></pre></td></tr></table></figure>
+
+<p>但是奇怪的是，敲完 <code>ax</code> 以后竟然没有任务有关的方法提示，原因是 <code>Pycharm</code> 并不知道 <code>ax</code> 的类型是什么 (同理，对于 <code>fig</code> 类似。)。我们要做的，就是给变量添加上类型注解。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib.figure <span class="keyword">import</span> Figure</span><br><span class="line"><span class="keyword">from</span> cartopy.mpl.geoaxes <span class="keyword">import</span> GeoAxes</span><br><span class="line"></span><br><span class="line">fig: Figure = plt.figure()</span><br><span class="line">ax: GeoAxes = fig.add_subplot()</span><br><span class="line">ax.plot()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Cartopy-设置图片的显示范围"><a href="#Cartopy-设置图片的显示范围" class="headerlink" title="Cartopy 设置图片的显示范围"></a>Cartopy 设置图片的显示范围</h2><p><code>set_extent</code> 函数一定要放到绘制完图片后的下一行，否则最后图片的显示范围会出现异常</p>
+<h2 id="Cartopy-的-minor-参数"><a href="#Cartopy-的-minor-参数" class="headerlink" title="Cartopy 的 minor 参数"></a>Cartopy 的 minor 参数</h2><p>在添加经纬度坐标的时候，通常要使用以下函数添加坐标</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ax.set_xticks(A, crs=projection)</span><br><span class="line">ax.set_yticks(B, crs=projection)</span><br></pre></td></tr></table></figure>
+
+<p>这里的  <code>A</code> 和 <code>B</code> 通常是一个列表、数组之类的，我一般都是直接根据经纬度范围直接用 <code>np.arange</code> 生成，例如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 经度范围：120 - 170 °E</span></span><br><span class="line"><span class="comment"># 纬度范围：5 °S - 5 °N</span></span><br><span class="line">ax.set_xticks(np.arange(-<span class="number">170</span>, -<span class="number">110</span>, <span class="number">20</span>), crs=projection)</span><br><span class="line">ax.set_yticks(np.arange(-<span class="number">5</span>, <span class="number">10</span>, <span class="number">5</span>), crs=projection)</span><br></pre></td></tr></table></figure>
+
+<p>但是今天下午上课太困了，错写成了下面的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 经度范围：120 - 170 °E</span></span><br><span class="line"><span class="comment"># 纬度范围：5 °S - 5 °N</span></span><br><span class="line">ax.set_xticks(np.arange(-<span class="number">170</span>, -<span class="number">110</span>）, <span class="number">20</span>, crs=projection)</span><br><span class="line">ax.set_yticks(np.arange(-<span class="number">5</span>, <span class="number">5</span>）, <span class="number">5</span>, crs=projection)</span><br></pre></td></tr></table></figure>
+
+<p>于是我神奇的发现，该代码不仅没有出错 ，绘制出的坐标也是正确的，而且还多出了小刻度</p>
+<img src="/2022/10/17/learn-cartopy/1.png" class="">
+
+<p>然后我去翻阅了 <code>Cartopy</code> 的手册中 <code>set_ticks</code> 的部分</p>
+<img src="/2022/10/17/learn-cartopy/image-20221017212204820.png" class="" alt="image-20221017212204820">
+
+<p>按道理来讲，这里的 20 和 5 应该是赋给了形参 <code>minor</code>，于是我把 20 和 5 换成了 <code>minor=True</code>，发现得出了一个一模一样的图。没想到我犯个困还能无意中发现这么一个好用的参数，好耶！</p>
+<h2 id="Cartopy-绘图中心经度和数据经度问题"><a href="#Cartopy-绘图中心经度和数据经度问题" class="headerlink" title="Cartopy 绘图中心经度和数据经度问题"></a>Cartopy 绘图中心经度和数据经度问题</h2><p>今天发现，使用兰伯特投影画地图时，需要注意一下中心经度设置和数据经度设置的问题。</p>
+<ul>
+<li>当使用 0° 为中心经度时，数据的经度需要使用 <code>0 - 360</code> 的形式</li>
+<li>当使用 180° 为中心经度时，数据的经度需要使用 <code>-180 - 180</code> 的形式</li>
+</ul>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2022/10/17/learn-cartopy/">https://blog.syize.cn/2022/10/17/learn-cartopy/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2022-10-19</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2022/10/17/10-17-in-ouc/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            2022年10月17日在海大
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2022/10/16/learn-xarray-with-netcdf/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            xarray处理气象数据
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2023 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
