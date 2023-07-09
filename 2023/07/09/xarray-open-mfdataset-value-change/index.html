@@ -27,34 +27,31 @@
     <!-- meta -->
 
 
-<title>VirtualBox虚拟机安装aTrust并设置静态IP | Syize の blog</title>
+<title>xarray中合并nc文件导致数据的数值改变/出现nan | Syize の blog</title>
 
 
-    <meta name="keywords" content="virtualbox, ubuntu, linux">
+    <meta name="keywords" content="Python">
 
 
 
 
     <!-- OpenGraph -->
  
-    <meta name="description" content="因为办公室的网络莫名其妙的不能访问同一楼层的服务器了，想要访问只能通过学校的深信服aTrust客户端。为了不让傻逼aTrust污染我台式的环境，于是给他单独建了一个虚拟机放在里面，装了一个tinyproxy通过代理转发访问服务器。">
+    <meta name="description" content="今天下了ERA5的再分析数据准备做REOF，结果却发现报错说我的数据有缺测值。搜索了一番发现原来是ERA5的scale和offset导致的。  水博客+1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="VirtualBox虚拟机安装aTrust并设置静态IP">
-<meta property="og:url" content="https://blog.syize.cn/2023/07/07/virtualbox-static-ip/index.html">
+<meta property="og:title" content="xarray中合并nc文件导致数据的数值改变&#x2F;出现nan">
+<meta property="og:url" content="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/index.html">
 <meta property="og:site_name" content="Syize の blog">
-<meta property="og:description" content="因为办公室的网络莫名其妙的不能访问同一楼层的服务器了，想要访问只能通过学校的深信服aTrust客户端。为了不让傻逼aTrust污染我台式的环境，于是给他单独建了一个虚拟机放在里面，装了一个tinyproxy通过代理转发访问服务器。">
+<meta property="og:description" content="今天下了ERA5的再分析数据准备做REOF，结果却发现报错说我的数据有缺测值。搜索了一番发现原来是ERA5的scale和offset导致的。  水博客+1">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://blog.syize.cn/2023/07/07/virtualbox-static-ip/image-20230707143319329.png">
-<meta property="og:image" content="https://blog.syize.cn/2023/07/07/virtualbox-static-ip/image-20230707143355196.png">
-<meta property="og:image" content="https://blog.syize.cn/2023/07/07/virtualbox-static-ip/image-20230707143727330.png">
-<meta property="article:published_time" content="2023-07-07T06:07:46.000Z">
-<meta property="article:modified_time" content="2023-07-07T06:37:28.119Z">
+<meta property="og:image" content="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133514843.png">
+<meta property="og:image" content="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133536474.png">
+<meta property="article:published_time" content="2023-07-09T05:16:11.000Z">
+<meta property="article:modified_time" content="2023-07-09T05:59:36.527Z">
 <meta property="article:author" content="Syize">
-<meta property="article:tag" content="virtualbox">
-<meta property="article:tag" content="ubuntu">
-<meta property="article:tag" content="linux">
+<meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog.syize.cn/2023/07/07/virtualbox-static-ip/image-20230707143319329.png">
+<meta name="twitter:image" content="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133514843.png">
 
 
     
@@ -148,12 +145,12 @@
 
 <div class="post-title">
     <h1 class="post-title__text">
-        VirtualBox虚拟机安装aTrust并设置静态IP
+        xarray中合并nc文件导致数据的数值改变/出现nan
     </h1>
     <div class="post-title__meta">
-        <a href="/archives/2023/07/" class="post-meta__date button">2023-07-07</a>
+        <a href="/archives/2023/07/" class="post-meta__date button">2023-07-09</a>
         
-    <span class="separate-dot"></span><a href="/categories/linux/" class="button">linux</a>
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
 
  
         
@@ -170,7 +167,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81IP%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">静态IP设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1"><span class="toc-number">1.1.</span> <span class="toc-text">添加虚拟网卡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">1.2.</span> <span class="toc-text">配置虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%87%8C%E8%AE%BE%E7%BD%AE%E9%9D%99%E6%80%81IP"><span class="toc-number">1.3.</span> <span class="toc-text">虚拟机里设置静态IP</span></a></li></ol></li></ol>
+            
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -180,7 +177,7 @@
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81IP%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">静态IP设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1"><span class="toc-number">1.1.</span> <span class="toc-text">添加虚拟网卡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">1.2.</span> <span class="toc-text">配置虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%87%8C%E8%AE%BE%E7%BD%AE%E9%9D%99%E6%80%81IP"><span class="toc-number">1.3.</span> <span class="toc-text">虚拟机里设置静态IP</span></a></li></ol></li></ol>
+        
     </div>
 
 
@@ -193,7 +190,7 @@
     </div>
     <script>
         (() => {
-            var update = Date.parse("2023-07-07"),
+            var update = Date.parse("2023-07-09"),
                 date = new Date(),
                 now = date.getTime(),
                 expire = now - update,
@@ -206,32 +203,25 @@
     </script>
 </div>
     <div class="post__content">
-        <p>因为办公室的网络莫名其妙的不能访问同一楼层的服务器了，想要访问只能通过学校的深信服aTrust客户端。为了不让傻逼aTrust污染我台式的环境，于是给他单独建了一个虚拟机放在里面，装了一个<code>tinyproxy</code>通过代理转发访问服务器。</p>
+        <p>今天下了ERA5的再分析数据准备做REOF，结果却发现报错说我的数据有缺测值。搜索了一番发现原来是ERA5的<code>scale</code>和<code>offset</code>导致的。</p>
+<blockquote>
+<p>水博客+1</p>
+</blockquote>
 <span id="more"></span>
 
-<p>安装<code>tinyproxy</code>的过程不多说，直接从仓库安装完修改一下配置文件，把带有<code>Allow</code>的语句全都注释掉，允许所有IP的连接，重启服务即可。</p>
-<p>傻逼aTrust长时间不活动还会自动断开，只能写个<code>timer</code>每1分钟curl一次服务器的网页来保活，下面说一说怎么设置静态IP。</p>
-<h2 id="静态IP设置"><a href="#静态IP设置" class="headerlink" title="静态IP设置"></a>静态IP设置</h2><blockquote>
-<p>都2023年了，上网一搜中文搜索结果还是清一色的<code>CentOS</code>，实在是一点有用的东西都没有。</p>
+<p>先来看问题，我写了脚本批量下载了很多时次的数据，然后使用<code>open_mfdataset</code>来合并出一个单个数据文件用来进行下一步的操作，却发现在合并出的数据中出现了本不存在的<code>nan</code>。经过搜索后发现是由于nc文件存在<code>scale</code>和<code>offset</code>导致的 (<a target="_blank" rel="noopener" href="https://github.com/pydata/xarray/issues/5490">相关issue</a>)。</p>
+<p>为了节省空间有些nc文件会将原始的浮点型数据经过变换变成<code>short</code>型数据，并在数据文件中记录<code>scale_factor</code>和<code>add_offset</code>来在读取数据时进行还原，具体的还原公式如下<br>$$<br>D_{raw}=D_{short}\times scale+offset<br>$$<br>而在合并数据的过程中，会先读取数据进行还原，然后再把数据重新变换会<code>short</code>型。这个过程中有可能会出现类型转换的错误，最终导致数据改变或者出现<code>nan</code>。</p>
+<p>简单解决的办法就是在使用<code>open_mfdataset</code>的时候传入<code>mask_and_scale=False</code>参数关闭还原数据的过程，<strong>但是这样又会导致一个问题，每个文件的<code>scale_factor</code>和<code>add_offset</code>是不一样的</strong>，最后保存单个文件的时候只保存了一个<code>scale_factor</code>和<code>add_offset</code>，还原出来的数据肯定不对啊。</p>
+<img src="/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133514843.png" class="" alt="合并后的数据">
+
+<img src="/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133536474.png" class="" alt="合并前的数据">
+
+<blockquote>
+<p>合并后的数据(上)和合并前的数据(下)</p>
 </blockquote>
-<h3 id="添加虚拟网卡"><a href="#添加虚拟网卡" class="headerlink" title="添加虚拟网卡"></a>添加虚拟网卡</h3><p>首先是需要在VirtualBox的<code>管理-&gt;工具-&gt;网络管理器</code>里面添加一个<strong>仅主机网络</strong>网卡，只需要点一下添加就可以，VirtualBox都给自动设置好了。如果设置不对的话手动改一下就可以，选择<code>手动配置网卡</code>，配置可以参考如下</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">IPv4</span>地址: <span class="number">192.168.56.1</span></span><br><span class="line"><span class="attribute">IPv4</span>网络掩码: <span class="number">255.255.255.0</span></span><br><span class="line"><span class="attribute">IPv6</span>地址: fe80::<span class="number">5457</span>:faeb:<span class="number">4</span>f14:d66f</span><br><span class="line"><span class="attribute">IPv6</span>网络掩码长度: <span class="number">64</span></span><br></pre></td></tr></table></figure>
+<p>最好的解决办法就是使用<code>open_mfdataset</code>合并时，在保存到新的nc文件之前手动删掉每个变量中保存的<code>encoding</code>信息，这样保存时<code>xarray</code>不会重新对数据编码，而是以<code>float32</code>的类型保存变量，就可以防止数据发生变化了。不过这个方法也有一个缺点，就是保存出来的数据会更大。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># concat file</span></span><br><span class="line">dataset = open_mfdataset(data_path)</span><br><span class="line"><span class="comment"># remove encoding in variables to avoid value change</span></span><br><span class="line"><span class="keyword">for</span> variables <span class="keyword">in</span> dataset.keys():</span><br><span class="line">	dataset[variables].encoding.pop(<span class="string">&quot;scale_factor&quot;</span>)</span><br><span class="line">	dataset[variables].encoding.pop(<span class="string">&quot;add_offset&quot;</span>)</span><br><span class="line">	dataset[variables].encoding.pop(<span class="string">&quot;dtype&quot;</span>)</span><br><span class="line">dataset.to_netcdf(integrated_file_path)</span><br></pre></td></tr></table></figure>
 
-<p><code>IPv6</code>也可以不用管，地址留空，掩码长度填0。</p>
-<h3 id="配置虚拟机"><a href="#配置虚拟机" class="headerlink" title="配置虚拟机"></a>配置虚拟机</h3><p>然后在虚拟机的<code>网络</code>设置里面启用第二块网卡，连接方式就是<code>仅主机网络</code>，<code>名称</code>那里就是虚拟网卡的名称。设置完成以后启动虚拟机。</p>
-<h3 id="虚拟机里设置静态IP"><a href="#虚拟机里设置静态IP" class="headerlink" title="虚拟机里设置静态IP"></a>虚拟机里设置静态IP</h3><p>在虚拟机里执行<code>ip addr</code>看一下网卡名称和IP地址，应该很容易就能找到与你设置的IP在同一个IP段的地址和对应的网卡，例如我的是<code>enp0s8</code>，地址是<code>192.168.56.2</code>(这里我已经配置好了)。我的虚拟机用的是<code>xubuntu 22.04 LTS</code>，配置静态IP地址的文件在<code>/etc/netplan/</code>下。进入文件夹以后你会看到只有一个文件，将那个文件复制一份，并添加如下内容</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">enp0s3:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">enp0s8:</span></span><br><span class="line">      <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span><span class="string">/24</span>]</span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-
-<p>这里<code>renderer</code>就是你使用的网络管理器的名称，我的是<code>NetworkManager</code>，<strong>不要随意更改</strong>。<code>ethernets</code>下面是每个网卡的配置，<code>enp0s3</code>和<code>enp0s8</code>改成对应的网卡名称，<code>enp0s8</code>是要配置静态IP的网卡。</p>
-<p>修改完以后执行如下命令应用更改，就能看到IP已经被修改成对应的静态IP了，此时就可以从宿主机通过静态IP访问虚拟机了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
-
-<img src="/2023/07/07/virtualbox-static-ip/image-20230707143319329.png" class="" alt="image-20230707143319329">
-
-<img src="/2023/07/07/virtualbox-static-ip/image-20230707143355196.png" class="" alt="image-20230707143355196">
-
-<p>之后就可以将虚拟机作为跳板机访问服务器了。</p>
-<img src="/2023/07/07/virtualbox-static-ip/image-20230707143727330.png" class="" alt="image-20230707143727330">
 
     </div>
     
@@ -243,7 +233,7 @@
             <strong>
                 Permalink: 
             </strong>
-            <a href="https://blog.syize.cn/2023/07/07/virtualbox-static-ip/">https://blog.syize.cn/2023/07/07/virtualbox-static-ip/</a>
+            <a href="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/">https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/</a>
         </p>
         
             <strong>
@@ -253,38 +243,24 @@
         
     </div>
  
-    <div class="post-footer__meta"><p>updated at 2023-07-07</p></div> 
-    <div class="post-entry__tags"><a href="/tags/virtualbox/" class="post-tags__link button"># virtualbox</a><a href="/tags/ubuntu/" class="post-tags__link button"># ubuntu</a><a href="/tags/linux/" class="post-tags__link button"># linux</a></div> 
+    <div class="post-footer__meta"><p>updated at 2023-07-09</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
 </article>
 
 
     <div class="nav">
         <div class="nav__prev">
             
-                <a href="/2023/07/09/xarray-open-mfdataset-value-change/" class="nav__link">
-                    <div>
-                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
-                    </div>
-                    <div>
-                        <div class="nav__label">
-                            Previous Post
-                        </div>
-                        <div class="nav__title">
-                            xarray中合并nc文件导致数据的数值改变/出现nan
-                        </div>
-                    </div>
-                </a>
-            
         </div>
         <div class="nav__next">
             
-                <a href="/2023/06/08/zotero-libreoffice/" class="nav__link">
+                <a href="/2023/07/07/virtualbox-static-ip/" class="nav__link">
                     <div>
                         <div class="nav__label">
                             Next Post
                         </div>
                         <div class="nav__title">
-                            Zotero无法向Libreoffice插入引用错误解决
+                            VirtualBox虚拟机安装aTrust并设置静态IP
                         </div>
                     </div>
                     <div>
