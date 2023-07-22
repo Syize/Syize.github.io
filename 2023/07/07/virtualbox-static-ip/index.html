@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>VirtualBox虚拟机安装aTrust并设置静态IP | Syize の blog</title>
+
+
+    <meta name="keywords" content="virtualbox, ubuntu, linux">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="因为办公室的网络莫名其妙的不能访问同一楼层的服务器了，想要访问只能通过学校的深信服aTrust客户端。为了不让傻逼aTrust污染我台式的环境，于是给他单独建了一个虚拟机放在里面，装了一个tinyproxy通过代理转发访问服务器。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VirtualBox虚拟机安装aTrust并设置静态IP">
+<meta property="og:url" content="https://blog.syize.cn/2023/07/07/virtualbox-static-ip/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="因为办公室的网络莫名其妙的不能访问同一楼层的服务器了，想要访问只能通过学校的深信服aTrust客户端。为了不让傻逼aTrust污染我台式的环境，于是给他单独建了一个虚拟机放在里面，装了一个tinyproxy通过代理转发访问服务器。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2023/07/07/virtualbox-static-ip/image-20230707143319329.png">
+<meta property="og:image" content="https://blog.syize.cn/2023/07/07/virtualbox-static-ip/image-20230707143355196.png">
+<meta property="og:image" content="https://blog.syize.cn/2023/07/07/virtualbox-static-ip/image-20230707143727330.png">
+<meta property="article:published_time" content="2023-07-07T06:07:46.000Z">
+<meta property="article:modified_time" content="2023-07-07T06:37:28.119Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="virtualbox">
+<meta property="article:tag" content="ubuntu">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2023/07/07/virtualbox-static-ip/image-20230707143319329.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        VirtualBox虚拟机安装aTrust并设置静态IP
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/07/" class="post-meta__date button">2023-07-07</a>
+        
+    <span class="separate-dot"></span><a href="/categories/linux/" class="button">linux</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81IP%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">静态IP设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1"><span class="toc-number">1.1.</span> <span class="toc-text">添加虚拟网卡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">1.2.</span> <span class="toc-text">配置虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%87%8C%E8%AE%BE%E7%BD%AE%E9%9D%99%E6%80%81IP"><span class="toc-number">1.3.</span> <span class="toc-text">虚拟机里设置静态IP</span></a></li></ol></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81IP%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">静态IP设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1"><span class="toc-number">1.1.</span> <span class="toc-text">添加虚拟网卡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">1.2.</span> <span class="toc-text">配置虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%87%8C%E8%AE%BE%E7%BD%AE%E9%9D%99%E6%80%81IP"><span class="toc-number">1.3.</span> <span class="toc-text">虚拟机里设置静态IP</span></a></li></ol></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2023-07-07"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <p>因为办公室的网络莫名其妙的不能访问同一楼层的服务器了，想要访问只能通过学校的深信服aTrust客户端。为了不让傻逼aTrust污染我台式的环境，于是给他单独建了一个虚拟机放在里面，装了一个<code>tinyproxy</code>通过代理转发访问服务器。</p>
+<span id="more"></span>
+
+<p>安装<code>tinyproxy</code>的过程不多说，直接从仓库安装完修改一下配置文件，把带有<code>Allow</code>的语句全都注释掉，允许所有IP的连接，重启服务即可。</p>
+<p>傻逼aTrust长时间不活动还会自动断开，只能写个<code>timer</code>每1分钟curl一次服务器的网页来保活，下面说一说怎么设置静态IP。</p>
+<h2 id="静态IP设置"><a href="#静态IP设置" class="headerlink" title="静态IP设置"></a>静态IP设置</h2><blockquote>
+<p>都2023年了，上网一搜中文搜索结果还是清一色的<code>CentOS</code>，实在是一点有用的东西都没有。</p>
+</blockquote>
+<h3 id="添加虚拟网卡"><a href="#添加虚拟网卡" class="headerlink" title="添加虚拟网卡"></a>添加虚拟网卡</h3><p>首先是需要在VirtualBox的<code>管理-&gt;工具-&gt;网络管理器</code>里面添加一个<strong>仅主机网络</strong>网卡，只需要点一下添加就可以，VirtualBox都给自动设置好了。如果设置不对的话手动改一下就可以，选择<code>手动配置网卡</code>，配置可以参考如下</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">IPv4</span>地址: <span class="number">192.168.56.1</span></span><br><span class="line"><span class="attribute">IPv4</span>网络掩码: <span class="number">255.255.255.0</span></span><br><span class="line"><span class="attribute">IPv6</span>地址: fe80::<span class="number">5457</span>:faeb:<span class="number">4</span>f14:d66f</span><br><span class="line"><span class="attribute">IPv6</span>网络掩码长度: <span class="number">64</span></span><br></pre></td></tr></table></figure>
+
+<p><code>IPv6</code>也可以不用管，地址留空，掩码长度填0。</p>
+<h3 id="配置虚拟机"><a href="#配置虚拟机" class="headerlink" title="配置虚拟机"></a>配置虚拟机</h3><p>然后在虚拟机的<code>网络</code>设置里面启用第二块网卡，连接方式就是<code>仅主机网络</code>，<code>名称</code>那里就是虚拟网卡的名称。设置完成以后启动虚拟机。</p>
+<h3 id="虚拟机里设置静态IP"><a href="#虚拟机里设置静态IP" class="headerlink" title="虚拟机里设置静态IP"></a>虚拟机里设置静态IP</h3><p>在虚拟机里执行<code>ip addr</code>看一下网卡名称和IP地址，应该很容易就能找到与你设置的IP在同一个IP段的地址和对应的网卡，例如我的是<code>enp0s8</code>，地址是<code>192.168.56.2</code>(这里我已经配置好了)。我的虚拟机用的是<code>xubuntu 22.04 LTS</code>，配置静态IP地址的文件在<code>/etc/netplan/</code>下。进入文件夹以后你会看到只有一个文件，将那个文件复制一份，并添加如下内容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">enp0s3:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">enp0s8:</span></span><br><span class="line">      <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span><span class="string">/24</span>]</span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>这里<code>renderer</code>就是你使用的网络管理器的名称，我的是<code>NetworkManager</code>，<strong>不要随意更改</strong>。<code>ethernets</code>下面是每个网卡的配置，<code>enp0s3</code>和<code>enp0s8</code>改成对应的网卡名称，<code>enp0s8</code>是要配置静态IP的网卡。</p>
+<p>修改完以后执行如下命令应用更改，就能看到IP已经被修改成对应的静态IP了，此时就可以从宿主机通过静态IP访问虚拟机了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/07/07/virtualbox-static-ip/image-20230707143319329.png" class="" alt="image-20230707143319329">
+
+<img src="/2023/07/07/virtualbox-static-ip/image-20230707143355196.png" class="" alt="image-20230707143355196">
+
+<p>之后就可以将虚拟机作为跳板机访问服务器了。</p>
+<img src="/2023/07/07/virtualbox-static-ip/image-20230707143727330.png" class="" alt="image-20230707143727330">
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2023/07/07/virtualbox-static-ip/">https://blog.syize.cn/2023/07/07/virtualbox-static-ip/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2023-07-07</p></div> 
+    <div class="post-entry__tags"><a href="/tags/virtualbox/" class="post-tags__link button"># virtualbox</a><a href="/tags/ubuntu/" class="post-tags__link button"># ubuntu</a><a href="/tags/linux/" class="post-tags__link button"># linux</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2023/07/22/matplotlib-cartopy-on-click-event/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            matplotlib和Cartopy的点击取值
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2023/06/08/zotero-libreoffice/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            Zotero无法向Libreoffice插入引用错误解决
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2023 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

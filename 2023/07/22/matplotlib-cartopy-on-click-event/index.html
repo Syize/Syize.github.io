@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>matplotlib和Cartopy的点击取值 | Syize の blog</title>
+
+
+    <meta name="keywords" content="Python, Cartopy">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="最近在研究如何从卫星数据中获取雾区数据的问题，有一个大难点就是双通道法反演时如何设置阈值的问题。最直接的方法就是先画一张不设置阈值的图，然后根据坐标打印一下数值，再设置一下阈值。但是这样来来回回要重复跑很多遍代码，为了简化工作量，便研究了一下如何通过鼠标点击图片即可打印出对应点的值。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="matplotlib和Cartopy的点击取值">
+<meta property="og:url" content="https://blog.syize.cn/2023/07/22/matplotlib-cartopy-on-click-event/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="最近在研究如何从卫星数据中获取雾区数据的问题，有一个大难点就是双通道法反演时如何设置阈值的问题。最直接的方法就是先画一张不设置阈值的图，然后根据坐标打印一下数值，再设置一下阈值。但是这样来来回回要重复跑很多遍代码，为了简化工作量，便研究了一下如何通过鼠标点击图片即可打印出对应点的值。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2023/07/22/matplotlib-cartopy-on-click-event/image-20230722134307268.png">
+<meta property="og:image" content="https://blog.syize.cn/2023/07/22/matplotlib-cartopy-on-click-event/image-20230722135305939.png">
+<meta property="og:image" content="https://blog.syize.cn/2023/07/22/matplotlib-cartopy-on-click-event/image-20230722140437147.png">
+<meta property="og:image" content="https://blog.syize.cn/2023/07/22/matplotlib-cartopy-on-click-event/image-20230722141345938.png">
+<meta property="article:published_time" content="2023-07-22T05:22:40.000Z">
+<meta property="article:modified_time" content="2023-07-22T06:14:02.832Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Cartopy">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2023/07/22/matplotlib-cartopy-on-click-event/image-20230722134307268.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        matplotlib和Cartopy的点击取值
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/07/" class="post-meta__date button">2023-07-22</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/Cartopy/" class="button">Cartopy</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#matplotlib%E7%9A%84%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">matplotlib的点击事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cartopy%E5%9C%B0%E5%9B%BE%E5%8F%96%E5%80%BC"><span class="toc-number">2.</span> <span class="toc-text">Cartopy地图取值</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#matplotlib%E7%9A%84%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">matplotlib的点击事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cartopy%E5%9C%B0%E5%9B%BE%E5%8F%96%E5%80%BC"><span class="toc-number">2.</span> <span class="toc-text">Cartopy地图取值</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2023-07-22"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <p>最近在研究如何从卫星数据中获取雾区数据的问题，有一个大难点就是双通道法反演时如何设置阈值的问题。最直接的方法就是先画一张不设置阈值的图，然后根据坐标打印一下数值，再设置一下阈值。但是这样来来回回要重复跑很多遍代码，为了简化工作量，便研究了一下如何通过鼠标点击图片即可打印出对应点的值。</p>
+<span id="more"></span>
+
+<h2 id="matplotlib的点击事件"><a href="#matplotlib的点击事件" class="headerlink" title="matplotlib的点击事件"></a>matplotlib的点击事件</h2><p>在使用<code>matplotlib</code>绘图的时候，用户其实是可以定义需要事件监听函数的，例如窗口的<code>ResizeEvent</code>事件，鼠标的<code>MouseEvent</code>事件，所有的事件类型可在<a target="_blank" rel="noopener" href="https://matplotlib.org/stable/users/explain/event_handling.html">matplotlib手册</a>里找到。为了实现点击取值，我们需要定义一个回调函数来在事件触发时调用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">onClick</span>(<span class="params">event</span>):</span></span><br><span class="line">    <span class="comment"># do something</span></span><br><span class="line">    <span class="comment"># for example, print x and y coordinates</span></span><br><span class="line">    <span class="built_in">print</span>(event.xdata)</span><br><span class="line">    <span class="built_in">print</span>(event.ydata)</span><br></pre></td></tr></table></figure>
+
+<p>绑定事件也很简单，例如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">onClick</span>(<span class="params">event</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(event.xdata)</span><br><span class="line">    <span class="built_in">print</span>(event.ydata)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">data = np.random.randint(<span class="number">0</span>, <span class="number">200</span>, <span class="number">100</span>).reshape(<span class="number">10</span>, <span class="number">10</span>)</span><br><span class="line">fig = plt.figure(figsize=(<span class="number">8</span>, <span class="number">8</span>))</span><br><span class="line">plt.pcolormesh(data)</span><br><span class="line">fig.canvas.mpl_connect(<span class="string">&quot;button_press_event&quot;</span>, onClick)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>这里<code>button_press_event</code>表示鼠标的点击事件，但是没有区分右键和左键。如果想要绑定其他事件的话，需要更换该字符串。</p>
+<img src="/2023/07/22/matplotlib-cartopy-on-click-event/image-20230722134307268.png" class="" alt="image-20230722134307268">
+
+<blockquote>
+<p>打印出来的x和y的数值和图片里显示一致</p>
+</blockquote>
+<p>但是我们想要的是对应点的数值，需要用取到的坐标去数据里取对应的值。然而回调函数只能传入一个必须参数，因此这里可以对回调函数重写为一个类，并使用Python的魔术方法<code>__call__</code>使其可以被直接调用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OnClick</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, data</span>):</span></span><br><span class="line">        self.data = data</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span>(<span class="params">self, event</span>):</span></span><br><span class="line">        x = event.xdata</span><br><span class="line">        y = event.ydata</span><br><span class="line">        <span class="built_in">print</span>(self.data[<span class="built_in">int</span>(x), <span class="built_in">int</span>(y)])</span><br></pre></td></tr></table></figure>
+
+<p>需要注意这里取到的<code>x</code>和<code>y</code>坐标是浮点数，我们需要对其进行取整才能得到对应的数值的索引。于是绑定的代码改写如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fig.canvas.mpl_connect(<span class="string">&quot;button_press_event&quot;</span>, OnClick(data))</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/07/22/matplotlib-cartopy-on-click-event/image-20230722135305939.png" class="" alt="image-20230722135305939">
+
+<p>对比一下旁边的<code>colorbar</code>，深蓝色是小于25的，说明取值没有问题。</p>
+<h2 id="Cartopy地图取值"><a href="#Cartopy地图取值" class="headerlink" title="Cartopy地图取值"></a>Cartopy地图取值</h2><p>解决了<code>matplotlib</code>点击取值的问题，接下来需要解决<code>Cartopy</code>地图点击取值的问题。因为<code>Cartopy</code>在绘图时对地理坐标系进行了操作，所以回调函数取到的坐标并不是地理坐标，<em>而是图片的显示坐标</em>。简单绘制个卫星数据举个例子。</p>
+<img src="/2023/07/22/matplotlib-cartopy-on-click-event/image-20230722140437147.png" class="" alt="image-20230722140437147">
+
+<p>那么如何获取到地理坐标呢？这个时候需要使用<code>cartopy.mpl.geoaxes.GeoAxes</code>对象(也就是你的<code>ax</code>)里面的<code>projection.transform_point</code>方法。这个方法接受三个参数，分别是<code>x</code>坐标，<code>y</code>坐标以及你绘图时使用的<code>proj</code>。</p>
+<p>现在我们改写一下<code>OnClick</code>类。</p>
+<blockquote>
+<p>这里我的卫星数据是DataArray，因此取数据时需要用对应的sel方法并设置<code>method=&quot;nearest&quot;</code>以寻找符合条件的距离最近的数值点。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OnClick</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, data: DataArray, ax: GeoAxes, proj</span>):</span></span><br><span class="line">        self.data = data</span><br><span class="line">        self.ax = ax</span><br><span class="line">        self.proj = proj</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span>(<span class="params">self, event</span>):</span></span><br><span class="line">        <span class="comment"># get display coordinates</span></span><br><span class="line">        x = event.xdata</span><br><span class="line">        y = event.ydata</span><br><span class="line">        <span class="comment"># calculate the coordinates</span></span><br><span class="line">        lon, lat = self.ax.projection.transform_point(x, y, src_crs=self.proj)</span><br><span class="line">        <span class="comment"># find the nearest point</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;lon: <span class="subst">&#123;lon&#125;</span>, lat: <span class="subst">&#123;lat&#125;</span>, data: <span class="subst">&#123;self.data.sel(&#123;<span class="string">&#x27;latitude&#x27;</span>: lat, <span class="string">&#x27;longitude&#x27;</span>: lon&#125;</span>, method=&#x27;nearest&#x27;).data&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然后应用，看一下效果。</p>
+<img src="/2023/07/22/matplotlib-cartopy-on-click-event/image-20230722141345938.png" class="" alt="image-20230722141345938">
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2023/07/22/matplotlib-cartopy-on-click-event/">https://blog.syize.cn/2023/07/22/matplotlib-cartopy-on-click-event/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2023-07-22</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2023/07/07/virtualbox-static-ip/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            VirtualBox虚拟机安装aTrust并设置静态IP
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2023 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
