@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>如何在Keras中使用数据生成器(翻译) | Syize の blog</title>
+
+
+    <meta name="keywords" content="Python, Keras">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="翻译自斯坦福大学网站上的一篇文章，A detailed example of how to use data generators with Keras。主要介绍了在面对大量数据时，如果通过编写数据生成器(DataGenerator)来实现动态加载数据的功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在Keras中使用数据生成器(翻译)">
+<meta property="og:url" content="https://blog.syize.cn/2023/08/04/generators-in-keras/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="翻译自斯坦福大学网站上的一篇文章，A detailed example of how to use data generators with Keras。主要介绍了在面对大量数据时，如果通过编写数据生成器(DataGenerator)来实现动态加载数据的功能。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2023/08/04/generators-in-keras/batch-len.svg">
+<meta property="article:published_time" content="2023-08-04T14:00:03.000Z">
+<meta property="article:modified_time" content="2023-08-04T14:00:03.408Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Keras">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2023/08/04/generators-in-keras/batch-len.svg">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        如何在Keras中使用数据生成器(翻译)
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/08/" class="post-meta__date button">2023-08-04</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/Keras/" class="button">Keras</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E7%9A%84"><span class="toc-number">1.</span> <span class="toc-text">目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E"><span class="toc-number">3.</span> <span class="toc-text">声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-generator"><span class="toc-number">4.</span> <span class="toc-text">Data generator</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Keras-script"><span class="toc-number">5.</span> <span class="toc-text">Keras script</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">6.</span> <span class="toc-text">结论</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E7%9A%84"><span class="toc-number">1.</span> <span class="toc-text">目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E"><span class="toc-number">3.</span> <span class="toc-text">声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-generator"><span class="toc-number">4.</span> <span class="toc-text">Data generator</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Keras-script"><span class="toc-number">5.</span> <span class="toc-text">Keras script</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">6.</span> <span class="toc-text">结论</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2023-08-04"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <p>翻译自斯坦福大学网站上的一篇文章，<a target="_blank" rel="noopener" href="https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly">A detailed example of how to use data generators with Keras</a>。主要介绍了在面对大量数据时，如果通过编写数据生成器(DataGenerator)来实现动态加载数据的功能。</p>
+<span id="more"></span>
+
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>你是否有过由于训练数据量过大导致内存消耗太多，因此想找一个魔法般的功能来解决这个问题并且不影响已有的代码？在这个大数据的时代，”大数据”变得越来越重要。</p>
+<p>有时候即使你拥有顶配的设备，设备的内存可能也无法存放下所有的训练数据。这个时候，我们就需要寻找其他的解决方法。本篇文章将展示如何借助 Python 中高度封装的深度学习库<code>Keras</code>实现实时并发的数据生成功能，并将该功能嵌入到你的深度学习模型中。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在阅读这篇文章之前，也许你的<code>Keras</code>脚本代码结构大致如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load entire dataset</span></span><br><span class="line">X, y = np.load(<span class="string">&#x27;some_training_set_with_labels.npy&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Design model</span></span><br><span class="line">model = Sequential()</span><br><span class="line">[...] <span class="comment"># Your architecture</span></span><br><span class="line">model.<span class="built_in">compile</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Train model on your dataset</span></span><br><span class="line">model.fit(x=X, y=y)</span><br></pre></td></tr></table></figure>
+
+<p>这篇文章所涉及到的所有更改都是关于修改第5行加载数据的代码的。可以看出，原始代码存在的问题是有可能无法将所有训练使用的样本一次性全部加载进内存中。</p>
+<p>为了达到最终的目的，让我们一步一步来介绍如何搭建一个数据生成器。顺便一提，后面的代码都被尽量编写的结构清晰明了，也许很适合用在你自己的项目中。你可以直接复制粘贴，并自己补全其中省略的部分。</p>
+<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>在开始之前，让我们做一些声明以防止在后文中出现有歧义的地方。</p>
+<p>假定后面所说的<code>ID</code>代表了Python中的一个字符串，该字符串对应了一个样本。并且为了清晰的分辨不同的样本以及它们的标签，数据被以下列的方式存储：</p>
+<ol>
+<li>一个名叫<code>partition</code>的字典，其中包括<ul>
+<li><code>partition[&#39;train&#39;]</code>：存储训练集及样本对应的<code>ID</code></li>
+<li><code>partition[&#39;validation&#39;]</code>：存储测试集样本对应的<code>ID</code></li>
+</ul>
+</li>
+<li>一个名叫<code>labels</code>的字典，<code>ID</code>作为其中的<code>key</code>，<code>ID</code>对应的样本的标签作为<code>value</code>，可以通过<code>labels[ID]</code>的形式获取到样本对应的标签。</li>
+</ol>
+<p>举个例子，假设我们的训练集有三个样本，对应的<code>ID</code>分别是<code>&#39;id-1&#39;, &#39;id-2&#39;, &#39;id-3&#39;</code>，对应的标签分别是<code>0, 1, 2</code>；测试集有一个样本，<code>ID</code>为<code>id-4</code>，标签为<code>1</code>。这种情况下，<code>partition</code>和<code>labels</code>分别为</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; partition</span><br><span class="line">&#123;<span class="string">&#x27;train&#x27;</span>: [<span class="string">&#x27;id-1&#x27;</span>, <span class="string">&#x27;id-2&#x27;</span>, <span class="string">&#x27;id-3&#x27;</span>], <span class="string">&#x27;validation&#x27;</span>: [<span class="string">&#x27;id-4&#x27;</span>]&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="keyword">labels</span></span><br><span class="line">&#123;<span class="string">&#x27;id-1&#x27;</span>: <span class="number">0</span>, <span class="string">&#x27;id-2&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;id-3&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;id-4&#x27;</span>: <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外，为了践行模块化的准则，后面的<code>Keras</code>代码和自定义类会写在不同的Python文件中，文件树如下</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">folder</span>/</span><br><span class="line">├── my_classes.py</span><br><span class="line">├── keras_script.py</span><br><span class="line">└── <span class="class"><span class="keyword">data</span>/</span></span><br></pre></td></tr></table></figure>
+
+<p>其中<code>data/</code>是存放数据集的目录。</p>
+<p>最后的最后，本文中的代码编写尽量保证了泛用性和最简化，因此你应该可以轻易的将其更改以适用于你自己的数据集。</p>
+<h2 id="Data-generator"><a href="#Data-generator" class="headerlink" title="Data generator"></a>Data generator</h2><p>现在，我们真正开始编写Python类<code>DataGenerator</code>，并将其用于<code>Keras</code>模型中来实时提供训练数据。</p>
+<p>首先我们需要编写类的初始化函数，我们将<code>DataGenerator</code>设计为<code>keras.utils.Sequence</code>的子类以便可以使用其某些便捷的特性例如<em>多进程</em>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, list_IDs, labels, batch_size=<span class="number">32</span>, dim=(<span class="params"><span class="number">32</span>,<span class="number">32</span>,<span class="number">32</span></span>), n_channels=<span class="number">1</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">             n_classes=<span class="number">10</span>, shuffle=<span class="literal">True</span></span>):</span></span><br><span class="line">    <span class="string">&#x27;Initialization&#x27;</span></span><br><span class="line">    self.dim = dim</span><br><span class="line">    self.batch_size = batch_size</span><br><span class="line">    self.labels = labels</span><br><span class="line">    self.list_IDs = list_IDs</span><br><span class="line">    self.n_channels = n_channels</span><br><span class="line">    self.n_classes = n_classes</span><br><span class="line">    self.shuffle = shuffle</span><br><span class="line">    self.on_epoch_end()</span><br></pre></td></tr></table></figure>
+
+<p>初始化函数接受很多重要的参数，例如数据的<code>ID</code>(<code>list_IDs</code>)和对应的标签<code>labels</code>，数据的维度大小<code>dim</code>(例如三维、大小是<code>32×32×32</code>的数据为<code>dims=(32, 32)</code>)，数据的通道数<code>n_channels</code>(处理图像数据等多通道数据时很有用)，数据的种类数<code>n_classes</code>，训练使用的数据块(<code>batch</code>)的大小<code>batch_size</code>，以及生成数据时是否打乱数据<code>shuffle</code>。</p>
+<p>最后调用的方法<code>on_epoch_end</code>会在类初始化以及每次训练周期(<code>epoch</code>)结束时调用，用来生成取数据<code>ID</code>使用的索引。如果<code>shuffle=True</code>，则会打乱每次生成的索引。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">on_epoch_end</span>(<span class="params">self</span>):</span></span><br><span class="line">  <span class="string">&#x27;Updates indexes after each epoch&#x27;</span></span><br><span class="line">  self.indexes = np.arange(<span class="built_in">len</span>(self.list_IDs))</span><br><span class="line">  <span class="keyword">if</span> self.shuffle == <span class="literal">True</span>:</span><br><span class="line">      np.random.shuffle(self.indexes)</span><br></pre></td></tr></table></figure>
+
+<p>打乱索引是为了在每次训练周期向模型喂数据时保证喂的数据是不那么相似的，能够保证最后训练出来的模型更加健壮。</p>
+<p>另外一个关键的函数是<code>__data_generation</code>，这个函数的工作便是生成每次训练使用的<code>batch</code>，它接受一个参数<code>list_IDs_temp</code>，这个列表包含了用于生成<code>batch</code>的样本的<code>ID</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__data_generation</span>(<span class="params">self, list_IDs_temp</span>):</span></span><br><span class="line">  <span class="string">&#x27;Generates data containing batch_size samples&#x27;</span> <span class="comment"># X : (n_samples, *dim, n_channels)</span></span><br><span class="line">  <span class="comment"># Initialization</span></span><br><span class="line">  X = np.empty((self.batch_size, *self.dim, self.n_channels))</span><br><span class="line">  y = np.empty((self.batch_size), dtype=<span class="built_in">int</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Generate data</span></span><br><span class="line">  <span class="keyword">for</span> i, ID <span class="keyword">in</span> <span class="built_in">enumerate</span>(list_IDs_temp):</span><br><span class="line">      <span class="comment"># Store sample</span></span><br><span class="line">      X[i,] = np.load(<span class="string">&#x27;data/&#x27;</span> + ID + <span class="string">&#x27;.npy&#x27;</span>)</span><br><span class="line"></span><br><span class="line">      <span class="comment"># Store class</span></span><br><span class="line">      y[i] = self.labels[ID]</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> X, keras.utils.to_categorical(y, num_classes=self.n_classes)</span><br></pre></td></tr></table></figure>
+
+<p>这个函数会实时的读取对应样本的<code>npy</code>文件。由于我们的代码对多进程友好，因此你可以在这里做更多更复杂的工作而无需担心数据的生成成为训练过程中的瓶颈(感觉瓶颈变成磁盘IO了)。</p>
+<p>这里我们还使用了<code>Keras</code>的<code>keras.utils.to_categorical</code>函数来把存储在<code>y</code>中的数字标签转化为了适用于分类的二进制的形式(举个例子，对于6分类的问题，标签<code>3</code>对应的形式为<code>001000</code>)。</p>
+<p>下面我们将上面提到的三个部分整合到一起我们首先需要实现获取训练时当前<code>batch</code>的索引的功能(即这是所有<code>batch</code>中的第几个<code>batch</code>)。这个功能我们通过魔术方法<code>__len__</code>实现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span></span><br><span class="line">  <span class="string">&#x27;Denotes the number of batches per epoch&#x27;</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">int</span>(np.floor(<span class="built_in">len</span>(self.list_IDs) / self.batch_size))</span><br></pre></td></tr></table></figure>
+
+<p>通常这个长度的计算公式如下</p>
+<img src="/2023/08/04/generators-in-keras/batch-len.svg" class="">
+
+<p>这样在每次训练周期模型最多遍历所有<code>batch</code>一次。</p>
+<p>当模型利用<code>index</code>取对应的<code>batch</code>时，<code>DataGenerator</code>需要可以返回对应的<code>batch</code>，这个功能通过魔术方法<code>__getitem__</code>实现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span>(<span class="params">self, index</span>):</span></span><br><span class="line">  <span class="string">&#x27;Generate one batch of data&#x27;</span></span><br><span class="line">  <span class="comment"># Generate indexes of the batch</span></span><br><span class="line">  indexes = self.indexes[index*self.batch_size:(index+<span class="number">1</span>)*self.batch_size]</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Find list of IDs</span></span><br><span class="line">  list_IDs_temp = [self.list_IDs[k] <span class="keyword">for</span> k <span class="keyword">in</span> indexes]</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Generate data</span></span><br><span class="line">  X, y = self.__data_generation(list_IDs_temp)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> X, y</span><br></pre></td></tr></table></figure>
+
+<p>将上面的代码整合如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> keras</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DataGenerator</span>(<span class="params">keras.utils.<span class="type">Sequence</span></span>):</span></span><br><span class="line">    <span class="string">&#x27;Generates data for Keras&#x27;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, list_IDs, labels, batch_size=<span class="number">32</span>, dim=(<span class="params"><span class="number">32</span>,<span class="number">32</span>,<span class="number">32</span></span>), n_channels=<span class="number">1</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">                 n_classes=<span class="number">10</span>, shuffle=<span class="literal">True</span></span>):</span></span><br><span class="line">        <span class="string">&#x27;Initialization&#x27;</span></span><br><span class="line">        self.dim = dim</span><br><span class="line">        self.batch_size = batch_size</span><br><span class="line">        self.labels = labels</span><br><span class="line">        self.list_IDs = list_IDs</span><br><span class="line">        self.n_channels = n_channels</span><br><span class="line">        self.n_classes = n_classes</span><br><span class="line">        self.shuffle = shuffle</span><br><span class="line">        self.on_epoch_end()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&#x27;Denotes the number of batches per epoch&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">int</span>(np.floor(<span class="built_in">len</span>(self.list_IDs) / self.batch_size))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span>(<span class="params">self, index</span>):</span></span><br><span class="line">        <span class="string">&#x27;Generate one batch of data&#x27;</span></span><br><span class="line">        <span class="comment"># Generate indexes of the batch</span></span><br><span class="line">        indexes = self.indexes[index*self.batch_size:(index+<span class="number">1</span>)*self.batch_size]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Find list of IDs</span></span><br><span class="line">        list_IDs_temp = [self.list_IDs[k] <span class="keyword">for</span> k <span class="keyword">in</span> indexes]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Generate data</span></span><br><span class="line">        X, y = self.__data_generation(list_IDs_temp)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> X, y</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_epoch_end</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&#x27;Updates indexes after each epoch&#x27;</span></span><br><span class="line">        self.indexes = np.arange(<span class="built_in">len</span>(self.list_IDs))</span><br><span class="line">        <span class="keyword">if</span> self.shuffle == <span class="literal">True</span>:</span><br><span class="line">            np.random.shuffle(self.indexes)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__data_generation</span>(<span class="params">self, list_IDs_temp</span>):</span></span><br><span class="line">        <span class="string">&#x27;Generates data containing batch_size samples&#x27;</span> <span class="comment"># X : (n_samples, *dim, n_channels)</span></span><br><span class="line">        <span class="comment"># Initialization</span></span><br><span class="line">        X = np.empty((self.batch_size, *self.dim, self.n_channels))</span><br><span class="line">        y = np.empty((self.batch_size), dtype=<span class="built_in">int</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Generate data</span></span><br><span class="line">        <span class="keyword">for</span> i, ID <span class="keyword">in</span> <span class="built_in">enumerate</span>(list_IDs_temp):</span><br><span class="line">            <span class="comment"># Store sample</span></span><br><span class="line">            X[i,] = np.load(<span class="string">&#x27;data/&#x27;</span> + ID + <span class="string">&#x27;.npy&#x27;</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Store class</span></span><br><span class="line">            y[i] = self.labels[ID]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> X, keras.utils.to_categorical(y, num_classes=self.n_classes)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Keras-script"><a href="#Keras-script" class="headerlink" title="Keras script"></a>Keras script</h2><p>现在我们需要修改<code>Keras</code>代码以使其可以使用我们定义好的生成器。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential</span><br><span class="line"><span class="keyword">from</span> my_classes <span class="keyword">import</span> DataGenerator</span><br><span class="line"></span><br><span class="line"><span class="comment"># Parameters</span></span><br><span class="line">params = &#123;<span class="string">&#x27;dim&#x27;</span>: (<span class="number">32</span>,<span class="number">32</span>,<span class="number">32</span>),</span><br><span class="line">          <span class="string">&#x27;batch_size&#x27;</span>: <span class="number">64</span>,</span><br><span class="line">          <span class="string">&#x27;n_classes&#x27;</span>: <span class="number">6</span>,</span><br><span class="line">          <span class="string">&#x27;n_channels&#x27;</span>: <span class="number">1</span>,</span><br><span class="line">          <span class="string">&#x27;shuffle&#x27;</span>: <span class="literal">True</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Datasets</span></span><br><span class="line">partition = <span class="comment"># IDs</span></span><br><span class="line">labels = <span class="comment"># Labels</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Generators</span></span><br><span class="line">training_generator = DataGenerator(partition[<span class="string">&#x27;train&#x27;</span>], labels, **params)</span><br><span class="line">validation_generator = DataGenerator(partition[<span class="string">&#x27;validation&#x27;</span>], labels, **params)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Design model</span></span><br><span class="line">model = Sequential()</span><br><span class="line">[...] <span class="comment"># Architecture</span></span><br><span class="line">model.<span class="built_in">compile</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Train model on dataset</span></span><br><span class="line">model.fit_generator(generator=training_generator,</span><br><span class="line">                    validation_data=validation_generator,</span><br><span class="line">                    use_multiprocessing=<span class="literal">True</span>,</span><br><span class="line">                    workers=<span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如你所见，我们使用了<code>model.fit_generator</code>方法，该方法可以接受我们构造的生成器，接下来的事情<code>Keras</code>会帮我们搞定！</p>
+<p>另外需要注意的是，我们将<code>use_multiprocessing</code>设置为<code>True</code>来启用了多进程的特性，使用的进程数在<code>workers</code>那里进行了指定。如果你的<code>workers</code>设置的足够高，那么你的CPU就会努力的工作，这样训练的瓶颈就只会在GPU对神经网络的误差进行传播的过程中(而不是数据的生成)。(还有磁盘IO啦)</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>没了，就这些。现在运行你的<code>Keras</code>脚本，你就会发现你的CPU和GPU同时在工作。你还可以到<a target="_blank" rel="noopener" href="https://github.com/shervinea/enzynet">GitHub</a>上看一看将此生成器应用到具体个例上的代码，<a target="_blank" rel="noopener" href="https://github.com/shervinea/enzynet/blob/master/enzynet/volume.py#L24">data generation</a>和<a target="_blank" rel="noopener" href="https://github.com/shervinea/enzynet/blob/master/scripts/architecture/enzynet_adapted.py">Keras脚本</a>都在哟。</p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2023/08/04/generators-in-keras/">https://blog.syize.cn/2023/08/04/generators-in-keras/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2023-08-04</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Keras/" class="post-tags__link button"># Keras</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2023/07/22/matplotlib-cartopy-on-click-event/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            matplotlib和Cartopy的点击取值
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2023 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
