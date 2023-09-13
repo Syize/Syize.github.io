@@ -152,6 +152,52 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
+        如何在Keras中使用数据生成器(翻译)
+    </h2>
+    
+        <p>翻译自斯坦福大学网站上的一篇文章，<a target="_blank" rel="noopener" href="https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly">A detailed example of how to use data generators with Keras</a>。主要介绍了在面对大量数据时，如何通过编写数据生成器(DataGenerator)来实现动态加载数据的功能。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2023/08/" class="post-meta__date button">2023-08-04</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/Keras/" class="button">Keras</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Keras/" class="post-tags__link button"># Keras</a></div> 
+<a href="/2023/08/04/generators-in-keras/" class="post-entry__link">如何在Keras中使用数据生成器(翻译)</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        matplotlib和Cartopy的点击取值
+    </h2>
+    
+        <p>最近在研究如何从卫星数据中获取雾区数据的问题，有一个大难点就是双通道法反演时如何设置阈值的问题。最直接的方法就是先画一张不设置阈值的图，然后根据坐标打印一下数值，再设置一下阈值。但是这样来来回回要重复跑很多遍代码，为了简化工作量，便研究了一下如何通过鼠标点击图片即可打印出对应点的值。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2023/07/" class="post-meta__date button">2023-07-22</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/Cartopy/" class="button">Cartopy</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a></div> 
+<a href="/2023/07/22/matplotlib-cartopy-on-click-event/" class="post-entry__link">matplotlib和Cartopy的点击取值</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
         xarray中合并nc文件导致数据的数值改变/出现nan
     </h2>
     
@@ -170,6 +216,27 @@
 </div>
 <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
 <a href="/2023/07/09/xarray-open-mfdataset-value-change/" class="post-entry__link">xarray中合并nc文件导致数据的数值改变/出现nan</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        pyart中关于线性规划部分代码的疑问
+    </h2>
+    
+        <p>我画大饼说这个周末就要改完本科论文的，结果 <code>pyart</code> 的线性规划部分的函数越看越迷惑，写一篇帮自己梳理一下。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2023/03/" class="post-meta__date button">2023-03-22</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/pyart/" class="post-tags__link button"># pyart</a></div> 
+<a href="/2023/03/22/pyart-lp/" class="post-entry__link">pyart中关于线性规划部分代码的疑问</a>
                 </div>
             
                 <div class='post-entry content-card'>
@@ -307,81 +374,6 @@
 </div>
 <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/PyQt/" class="post-tags__link button"># PyQt</a></div> 
 <a href="/2022/06/11/Lily-radar-painter/" class="post-entry__link">PyQt与matplotlib-画图软件(一)：前篇</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        MDFS格式数据转换
-    </h2>
-    
-        <p>最近要读取 MDFS 格式的气象站点数据在 Python 中使用，但是由于其数据格式不是标准的 JSON ，需要用脚本进行转换。于是我去学校网站下载了一个写好的 Python 脚本，但是运行一遍之后发现不仅需要我额外下载 JSON 的库，而且转换一个文件竟然要 <strong>368秒</strong> ？？？</p>
-<p>为了提升效率，我就用 C + Cython 写了一个速度更快的。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/04/" class="post-meta__date button">2022-04-22</a>
-    
-    <span class="separate-dot"></span><a href="/categories/Cython/" class="button">Cython</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/C/" class="post-tags__link button"># C</a><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cython/" class="post-tags__link button"># Cython</a></div> 
-<a href="/2022/04/22/MDFS-data/" class="post-entry__link">MDFS格式数据转换</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        Cpywpa：控制 wpa 的另一个工具
-    </h2>
-    
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>其实我很久之前就想用 Python 来控制 Linux 的 WiFi 了。由于 Linux 基本都是用 wpa 来连接 WiFi 的 (<del>iwd 也挺好用的</del>)，所以控制了 wpa (以下我就这么简称了) 就能控制 WiFi。</p>
-<p>我以前在 Ubuntu 上试过 pywifi，Windows 上是可以正常工作的，但是我的 Ubuntu 就不行。由于是大一时候的事情了，我也就懒得再深究原因。最近几个月断断续续的在 Github 和 Google 上找了好久，都没有搜索到符合我要求的包：</p>
-<ul>
-<li>使用 wpa 的官方接口</li>
-</ul>
-<p>于是我就索性自己写了一个。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/01/" class="post-meta__date button">2022-01-30</a>
-    
-    <span class="separate-dot"></span><a href="/categories/Cython/" class="button">Cython</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cython/" class="post-tags__link button"># Cython</a><a href="/tags/Linux/" class="post-tags__link button"># Linux</a><a href="/tags/wpa-supplicant/" class="post-tags__link button"># wpa_supplicant</a></div> 
-<a href="/2022/01/30/Cpywpa/" class="post-entry__link">Cpywpa：控制 wpa 的另一个工具</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        Cython 学习和使用
-    </h2>
-    
-        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><blockquote>
-<p><strong>长期更新</strong></p>
-<p>强烈建议亲手编写代码进行操作</p>
-</blockquote>
-<p>最近想写一些用 Python 控制 wpa_supplicant 的程序，然而找到的轮子似乎都是通过 d-Bus 实现的，没有用官方提供的接口的 (也许是因为只提供了 C 的接口吧)。于是想自己通过 Cython 在 Python 中调用这些接口，无奈 Cython 水平太低，只好再学学 Cython。</p>
-<p>通过 Google 搜到了一本英文的手册：《Cython: A Guide for Python Programmers》，在此记录学习过程做备忘。</p>
-<p>这篇文章会一直更新，直到我看完这本书为止，至于什么时候更新嘛，咳咳….应该不会一直拖着不更，考完了研，人就是闲</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2021/12/" class="post-meta__date button">2021-12-26</a>
-    
-    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/C/" class="post-tags__link button"># C</a><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cython/" class="post-tags__link button"># Cython</a></div> 
-<a href="/2021/12/26/read-cython-and-learn/" class="post-entry__link">Cython 学习和使用</a>
                 </div>
             
         
