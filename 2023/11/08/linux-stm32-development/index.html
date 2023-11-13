@@ -48,12 +48,13 @@
 <meta property="og:image" content="https://blog.syize.cn/2023/11/08/linux-stm32-development/image-20231108113034111.png">
 <meta property="og:image" content="https://blog.syize.cn/2023/11/08/linux-stm32-development/image-20231108113913588.png">
 <meta property="og:image" content="https://blog.syize.cn/2023/11/08/linux-stm32-development/image-20231108115041323.png">
+<meta property="og:image" content="https://blog.syize.cn/2023/11/08/linux-stm32-development/image-20231113163343237.png">
 <meta property="og:image" content="https://blog.syize.cn/2023/11/08/linux-stm32-development/image-20231108115401755.png">
 <meta property="og:image" content="https://blog.syize.cn/2023/11/08/linux-stm32-development/image-20231108120317877.png">
 <meta property="og:image" content="https://blog.syize.cn/2023/11/08/linux-stm32-development/image-20231108120452911.png">
 <meta property="og:image" content="https://blog.syize.cn/2023/11/08/linux-stm32-development/image-20231108120824153.png">
 <meta property="article:published_time" content="2023-11-08T05:10:56.000Z">
-<meta property="article:modified_time" content="2023-11-08T05:10:56.624Z">
+<meta property="article:modified_time" content="2023-11-13T10:16:38.512Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="STM32">
@@ -176,7 +177,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">安装软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEudev"><span class="toc-number">2.</span> <span class="toc-text">设置udev</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%B9%E7%9B%AE"><span class="toc-number">3.</span> <span class="toc-text">初始化项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E6%95%B4%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">调整项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99CMakeLists-txt"><span class="toc-number">5.</span> <span class="toc-text">编写CMakeLists.txt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%83%A7%E5%BD%95"><span class="toc-number">6.</span> <span class="toc-text">烧录</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">安装软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEudev"><span class="toc-number">2.</span> <span class="toc-text">设置udev</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%B9%E7%9B%AE"><span class="toc-number">3.</span> <span class="toc-text">初始化项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%97%B6%E9%92%9F%E6%BA%90"><span class="toc-number">3.1.</span> <span class="toc-text">设置时钟源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEGPIO%E5%BC%95%E8%84%9A"><span class="toc-number">3.2.</span> <span class="toc-text">设置GPIO引脚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.3.</span> <span class="toc-text">项目设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E6%95%B4%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">调整项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99CMakeLists-txt"><span class="toc-number">5.</span> <span class="toc-text">编写CMakeLists.txt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%83%A7%E5%BD%95"><span class="toc-number">6.</span> <span class="toc-text">烧录</span></a></li></ol>
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -186,7 +187,7 @@
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">安装软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEudev"><span class="toc-number">2.</span> <span class="toc-text">设置udev</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%B9%E7%9B%AE"><span class="toc-number">3.</span> <span class="toc-text">初始化项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E6%95%B4%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">调整项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99CMakeLists-txt"><span class="toc-number">5.</span> <span class="toc-text">编写CMakeLists.txt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%83%A7%E5%BD%95"><span class="toc-number">6.</span> <span class="toc-text">烧录</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">安装软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEudev"><span class="toc-number">2.</span> <span class="toc-text">设置udev</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%B9%E7%9B%AE"><span class="toc-number">3.</span> <span class="toc-text">初始化项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%97%B6%E9%92%9F%E6%BA%90"><span class="toc-number">3.1.</span> <span class="toc-text">设置时钟源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEGPIO%E5%BC%95%E8%84%9A"><span class="toc-number">3.2.</span> <span class="toc-text">设置GPIO引脚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.3.</span> <span class="toc-text">项目设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E6%95%B4%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">调整项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99CMakeLists-txt"><span class="toc-number">5.</span> <span class="toc-text">编写CMakeLists.txt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%83%A7%E5%BD%95"><span class="toc-number">6.</span> <span class="toc-text">烧录</span></a></li></ol>
     </div>
 
 
@@ -199,7 +200,7 @@
     </div>
     <script>
         (() => {
-            var update = Date.parse("2023-11-08"),
+            var update = Date.parse("2023-11-13"),
                 date = new Date(),
                 now = date.getTime(),
                 expire = now - update,
@@ -257,7 +258,12 @@
 <p>然后点击新建项目。首先输入自己板子的型号，然后双击选择对应的板子</p>
 <img src="/2023/11/08/linux-stm32-development/image-20231108115041323.png" class="" alt="image-20231108115041323">
 
-<p>然后在<code>Project Manager</code>里面设置项目的名称之类的。<code>Toolchain / IDE</code>可以选<code>Makefile</code>，后面可以根据<code>Makefile</code>编写<code>CMake</code>的规则。</p>
+<h3 id="设置时钟源"><a href="#设置时钟源" class="headerlink" title="设置时钟源"></a>设置时钟源</h3><p>我用的这个板子推荐频率是72MHz。为了能够之后不再设置，所以预先在<code>stm32cubemx</code>里面设置一下，后面就不用手动再设置时钟了。</p>
+<p>点击<code>System Core -&gt; RCC</code>，<code>High Speed Clock (HSE)</code>选择<code>Crystal/Ceramic Resonator</code>，然后在<code>Clock Configuration</code>页面设置时钟源、分频和倍频。</p>
+<img src="/2023/11/08/linux-stm32-development/image-20231113163343237.png" class="" alt="image-20231113163343237">
+
+<h3 id="设置GPIO引脚"><a href="#设置GPIO引脚" class="headerlink" title="设置GPIO引脚"></a>设置GPIO引脚</h3><p>如果使用按键、LED灯的话，是需要初始化对应的GPIO引脚的。可以选择在<code>stm32cubemx</code>中一并预先设置好，或者生成代码以后自己再设置，反正都差不多。这里不再多说。</p>
+<h3 id="项目设置"><a href="#项目设置" class="headerlink" title="项目设置"></a>项目设置</h3><p>然后在<code>Project Manager</code>里面设置项目的名称之类的。<code>Toolchain / IDE</code>可以选<code>Makefile</code>，后面可以根据<code>Makefile</code>编写<code>CMake</code>的规则。</p>
 <img src="/2023/11/08/linux-stm32-development/image-20231108115401755.png" class="" alt="image-20231108115401755">
 
 <p><code>Code Generator</code>这里可以选仅复制必要的库文件，这样库文件量会少很多。</p>
@@ -312,7 +318,7 @@
         
     </div>
  
-    <div class="post-footer__meta"><p>updated at 2023-11-08</p></div> 
+    <div class="post-footer__meta"><p>updated at 2023-11-13</p></div> 
     <div class="post-entry__tags"><a href="/tags/Linux/" class="post-tags__link button"># Linux</a><a href="/tags/STM32/" class="post-tags__link button"># STM32</a></div> 
 </article>
 
