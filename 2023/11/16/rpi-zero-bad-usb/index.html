@@ -47,7 +47,7 @@
 <meta property="og:image" content="https://blog.syize.cn/2023/11/16/rpi-zero-bad-usb/image-20231116200218574.png">
 <meta property="og:image" content="https://blog.syize.cn/2023/11/16/rpi-zero-bad-usb/image-20231116200442833.png">
 <meta property="article:published_time" content="2023-11-16T12:05:14.000Z">
-<meta property="article:modified_time" content="2023-11-16T12:05:14.421Z">
+<meta property="article:modified_time" content="2023-11-16T12:12:37.762Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -214,6 +214,8 @@
 <li><code>/boot/config.txt</code>，在最后一行加入<code>dtoverlay=dwc2</code>。</li>
 <li><code>/boot/cmdline.txt</code>：在<code>rootwait</code>后面加上<code>modules-load=dwc2,g_ether</code>(<strong>注意要与rootwait之间相隔一个空格</strong>)</li>
 <li><code>/etc/modules</code>：在最后一行加入<code>libcomposite</code></li>
+<li><code>/etc/network/interfaces.d/usb0.conf</code>：创建文件并加入<code>iface usb0 inet manual</code></li>
+<li><code>/etc/network/interfaces.d/usb1.conf</code>：创建文件并加入<code>iface usb1 inet manual</code></li>
 </ul>
 <p>然后需要安装依赖库<code>dnsmasq</code>，我们需要使用它来充当DHCP服务器。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install dnsmasq</span><br></pre></td></tr></table></figure>
