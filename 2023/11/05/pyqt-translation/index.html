@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>PyQt中的国际化问题 | Syize の blog</title>
+
+
+    <meta name="keywords" content="Python, PyQt">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="最近自己搞的海雾识别可视化界面已经基本完善可用了，唯一的不足就是没有弄国际化。因为网上有关 PyQt 国际化的示例实在是太不全了，方法五花八门，甚至连 Stack Overflow 上都没有很好的解决方法。经过自己的不断搜索，以及阅读 PyQt 上的手册，终于搞明白了 PyQt5 和 PyQt6 两个版本 PyQt 国际化的方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PyQt中的国际化问题">
+<meta property="og:url" content="https://blog.syize.cn/2023/11/05/pyqt-translation/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="最近自己搞的海雾识别可视化界面已经基本完善可用了，唯一的不足就是没有弄国际化。因为网上有关 PyQt 国际化的示例实在是太不全了，方法五花八门，甚至连 Stack Overflow 上都没有很好的解决方法。经过自己的不断搜索，以及阅读 PyQt 上的手册，终于搞明白了 PyQt5 和 PyQt6 两个版本 PyQt 国际化的方法。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2023/11/05/pyqt-translation/image-20231105205151967.png">
+<meta property="article:published_time" content="2023-11-05T13:48:31.000Z">
+<meta property="article:modified_time" content="2024-08-27T02:03:27.205Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="PyQt">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2023/11/05/pyqt-translation/image-20231105205151967.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        PyQt中的国际化问题
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/11/" class="post-meta__date button">2023-11-05</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PyQt5"><span class="toc-number">1.</span> <span class="toc-text">PyQt5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PyQt6"><span class="toc-number">2.</span> <span class="toc-text">PyQt6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%9B%B4%E6%94%B9%E8%AF%AD%E8%A8%80"><span class="toc-number">3.</span> <span class="toc-text">动态更改语言</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PyQt5"><span class="toc-number">1.</span> <span class="toc-text">PyQt5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PyQt6"><span class="toc-number">2.</span> <span class="toc-text">PyQt6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%9B%B4%E6%94%B9%E8%AF%AD%E8%A8%80"><span class="toc-number">3.</span> <span class="toc-text">动态更改语言</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2024-08-27"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <p>最近自己搞的海雾识别可视化界面已经基本完善可用了，唯一的不足就是没有弄国际化。因为网上有关 PyQt 国际化的示例实在是太不全了，方法五花八门，甚至连 Stack Overflow 上都没有很好的解决方法。经过自己的不断搜索，以及阅读 PyQt 上的手册，终于搞明白了 PyQt5 和 PyQt6 两个版本 PyQt 国际化的方法。</p>
+<img src="/2023/11/05/pyqt-translation/image-20231105205151967.png" class="" alt="image-20231105205151967">
+
+<span id="more"></span>
+
+<h2 id="PyQt5"><a href="#PyQt5" class="headerlink" title="PyQt5"></a>PyQt5</h2><p>PyQt5 中搞国际化稍微简单一点。首先需要将所有需要翻译的文本传入<code>QCoreApplication.translate</code>函数，该函数将会根据安装的语言包将文本翻译为对应语言的文本并返回。该函数接受两个参数，第一个参数 context 传入文本所在类的类名即可，第二个参数是需要翻译的文本。示例代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PyQt5.QtCore <span class="keyword">import</span> QCoreApplication</span><br><span class="line"><span class="keyword">from</span> PyQt5.QtWidgets <span class="keyword">import</span> QMainWindow</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainWindow</span>(<span class="params">QMainWindow</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="comment"># 为了减少代码量，将 self._translate 设为 QCoreApplication.translate</span></span><br><span class="line">        <span class="comment"># 需要注意的是，pylupdate5 转换脚本是通过检测&quot;translate&quot;和&quot;_translate&quot;关键字来抓取代码中的翻译文本的，</span></span><br><span class="line">        <span class="comment"># 因此如果不将 QCoreApplication.translate 重命名为以上两个名字的话，最后生成的TS文件中是不会包含对应的文本的。</span></span><br><span class="line">        <span class="comment"># 有兴趣可以自己尝试一下</span></span><br><span class="line">        self._translate = QCoreApplication.translate</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">slot_function</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(self._translate(<span class="string">&quot;MainWindow&quot;</span>, <span class="string">&quot;Who&#x27;s your daddy&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>然后还需要准备一个<code>.pro</code>文件，类似于C++ Qt。<code>SOURCES</code>后面写上所有需要抓取翻译文本的<strong>Python文件</strong>。实测<code>.ui</code>文件是不可以的。<code>TRANSLATIONS</code>后面写上生成哪些翻译文件，也可以写多个。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SOURCES += <span class="regexp">/path/</span>to<span class="regexp">/Python/</span>scripts \</span><br><span class="line">           <span class="regexp">/other/</span>scripts</span><br><span class="line">           </span><br><span class="line">TRANSLATIONS += <span class="regexp">/path/</span>to<span class="regexp">/ts/</span><span class="keyword">file</span> \</span><br><span class="line">                <span class="regexp">/other/</span>path<span class="regexp">/to/</span>ts/<span class="keyword">file</span></span><br></pre></td></tr></table></figure>
+
+<p>然后在命令行中运行<code>pylupdate5</code>脚本即可生成TS翻译文件。例如上面的<code>.pro</code>文件我们保存为<code>test.pro</code>，则运行的命令为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pylupdate5 test.pro</span><br></pre></td></tr></table></figure>
+
+<p>然后在对应的路径下即可看到生成的TS文件。当代码中的文本发生变化时，只需要再次运行上面的命令重新生成TS文件即可，已存在的翻译不会被覆盖掉。</p>
+<h2 id="PyQt6"><a href="#PyQt6" class="headerlink" title="PyQt6"></a>PyQt6</h2><p>PyQt6 中对应的<code>pylupdate6</code>更改了作用方式，不能再读取<code>.pro</code>文件了，<strong>但是可以抓取<code>.ui</code>文件中的文本了</strong>。并且在Python代码中抓取文本时检测的关键字也只有<code>&quot;translate&quot;</code>了。所以我们需要将<code>self._translate</code>改为<code>self.translate</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PyQt6.QtCore <span class="keyword">import</span> QCoreApplication</span><br><span class="line"><span class="keyword">from</span> PyQt6.QtWidgets <span class="keyword">import</span> QMainWindow</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainWindow</span>(<span class="params">QMainWindow</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="comment"># 为了减少代码量，将 self._translate 设为 QCoreApplication.translate</span></span><br><span class="line">        <span class="comment"># 需要注意的是，pylupdate5 转换脚本是通过检测&quot;translate&quot;和&quot;_translate&quot;关键字来抓取代码中的翻译文本的，</span></span><br><span class="line">        <span class="comment"># 因此如果不将 QCoreApplication.translate 重命名为以上两个名字的话，最后生成的TS文件中是不会包含对应的文本的。</span></span><br><span class="line">        <span class="comment"># 有兴趣可以自己尝试一下</span></span><br><span class="line">        self.translate = QCoreApplication.translate</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">slot_function</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(self.translate(<span class="string">&quot;MainWindow&quot;</span>, <span class="string">&quot;Who&#x27;s your daddy&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>然后运行以下命令生成对应的TS文件。例如上面的代码保存到<code>mainwindow.py</code>，我们要生成<code>zh_hans.ts</code>文件，则命令为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pylupdate6 --ts /path/to/zh_hans.ts /path/to/mainwindow.py /path/to/other/Python/scripts /path/to/other/ui/file</span><br></pre></td></tr></table></figure>
+
+<p>你可以将其他的Python文件、<code>.ui</code>文件跟在后面。后面每次更改文本时，都需要重新运行上面的命令，<strong>并且后面传入的Python、<code>.ui</code>文件不能缺少</strong>，否则在更新TS文件时如果<code>pylupdate6</code>没有找到文本的来源，会将文本标记为废弃状态。这样的话在 PyQt6 中生成多种语言的TS文件时稍微有些麻烦，因为需要手动运行多次命令，命令的长度也比较长。</p>
+<h2 id="动态更改语言"><a href="#动态更改语言" class="headerlink" title="动态更改语言"></a>动态更改语言</h2><p>PyQt 中似乎没有与切换语言相关的事件，因此更改语言的逻辑都需要自己编写。整体的思路就是在用户选择一个新的语言后，读取并安装一个新的语言包，并向其他所有UI界面发送信号让它们强制刷新一次UI界面(例如调用<code>self.ui.retranslateUi(self)</code>)。这里我以 PyQt5 作为例子。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PyQt5.QtCore <span class="keyword">import</span> pyqtSignal, QTranslator</span><br><span class="line"><span class="keyword">from</span> PyQt5.QtWidgets <span class="keyword">import</span> QMainWindow, QApplication</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Setting</span>(<span class="params">QMainWindow</span>):</span></span><br><span class="line">    </span><br><span class="line">    signal_change_language = pyqtSignal()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="comment"># 初始化 Translator</span></span><br><span class="line">        self.translator = QTranslator()</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">slot_on_language_change</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="comment"># 翻译器读取新的语言包，不需要带.qm后缀</span></span><br><span class="line">        <span class="comment"># 第二个参数是放置语言包的目录路径</span></span><br><span class="line">        self.translator.load(<span class="string">&quot;zh_hans&quot;</span>, <span class="string">&quot;/path/to/qm/folder&quot;</span>)</span><br><span class="line">        <span class="comment"># 获取当前的app实例</span></span><br><span class="line">        app = QApplication.instance()</span><br><span class="line">        <span class="comment"># 安装新的翻译器</span></span><br><span class="line">        app.installTranslator(self.translator)</span><br><span class="line">        <span class="comment"># 发送信号让其他界面刷新UI</span></span><br><span class="line">        self.signal_change_language.emit()</span><br></pre></td></tr></table></figure>
+
+<p>至于如果你想让UI刷新后保存已有的更改(例如参数设置等)，你需要在接受到更改语言的信号后保存好参数的设置，然后在界面刷新后重新设置参数。</p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2023/11/05/pyqt-translation/">https://blog.syize.cn/2023/11/05/pyqt-translation/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2024-08-27</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/PyQt/" class="post-tags__link button"># PyQt</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2023/11/08/linux-stm32-development/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            Linux下STM32的开发环境配置和烧录指令
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2023/10/20/asymmetrical-colormap/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            matplotlib中非对称的Colormap
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2024 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

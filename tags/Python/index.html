@@ -152,6 +152,50 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
+        PyQt中的国际化问题
+    </h2>
+    
+        <p>最近自己搞的海雾识别可视化界面已经基本完善可用了，唯一的不足就是没有弄国际化。因为网上有关 PyQt 国际化的示例实在是太不全了，方法五花八门，甚至连 Stack Overflow 上都没有很好的解决方法。经过自己的不断搜索，以及阅读 PyQt 上的手册，终于搞明白了 PyQt5 和 PyQt6 两个版本 PyQt 国际化的方法。</p>
+<img src="/2023/11/05/pyqt-translation/image-20231105205151967.png" class="" alt="image-20231105205151967">
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2023/11/" class="post-meta__date button">2023-11-05</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/PyQt/" class="post-tags__link button"># PyQt</a></div> 
+<a href="/2023/11/05/pyqt-translation/" class="post-entry__link">PyQt中的国际化问题</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        matplotlib中非对称的Colormap
+    </h2>
+    
+        <p>女朋友说想画一个非对称的Colormap的图出来(也即0还是对应于白色，但是两侧的数值范围是不一样的)，于是就研究了一下，最后的效果如下</p>
+<img src="/2023/10/20/asymmetrical-colormap/image-20231020110103054.png" class="" alt="image-20231020110103054">
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2023/10/" class="post-meta__date button">2023-10-20</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
+<a href="/2023/10/20/asymmetrical-colormap/" class="post-entry__link">matplotlib中非对称的Colormap</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
         如何在Keras中使用数据生成器(翻译)
     </h2>
     
@@ -328,52 +372,6 @@
 </div>
 <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/PyQt/" class="post-tags__link button"># PyQt</a></div> 
 <a href="/2022/07/28/Lily-radar-painter-3/" class="post-entry__link">PyQt与matplotlib-画图软件(三)：子界面绘图</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        PyQt与matplotlib-画图软件(二)：主界面设计
-    </h2>
-    
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>昨天终于把软件给写完了，算是我有史以来做过的最大的项目了吧，今天终于能有空闲时间思考一下这个系列的博客该怎么填了。我打算贴出部分代码来展示如何从头写出一个完整的 GUI 程序，但是由于我们需要进行软著和专利的申请，绘图的核心代码就不放出了。但是各位看官放心😋，贴出的代码足够编译出一个完整的 GUI 程序。</p>
-<blockquote>
-<p>温馨提示：文章的最末尾有本节的完整代码</p>
-</blockquote>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/07/" class="post-meta__date button">2022-07-18</a>
-    
-    <span class="separate-dot"></span><a href="/categories/PyQt/" class="button">PyQt</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/PyQt/" class="post-tags__link button"># PyQt</a></div> 
-<a href="/2022/07/18/Lily-radar-painter-2/" class="post-entry__link">PyQt与matplotlib-画图软件(二)：主界面设计</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        PyQt与matplotlib-画图软件(一)：前篇
-    </h2>
-    
-        <h2 id="前前言"><a href="#前前言" class="headerlink" title="前前言"></a>前前言</h2><p>前段时间用 Python 帮某市气象局的工作人员画了一下雷达图。最近他们又来找我，想整合一下之前的画图脚本，看看能不能写出一个带有图形界面的画图程序。一来想我们几个一起申请个软著，二来他们以后画图也方便。我正好会一些 Qt，借此机会再练练手，顺便赚亿点钱花😋。</p>
-<p>今晚研究了一下怎么用 Qt 展示图片，最后做出了不错的成果，单开一贴记录一下。做完了才想起来之前也跟着教程研究过怎么用 C++ 和 Qt 写一个图片展示器，最后没有成功，不了了之，没想到现在在 Python 上竟然成功了，好耶。<del>那我之前挖的坑就不用埋了吧</del></p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/06/" class="post-meta__date button">2022-06-11</a>
-    
-    <span class="separate-dot"></span><a href="/categories/PyQt/" class="button">PyQt</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/PyQt/" class="post-tags__link button"># PyQt</a></div> 
-<a href="/2022/06/11/Lily-radar-painter/" class="post-entry__link">PyQt与matplotlib-画图软件(一)：前篇</a>
                 </div>
             
         

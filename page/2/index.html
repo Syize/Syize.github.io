@@ -149,6 +149,155 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
+        VirtualBox虚拟机安装aTrust并设置静态IP
+    </h2>
+    
+        <p>因为办公室的网络莫名其妙的不能访问同一楼层的服务器了，想要访问只能通过学校的深信服aTrust客户端。为了不让傻逼aTrust污染我台式的环境，于是给他单独建了一个虚拟机放在里面，装了一个<code>tinyproxy</code>通过代理转发访问服务器。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2023/07/" class="post-meta__date button">2023-07-07</a>
+    
+    <span class="separate-dot"></span><a href="/categories/linux/" class="button">linux</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/virtualbox/" class="post-tags__link button"># virtualbox</a><a href="/tags/ubuntu/" class="post-tags__link button"># ubuntu</a><a href="/tags/linux/" class="post-tags__link button"># linux</a></div> 
+<a href="/2023/07/07/virtualbox-static-ip/" class="post-entry__link">VirtualBox虚拟机安装aTrust并设置静态IP</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        Zotero无法向Libreoffice插入引用错误解决
+    </h2>
+    
+        <p><strong>我是真没想到这种错误都能碰上</strong></p>
+<img src="/2023/06/08/zotero-libreoffice/image-20230608153826385.png" class="" alt="image-20230608153826385">
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2023/06/" class="post-meta__date button">2023-06-08</a>
+    
+    <span class="separate-dot"></span><a href="/categories/zotero/" class="button">zotero</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/zotero/" class="post-tags__link button"># zotero</a></div> 
+<a href="/2023/06/08/zotero-libreoffice/" class="post-entry__link">Zotero无法向Libreoffice插入引用错误解决</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        pyart中关于线性规划部分代码的疑问
+    </h2>
+    
+        <p>我画大饼说这个周末就要改完本科论文的，结果 <code>pyart</code> 的线性规划部分的函数越看越迷惑，写一篇帮自己梳理一下。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2023/03/" class="post-meta__date button">2023-03-22</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/pyart/" class="post-tags__link button"># pyart</a></div> 
+<a href="/2023/03/22/pyart-lp/" class="post-entry__link">pyart中关于线性规划部分代码的疑问</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        为雷达 PPI 图像添加地图底图
+    </h2>
+    
+        <p>昨天开始改本科论文，发现了一个问题：如何给自己绘制的雷达 PPI 图添加上地图底图。</p>
+<p>画地图底图的话肯定是用 <code>Cartopy</code> 或者是 <code>cnmaps</code> 来画，但是问题是<strong>雷达数据存放的形式是极坐标形式</strong>，而 <code>Cartopy</code> 或者 <code>cnmaps</code> 绘制地图使用的是经纬度坐标。将雷达数据由极坐标系转换为经纬度坐标系有一个小问题，就是数据量大。<code>haversine</code> 虽然可以根据两个地理位置的距离和角度计算经纬度，但是好像只能计算两个点之间的，一个一个点算的话太慢了。</p>
+<p>后来我想到的解决办法是绘制两个图层，然后分别叠加到一起。<code>matplotlib</code> 的 <code>Axes</code> 类有一个 <code>set_alpha</code> 函数可以设置背景透明度，只需要让覆盖在上面的图层背景透明，显示出下面的图，就可以达到图层叠加的目的了。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2023/01/" class="post-meta__date button">2023-01-13</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a><a href="/tags/radar/" class="post-tags__link button"># radar</a><a href="/tags/cnmaps/" class="post-tags__link button"># cnmaps</a></div> 
+<a href="/2023/01/13/plot-map-on-radar/" class="post-entry__link">为雷达 PPI 图像添加地图底图</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        EOF的模态到底tm的是什么东西？
+    </h2>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2022/10/" class="post-meta__date button">2022-10-30</a>
+    
+    <span class="separate-dot"></span><a href="/categories/EOF/" class="button">EOF</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/EOF/" class="post-tags__link button"># EOF</a></div> 
+<a href="/2022/10/30/what-the-fk-is-EOF-mode/" class="post-entry__link">EOF的模态到底tm的是什么东西？</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        在Arch上安装WRF和WPS
+    </h2>
+    
+        <p>老高让我学 <code>WRF</code>，我就装 <code>WRF</code>。装 <code>WRf</code> 的过程出现了很多问题，就开贴记录一下。</p>
+<blockquote>
+<p>WRF 版本 V4.4.1</p>
+</blockquote>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2022/10/" class="post-meta__date button">2022-10-25</a>
+    
+    <span class="separate-dot"></span><a href="/categories/WRF/" class="button">WRF</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/WRF/" class="post-tags__link button"># WRF</a></div> 
+<a href="/2022/10/25/install-wrf-on-arch/" class="post-entry__link">在Arch上安装WRF和WPS</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        2022年10月17日在海大
+    </h2>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2022/10/" class="post-meta__date button">2022-10-17</a>
+    
+    <span class="separate-dot"></span><a href="/categories/diary/" class="button">diary</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/diary/" class="post-tags__link button"># diary</a></div> 
+<a href="/2022/10/17/10-17-in-ouc/" class="post-entry__link">2022年10月17日在海大</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
         Cartopy学习使用
     </h2>
     
@@ -210,162 +359,6 @@
 </div>
 <div class="post-entry__tags"><a href="/tags/diary/" class="post-tags__link button"># diary</a></div> 
 <a href="/2022/10/10/10-10-in-ouc/" class="post-entry__link">2022年10月10日在海大</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        2022年9月30日在海大
-    </h2>
-    
-        <p>今天下午不去办公室了，直接在宿舍一边上网课一边开摆，提前放假！</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/09/" class="post-meta__date button">2022-09-30</a>
-    
-    <span class="separate-dot"></span><a href="/categories/diary/" class="button">diary</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/diary/" class="post-tags__link button"># diary</a></div> 
-<a href="/2022/09/30/9-30-in-ouc/" class="post-entry__link">2022年9月30日在海大</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        没有网络没有root权限在RHEL7上安装zsh并设置为默认shell
-    </h2>
-    
-        <p>首先当然是下载好<code>zsh</code>的安装包然后传到服务器上了。</p>
-<p>在<a target="_blank" rel="noopener" href="http://rpm.pbone.net/">这个</a>网站可以搜索所有的<code>rpm</code>包，并下载，适用于<strong>RHEL 7</strong>的<code>zsh</code>安装包下载地址如下</p>
-<p><a href="ftp5.gwdg.de/pub/opensuse/repositories/home:/fusion809/RHEL_7/x86_64/%5Bzsh-5.7-3.1.x86_64.rpm%5D(http://rpm.pbone.net/info_idpl_54810577_distro_redhatel7_com_zsh-5.7-3.1.x86_64.rpm.html)">下载地址</a></p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/09/" class="post-meta__date button">2022-09-28</a>
-    
-    <span class="separate-dot"></span><a href="/categories/Linux/" class="button">Linux</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Linux/" class="post-tags__link button"># Linux</a></div> 
-<a href="/2022/09/28/install-zsh-on-rhel7-without-root-and-network/" class="post-entry__link">没有网络没有root权限在RHEL7上安装zsh并设置为默认shell</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        2022年9月28日在海大
-    </h2>
-    
-        <p>今天又是想买自行车的一天。我从初中开始将想要一辆质量好的山地车，今天看了一下价格，美利达的，感觉价格还可以，这附近正好有一个美利达专卖店，坐公交车一个小时，青岛交通是真的不方便。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/09/" class="post-meta__date button">2022-09-28</a>
-    
-    <span class="separate-dot"></span><a href="/categories/diary/" class="button">diary</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/diary/" class="post-tags__link button"># diary</a></div> 
-<a href="/2022/09/28/9-28-in-ouc/" class="post-entry__link">2022年9月28日在海大</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        2022年9月26日在海大
-    </h2>
-    
-        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=29392945&auto=1&height=66"></iframe>
-
-<p>我发现我好像把博客当作日记本了，算了，无所谓，反正好像我到垃圾也没啥人看 (悲)</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/09/" class="post-meta__date button">2022-09-26</a>
-    
-    <span class="separate-dot"></span><a href="/categories/diary/" class="button">diary</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/diary/" class="post-tags__link button"># diary</a></div> 
-<a href="/2022/09/26/9-26-in-ouc/" class="post-entry__link">2022年9月26日在海大</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        来学校第三天
-    </h2>
-    
-        <p>说实话还有些不适应，毕竟和室友不是一个导师，所以要么自己一个人在宿舍，要么自己一个人去办公室。</p>
-<p>今天倒是没有去，想着周六了，给自己放个双休🐶 (开玩笑，研究生怎么可能有假期，在宿舍也是得看文献做作业)</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/09/" class="post-meta__date button">2022-09-24</a>
-    
-    <span class="separate-dot"></span><a href="/categories/diary/" class="button">diary</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/diary/" class="post-tags__link button"># diary</a></div> 
-<a href="/2022/09/24/new-day-in-new-school/" class="post-entry__link">来学校第三天</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        PyQt与matplotlib-画图软件(三)：子界面绘图
-    </h2>
-    
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是本系列第三篇文章，主要涉及如何将 <code>matplotlib</code> 与 <code>PyQt</code> 结合，<code>PyQt</code> 的信号以及 <code>PyQt</code> 中多线程、多进程的使用</p>
-<h2 id="回顾与完善"><a href="#回顾与完善" class="headerlink" title="回顾与完善"></a>回顾与完善</h2><p>上节中我演示了如何创建一个主界面和两个子界面并通过按钮和槽函数将三者联系到一起，以及如何为软件绑定快捷键，监听<strong>关闭事件</strong> (<code>closeEvent</code>)。现在我们想让用户打开子界面时主界面会隐藏起来，在关闭子界面后主界面再次弹出，防止多余的窗口造成不必要的麻烦。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/07/" class="post-meta__date button">2022-07-28</a>
-    
-    <span class="separate-dot"></span><a href="/categories/PyQt/" class="button">PyQt</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/PyQt/" class="post-tags__link button"># PyQt</a></div> 
-<a href="/2022/07/28/Lily-radar-painter-3/" class="post-entry__link">PyQt与matplotlib-画图软件(三)：子界面绘图</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        PyQt与matplotlib-画图软件(二)：主界面设计
-    </h2>
-    
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>昨天终于把软件给写完了，算是我有史以来做过的最大的项目了吧，今天终于能有空闲时间思考一下这个系列的博客该怎么填了。我打算贴出部分代码来展示如何从头写出一个完整的 GUI 程序，但是由于我们需要进行软著和专利的申请，绘图的核心代码就不放出了。但是各位看官放心😋，贴出的代码足够编译出一个完整的 GUI 程序。</p>
-<blockquote>
-<p>温馨提示：文章的最末尾有本节的完整代码</p>
-</blockquote>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/07/" class="post-meta__date button">2022-07-18</a>
-    
-    <span class="separate-dot"></span><a href="/categories/PyQt/" class="button">PyQt</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/PyQt/" class="post-tags__link button"># PyQt</a></div> 
-<a href="/2022/07/18/Lily-radar-painter-2/" class="post-entry__link">PyQt与matplotlib-画图软件(二)：主界面设计</a>
                 </div>
             
         

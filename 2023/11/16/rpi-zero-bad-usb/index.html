@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>电脑通过USB连接树莓派Zero(Bad USB) | Syize の blog</title>
+
+
+    <meta name="keywords" content="Linux">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="最近正在不断的修改代码、训练模型，每次训练都至少需要40分钟左右的时间，实在是无聊。所以又拿出了我的树莓派Zero 2W，看看所谓的BadUSB怎么搞。 其实大概一两年前我就搞过，但是在我的Arch系统上完全复现不出网上的那些教程所谓的最后效果。试过了包括但不限于来自CSDN，StackOverflow，UbuntuAsk等各大论坛上的教程，各种配置都试过了，但是效果就是不好(至少在我的Arch系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="电脑通过USB连接树莓派Zero(Bad USB)">
+<meta property="og:url" content="https://blog.syize.cn/2023/11/16/rpi-zero-bad-usb/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="最近正在不断的修改代码、训练模型，每次训练都至少需要40分钟左右的时间，实在是无聊。所以又拿出了我的树莓派Zero 2W，看看所谓的BadUSB怎么搞。 其实大概一两年前我就搞过，但是在我的Arch系统上完全复现不出网上的那些教程所谓的最后效果。试过了包括但不限于来自CSDN，StackOverflow，UbuntuAsk等各大论坛上的教程，各种配置都试过了，但是效果就是不好(至少在我的Arch系">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2023/11/16/rpi-zero-bad-usb/image-20231116200218574.png">
+<meta property="og:image" content="https://blog.syize.cn/2023/11/16/rpi-zero-bad-usb/image-20231116200442833.png">
+<meta property="article:published_time" content="2023-11-16T12:05:14.000Z">
+<meta property="article:modified_time" content="2024-08-27T02:03:27.208Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2023/11/16/rpi-zero-bad-usb/image-20231116200218574.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        电脑通过USB连接树莓派Zero(Bad USB)
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/11/" class="post-meta__date button">2023-11-16</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Linux/" class="button">Linux</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">实现过程</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">实现过程</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2024-08-27"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <p>最近正在不断的修改代码、训练模型，每次训练都至少需要40分钟左右的时间，实在是无聊。所以又拿出了我的树莓派Zero 2W，看看所谓的BadUSB怎么搞。</p>
+<p>其实大概一两年前我就搞过，但是在我的Arch系统上完全复现不出网上的那些教程所谓的最后效果。试过了包括但不限于来自CSDN，StackOverflow，UbuntuAsk等各大论坛上的教程，各种配置都试过了，但是效果就是不好(至少在我的Arch系统上不好)。真是可恶啊，小小的一个事情竟然没有一个比较靠谱的实现教程。</p>
+<p>经过参考著名的USB攻击平台项目 <a target="_blank" rel="noopener" href="https://github.com/RoganDawes/P4wnP1">P4wnP1</a> 的设置，我截取了其中的部分代码进行了设置，最终完成了<strong>电脑通过USB连接树莓派Zero</strong>这个目标。</p>
+<span id="more"></span>
+
+<h2 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h2><p>树莓派Zero可以通过模拟USB设备来连接到电脑上，包括模拟 <em>USB 网络适配器</em>，<em>USB 大容量存储设备</em> 等。<a target="_blank" rel="noopener" href="https://github.com/RoganDawes/P4wnP1">P4wnP1</a> 项目集成了很多的设置，使得树莓派Zero可以通过模拟这些设备连接到电脑上并对其发起攻击。我从其中截取了部分设置来使树莓派模拟成 <em>USB 网络适配器</em> 并为电脑自动分配IP地址来进行连接。这样在电脑将其识别成 <em>USB 网络适配器</em> 并连接、获取到分配的IP之后，我们就可以通过电脑来连接树莓派Zero了(反过来，树莓派Zero也可以连接电脑，因为都在一个子网下)。</p>
+<p>首先需要编辑以下文件：</p>
+<ul>
+<li><code>/boot/config.txt</code>，在最后一行加入<code>dtoverlay=dwc2</code>。</li>
+<li><code>/boot/cmdline.txt</code>：在<code>rootwait</code>后面加上<code>modules-load=dwc2,g_ether</code>(<strong>注意要与rootwait之间相隔一个空格</strong>)</li>
+<li><code>/etc/modules</code>：在最后一行加入<code>libcomposite</code></li>
+<li><code>/etc/network/interfaces.d/usb0.conf</code>：创建文件并加入<code>iface usb0 inet manual</code></li>
+<li><code>/etc/network/interfaces.d/usb1.conf</code>：创建文件并加入<code>iface usb1 inet manual</code></li>
+</ul>
+<p>然后需要安装依赖库<code>dnsmasq</code>，我们需要使用它来充当DHCP服务器。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install dnsmasq</span><br></pre></td></tr></table></figure>
+
+<p>关闭不需要的自启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> dnsmasq.service</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> avahi-daemon		<span class="comment"># 这个我还不确定如果自启动的话会对后面的运行有什么影响</span></span><br></pre></td></tr></table></figure>
+
+<p>然后设置的脚本如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">GADGETS_DIR=<span class="string">&quot;rpi_zero_usb_gadget&quot;</span></span><br><span class="line">USB_VID=<span class="string">&quot;0x1d6b&quot;</span></span><br><span class="line">USB_PID=<span class="string">&quot;0x0137&quot;</span></span><br><span class="line">USB0_IP=<span class="string">&quot;172.16.0.1&quot;</span></span><br><span class="line">USB0_MASK=<span class="string">&quot;255.255.255.252&quot;</span></span><br><span class="line">USB0_DHCP_RANGE=<span class="string">&quot;172.16.0.2,172.16.0.2&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># init usb gadget</span></span><br><span class="line"><span class="built_in">cd</span> <span class="string">&quot;/sys/kernel/config/usb_gadget&quot;</span></span><br><span class="line">mkdir <span class="string">&quot;<span class="variable">$GADGETS_DIR</span>&quot;</span></span><br><span class="line"><span class="built_in">cd</span> <span class="string">&quot;<span class="variable">$GADGETS_DIR</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># configure gadget</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$USB_VID</span>&quot;</span> &gt; <span class="string">&quot;idVendor&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$USB_PID</span>&quot;</span> &gt; <span class="string">&quot;idProduct&quot;</span></span><br><span class="line"><span class="comment"># device version</span></span><br><span class="line"><span class="built_in">echo</span> 0x0100 &gt; <span class="string">&quot;bcdDevice&quot;</span></span><br><span class="line"><span class="comment"># usb 2.0</span></span><br><span class="line"><span class="built_in">echo</span> 0x0200 &gt; <span class="string">&quot;bcdUSB&quot;</span></span><br><span class="line"><span class="comment"># composite class</span></span><br><span class="line"><span class="built_in">echo</span> 0xEF &gt; <span class="string">&quot;bDeviceClass&quot;</span></span><br><span class="line"><span class="comment"># subclass</span></span><br><span class="line"><span class="built_in">echo</span> 0x02 &gt; <span class="string">&quot;bDeviceSubClass&quot;</span></span><br><span class="line"><span class="comment"># proto</span></span><br><span class="line"><span class="built_in">echo</span> 0x01 &gt; <span class="string">&quot;bDeviceProtocol&quot;</span></span><br><span class="line"><span class="comment"># device language</span></span><br><span class="line">mkdir -p <span class="string">&quot;strings/0x409&quot;</span></span><br><span class="line"><span class="comment"># serial</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;deadbeefdeadbeef&quot;</span> &gt; <span class="string">&quot;strings/0x409/serialnumber&quot;</span></span><br><span class="line"><span class="comment"># manufacturer</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Syize&quot;</span> &gt; <span class="string">&quot;strings/0x409/manufacturer&quot;</span></span><br><span class="line"><span class="comment"># product</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Bad USB by Syize&quot;</span> &gt; <span class="string">&quot;strings/0x409/product&quot;</span></span><br><span class="line"><span class="comment"># create instance configuration</span></span><br><span class="line">mkdir -p <span class="string">&quot;configs/c.1/strings/0x409&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Config 1: RNDIS network&quot;</span> &gt; <span class="string">&quot;configs/c.1/strings/0x409/configuration&quot;</span></span><br><span class="line"><span class="built_in">echo</span> 250 &gt; <span class="string">&quot;configs/c.1/MaxPower&quot;</span></span><br><span class="line"><span class="built_in">echo</span> 0x80 &gt; <span class="string">&quot;configs/c.1/bmAttributes&quot;</span></span><br><span class="line"><span class="comment"># RNDIS configuration</span></span><br><span class="line">mkdir -p <span class="string">&quot;functions/rndis.usb0&quot;</span></span><br><span class="line"><span class="comment"># set up mac address of remote device</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;42:63:65:13:34:56&quot;</span> &gt; <span class="string">&quot;functions/rndis.usb0/host_addr&quot;</span></span><br><span class="line"><span class="comment"># set up local mac address</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;42:63:65:66:43:21&quot;</span> &gt; <span class="string">&quot;functions/rndis.usb0/dev_addr&quot;</span></span><br><span class="line"><span class="comment"># CDC ECM configuration</span></span><br><span class="line">mkdir -p <span class="string">&quot;functions/ecm.usb1&quot;</span></span><br><span class="line"><span class="comment"># set up mac address of remote device</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;42:63:65:12:34:56&quot;</span> &gt; <span class="string">&quot;functions/ecm.usb1/host_addr&quot;</span></span><br><span class="line"><span class="comment"># set up local mac address</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;42:63:65:65:43:21&quot;</span> &gt; <span class="string">&quot;functions/ecm.usb1/dev_addr&quot;</span></span><br><span class="line"><span class="comment"># add OS specific device descriptors to force Windows to load RNDIS drivers</span></span><br><span class="line">mkdir -p <span class="string">&quot;os_desc&quot;</span></span><br><span class="line"><span class="built_in">echo</span> 1 &gt; <span class="string">&quot;os_desc/use&quot;</span></span><br><span class="line"><span class="built_in">echo</span> 0xbc &gt; <span class="string">&quot;os_desc/b_vendor_code&quot;</span></span><br><span class="line"><span class="built_in">echo</span> MSFT100 &gt; <span class="string">&quot;os_desc/qw_sign&quot;</span></span><br><span class="line">mkdir -p <span class="string">&quot;functions/rndis.usb0/os_desc/interface.rndis&quot;</span></span><br><span class="line"><span class="built_in">echo</span> RNDIS &gt; <span class="string">&quot;functions/rndis.usb0/os_desc/interface.rndis/compatible_id&quot;</span></span><br><span class="line"><span class="built_in">echo</span> 5162001 &gt; <span class="string">&quot;functions/rndis.usb0/os_desc/interface.rndis/sub_compatible_id&quot;</span></span><br><span class="line"><span class="comment"># bind function instances to respective configuration</span></span><br><span class="line">ln -s <span class="string">&quot;functions/rndis.usb0 configs/c.1/&quot;</span></span><br><span class="line">ln -s <span class="string">&quot;functions/ecm.usb1 configs/c.1/&quot;</span></span><br><span class="line"><span class="comment"># add config 1 to OS descriptors</span></span><br><span class="line">ln -s <span class="string">&quot;configs/c.1/&quot;</span> <span class="string">&quot;os_desc&quot;</span></span><br><span class="line"><span class="comment"># check for first available UDC driver</span></span><br><span class="line">UDC_DRIVER=$(ls <span class="string">&quot;/sys/class/udc&quot;</span> | cut -f1 | head -n 1)</span><br><span class="line"><span class="comment"># bind USB gadget to this UDC driver</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$UDC_DRIVER</span> &gt; <span class="string">&quot;UDC&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># wait</span></span><br><span class="line">sleep 0.2</span><br><span class="line"></span><br><span class="line"><span class="comment"># set ip and mask for usb0</span></span><br><span class="line">ifconfig usb0 <span class="variable">$USB0_IP</span> netmask <span class="variable">$USB0_MASK</span></span><br><span class="line"><span class="comment"># create DHCP configuration</span></span><br><span class="line">cat &lt;&lt;- <span class="string">EOF &gt; /tmp/dnsmasq_usb_eth.conf</span></span><br><span class="line"><span class="string">bind-interfaces</span></span><br><span class="line"><span class="string">port=0</span></span><br><span class="line"><span class="string">interface=usb0</span></span><br><span class="line"><span class="string">listen-address=$USB0_IP</span></span><br><span class="line"><span class="string">dhcp-range=$USB0_DHCP_RANGE,$USB0_MASK,5m</span></span><br><span class="line"><span class="string">dhcp-option=3</span></span><br><span class="line"><span class="string">dhcp-option=6</span></span><br><span class="line"><span class="string">dhcp-leasefile=/tmp/dnsmasq.leases</span></span><br><span class="line"><span class="string">dhcp-authoritative</span></span><br><span class="line"><span class="string">log-dhcp</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line">dnsmasq -C /tmp/dnsmasq_usb_eth.conf</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>CDC ECM</code>据 <a target="_blank" rel="noopener" href="https://github.com/RoganDawes/P4wnP1">P4wnP1</a> 的代码注释说是用于 Linux 系统的，对应的 <code>RNDIS</code> 是用于 Windows 系统的，具体不明白是什么含义，实测使用<code>usb0</code>这个网络设备就可以。</p>
+<p>这个启动脚本需要在树莓派开机时运行，因此需要设置systemd自启动服务，服务的文件如下</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=Bad USB start service</span><br><span class="line"><span class="attr">After</span>=local-fs.target</span><br><span class="line"><span class="attr">DefaultDependencies</span>=<span class="literal">no</span></span><br><span class="line"><span class="attr">Before</span>=sysinit.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=forking</span><br><span class="line"><span class="attr">RemainAfterExit</span>=<span class="literal">yes</span></span><br><span class="line"><span class="attr">ExecStart</span>=/bin/bash /etc/bad-usb/init.sh	<span class="comment"># 启动脚本的路径</span></span><br><span class="line"><span class="attr">StandardOutput</span>=journal+console</span><br><span class="line"><span class="attr">StandardError</span>=journal+console</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>保存为<code>/etc/systemd/system/bad-usb.service</code>，并运行以下命令设置自启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> bad-usb.service</span><br></pre></td></tr></table></figure>
+
+<p>然后就是重启树莓派Zero，等待电脑连接到树莓派Zero上。</p>
+<p>由于我们设定了<code>dnsmasq</code>可分配IP固定为<code>172.16.0.2</code>，因此电脑必定会被分配到这个地址。树莓派Zero所在的IP为<code>172.16.0.1</code>，使用该地址即可连接到树莓派。</p>
+<img src="/2023/11/16/rpi-zero-bad-usb/image-20231116200218574.png" class="" alt="image-20231116200218574">
+
+<p>树莓派访问一下电脑</p>
+<img src="/2023/11/16/rpi-zero-bad-usb/image-20231116200442833.png" class="" alt="image-20231116200442833">
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2023/11/16/rpi-zero-bad-usb/">https://blog.syize.cn/2023/11/16/rpi-zero-bad-usb/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2024-08-27</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Linux/" class="post-tags__link button"># Linux</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2023/11/22/fk-windows-update/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            撸一个禁止Windows自动更新的脚本
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2023/11/08/linux-stm32-development/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            Linux下STM32的开发环境配置和烧录指令
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2024 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
