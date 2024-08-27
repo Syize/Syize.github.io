@@ -198,6 +198,30 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
+        xarray中合并nc文件导致数据的数值改变/出现nan
+    </h2>
+    
+        <p>今天下了ERA5的再分析数据准备做REOF，结果却发现报错说我的数据有缺测值。搜索了一番发现原来是ERA5的<code>scale</code>和<code>offset</code>导致的。</p>
+<blockquote>
+<p>水博客+1</p>
+</blockquote>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2023/07/" class="post-meta__date button">2023-07-09</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
+<a href="/2023/07/09/xarray-open-mfdataset-value-change/" class="post-entry__link">xarray中合并nc文件导致数据的数值改变/出现nan</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
         pyart中关于线性规划部分代码的疑问
     </h2>
     
@@ -352,28 +376,6 @@
 <a href="/2022/06/11/Lily-radar-painter/" class="post-entry__link">PyQt与matplotlib-画图软件(一)：前篇</a>
                 </div>
             
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        MDFS格式数据转换
-    </h2>
-    
-        <p>最近要读取 MDFS 格式的气象站点数据在 Python 中使用，但是由于其数据格式不是标准的 JSON ，需要用脚本进行转换。于是我去学校网站下载了一个写好的 Python 脚本，但是运行一遍之后发现不仅需要我额外下载 JSON 的库，而且转换一个文件竟然要 <strong>368秒</strong> ？？？</p>
-<p>为了提升效率，我就用 C + Cython 写了一个速度更快的。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/04/" class="post-meta__date button">2022-04-22</a>
-    
-    <span class="separate-dot"></span><a href="/categories/Cython/" class="button">Cython</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/C/" class="post-tags__link button"># C</a><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cython/" class="post-tags__link button"># Cython</a></div> 
-<a href="/2022/04/22/MDFS-data/" class="post-entry__link">MDFS格式数据转换</a>
-                </div>
-            
         
     </div>
     
@@ -419,7 +421,7 @@
     
         
         <p class="footer-copyright">
-            Copyright © 2021&nbsp;-&nbsp;2023 <a href="/">Syize の blog</a>
+            Copyright © 2021&nbsp;-&nbsp;2024 <a href="/">Syize の blog</a>
         </p>
     
     
