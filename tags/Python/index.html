@@ -152,6 +152,51 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
+        使用meson构建打包Python包
+    </h2>
+    
+        <p>最近在重构组里的代码上遇到一件稍微棘手的事情。导师的旧代码是使用Fortran编写的，其对一些Python无法方便读取的二进制数据做了非常精细的操作，导致将代码完全Python化的难度直线上升。折衷的方案是通过使用<code>numpy.f2py</code>工具，将Fortran代码转换成Python扩展，这样就引入了新的问题，如何将扩展的编译融合进Python包的打包和安装过程中。</p>
+<p><a target="_blank" rel="noopener" href="https://mesonbuild.com/">meson</a>构建系统是我在几个月前无意中了解到的新工具，其包含了能够帮助编译和打包的Python模块，并且现有的一些项目都已完全将meson作为后端，例如<a target="_blank" rel="noopener" href="https://github.com/scipy/scipy/tree/main">scipy</a>，<a target="_blank" rel="noopener" href="https://github.com/numpy/numpy">numpy</a>。因此我决定将这作为一个练手的机会，使用meson来帮助构建这个Python包。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2024/10/" class="post-meta__date button">2024-10-03</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/meson/" class="button">meson</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/meson/" class="post-tags__link button"># meson</a></div> 
+<a href="/2024/10/03/build-python-package-with-meson/" class="post-entry__link">使用meson构建打包Python包</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        使用cfgrib将数据保存为GRIB文件
+    </h2>
+    
+        <p>最近想要将导师的WRF工具包里的一些功能使用Python重写，因为想要使用优雅的方式实现，所以不可避免的涉及到了GRIB文件的读写。花了两天时间摸清楚了如何将数据写入GRIB文件，期间还遇到一些比较奇怪的问题。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2024/09/" class="post-meta__date button">2024-09-23</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
+<a href="/2024/09/23/write-grib-with-cfgrib/" class="post-entry__link">使用cfgrib将数据保存为GRIB文件</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
         PyQt中的国际化问题
     </h2>
     
@@ -329,49 +374,6 @@
 </div>
 <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a></div> 
 <a href="/2022/10/17/learn-cartopy/" class="post-entry__link">Cartopy学习使用</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        xarray处理气象数据
-    </h2>
-    
-        <p>最近做课程论文需要读取气象数据 (<code>nc</code>格式)，之前处理雷达数据时一直都是用 <code>netCDF4</code> 直接梭哈，但是处理全球大尺度的数据时，经常搞日平均月平均，单独取某些月做操作，这个时候 <code>netCDF</code> 就不够看了。正好学一学 <code>xarray</code>，水几篇博客。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/10/" class="post-meta__date button">2022-10-16</a>
-    
-    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
-<a href="/2022/10/16/learn-xarray-with-netcdf/" class="post-entry__link">xarray处理气象数据</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        PyQt与matplotlib-画图软件(三)：子界面绘图
-    </h2>
-    
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是本系列第三篇文章，主要涉及如何将 <code>matplotlib</code> 与 <code>PyQt</code> 结合，<code>PyQt</code> 的信号以及 <code>PyQt</code> 中多线程、多进程的使用</p>
-<h2 id="回顾与完善"><a href="#回顾与完善" class="headerlink" title="回顾与完善"></a>回顾与完善</h2><p>上节中我演示了如何创建一个主界面和两个子界面并通过按钮和槽函数将三者联系到一起，以及如何为软件绑定快捷键，监听<strong>关闭事件</strong> (<code>closeEvent</code>)。现在我们想让用户打开子界面时主界面会隐藏起来，在关闭子界面后主界面再次弹出，防止多余的窗口造成不必要的麻烦。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/07/" class="post-meta__date button">2022-07-28</a>
-    
-    <span class="separate-dot"></span><a href="/categories/PyQt/" class="button">PyQt</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/PyQt/" class="post-tags__link button"># PyQt</a></div> 
-<a href="/2022/07/28/Lily-radar-painter-3/" class="post-entry__link">PyQt与matplotlib-画图软件(三)：子界面绘图</a>
                 </div>
             
         

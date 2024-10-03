@@ -27,7 +27,7 @@
     <!-- meta -->
 
 
-<title>tags | Syize の blog</title>
+<title>Category: meson | Syize の blog</title>
 
 
 
@@ -36,12 +36,10 @@
     <!-- OpenGraph -->
  
     <meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="https://blog.syize.cn/tags/index.html">
+<meta property="og:title" content="Syize の blog">
+<meta property="og:url" content="https://blog.syize.cn/categories/Python/meson/index.html">
 <meta property="og:site_name" content="Syize の blog">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-09-08T14:59:33.000Z">
-<meta property="article:modified_time" content="2021-09-12T15:01:09.000Z">
 <meta property="article:author" content="Syize">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -143,25 +141,45 @@
     </div>
 
             
-
+<main class="main">
     
-        <main class="main tagscloud">
-            <a href="/tags/Arch/" style="font-size: 16px; color: #acb3c2">Arch</a> <a href="/tags/C/" style="font-size: 19.17px; color: #9ba2b1">C</a> <a href="/tags/C/" style="font-size: 19.17px; color: #9ba2b1">C++</a> <a href="/tags/CMake/" style="font-size: 16px; color: #acb3c2">CMake</a> <a href="/tags/Cartopy/" style="font-size: 22.33px; color: #8a91a0">Cartopy</a> <a href="/tags/Cython/" style="font-size: 22.33px; color: #8a91a0">Cython</a> <a href="/tags/EOF/" style="font-size: 16px; color: #acb3c2">EOF</a> <a href="/tags/KDE/" style="font-size: 19.17px; color: #9ba2b1">KDE</a> <a href="/tags/Keras/" style="font-size: 16px; color: #acb3c2">Keras</a> <a href="/tags/Linux/" style="font-size: 28.67px; color: #676f7f">Linux</a> <a href="/tags/PyQt/" style="font-size: 25.5px; color: #798090">PyQt</a> <a href="/tags/Python/" style="font-size: 35px; color: #454d5d">Python</a> <a href="/tags/Qt/" style="font-size: 16px; color: #acb3c2">Qt</a> <a href="/tags/STM32/" style="font-size: 16px; color: #acb3c2">STM32</a> <a href="/tags/VNC/" style="font-size: 16px; color: #acb3c2">VNC</a> <a href="/tags/WRF/" style="font-size: 16px; color: #acb3c2">WRF</a> <a href="/tags/Windows/" style="font-size: 16px; color: #acb3c2">Windows</a> <a href="/tags/clash/" style="font-size: 16px; color: #acb3c2">clash</a> <a href="/tags/cnmaps/" style="font-size: 16px; color: #acb3c2">cnmaps</a> <a href="/tags/diary/" style="font-size: 31.83px; color: #565e6e">diary</a> <a href="/tags/dnsmasq/" style="font-size: 16px; color: #acb3c2">dnsmasq</a> <a href="/tags/linux/" style="font-size: 16px; color: #acb3c2">linux</a> <a href="/tags/meson/" style="font-size: 16px; color: #acb3c2">meson</a> <a href="/tags/nginx/" style="font-size: 16px; color: #acb3c2">nginx</a> <a href="/tags/pyart/" style="font-size: 25.5px; color: #798090">pyart</a> <a href="/tags/radar/" style="font-size: 16px; color: #acb3c2">radar</a> <a href="/tags/ubuntu/" style="font-size: 16px; color: #acb3c2">ubuntu</a> <a href="/tags/virtualbox/" style="font-size: 16px; color: #acb3c2">virtualbox</a> <a href="/tags/wpa-supplicant/" style="font-size: 16px; color: #acb3c2">wpa_supplicant</a> <a href="/tags/zotero/" style="font-size: 16px; color: #acb3c2">zotero</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 16px; color: #acb3c2">刷机</a>
-        </main>
-        <style>
-            .tagscloud a {
-                margin-right: 1em;
-                border-bottom: 1px solid #ACB3C2;
-                line-height: 65px;
-                white-space: nowrap;
-            }
-            .tagscloud a:hover {
-                border-bottom: 2px solid #454D5D;
-                text-decoration: none;
-            }
-        </style>
+        
+            
+    <div class="post-list">
+        
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        使用meson构建打包Python包
+    </h2>
+    
+        <p>最近在重构组里的代码上遇到一件稍微棘手的事情。导师的旧代码是使用Fortran编写的，其对一些Python无法方便读取的二进制数据做了非常精细的操作，导致将代码完全Python化的难度直线上升。折衷的方案是通过使用<code>numpy.f2py</code>工具，将Fortran代码转换成Python扩展，这样就引入了新的问题，如何将扩展的编译融合进Python包的打包和安装过程中。</p>
+<p><a target="_blank" rel="noopener" href="https://mesonbuild.com/">meson</a>构建系统是我在几个月前无意中了解到的新工具，其包含了能够帮助编译和打包的Python模块，并且现有的一些项目都已完全将meson作为后端，例如<a target="_blank" rel="noopener" href="https://github.com/scipy/scipy/tree/main">scipy</a>，<a target="_blank" rel="noopener" href="https://github.com/numpy/numpy">numpy</a>。因此我决定将这作为一个练手的机会，使用meson来帮助构建这个Python包。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2024/10/" class="post-meta__date button">2024-10-03</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/meson/" class="button">meson</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/meson/" class="post-tags__link button"># meson</a></div> 
+<a href="/2024/10/03/build-python-package-with-meson/" class="post-entry__link">使用meson构建打包Python包</a>
+                </div>
+            
+        
+    </div>
     
 
+
+        
+    
+</main>
 
             <footer class="footer">
     

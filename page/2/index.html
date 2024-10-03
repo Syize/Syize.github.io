@@ -149,6 +149,53 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
+        matplotlib和Cartopy的点击取值
+    </h2>
+    
+        <p>最近在研究如何从卫星数据中获取雾区数据的问题，有一个大难点就是双通道法反演时如何设置阈值的问题。最直接的方法就是先画一张不设置阈值的图，然后根据坐标打印一下数值，再设置一下阈值。但是这样来来回回要重复跑很多遍代码，为了简化工作量，便研究了一下如何通过鼠标点击图片即可打印出对应点的值。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2023/07/" class="post-meta__date button">2023-07-22</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/Cartopy/" class="button">Cartopy</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a></div> 
+<a href="/2023/07/22/matplotlib-cartopy-on-click-event/" class="post-entry__link">matplotlib和Cartopy的点击取值</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        xarray中合并nc文件导致数据的数值改变/出现nan
+    </h2>
+    
+        <p>今天下了ERA5的再分析数据准备做REOF，结果却发现报错说我的数据有缺测值。搜索了一番发现原来是ERA5的<code>scale</code>和<code>offset</code>导致的。</p>
+<blockquote>
+<p>水博客+1</p>
+</blockquote>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2023/07/" class="post-meta__date button">2023-07-09</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
+<a href="/2023/07/09/xarray-open-mfdataset-value-change/" class="post-entry__link">xarray中合并nc文件导致数据的数值改变/出现nan</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
         VirtualBox虚拟机安装aTrust并设置静态IP
     </h2>
     
@@ -317,48 +364,6 @@
 </div>
 <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a></div> 
 <a href="/2022/10/17/learn-cartopy/" class="post-entry__link">Cartopy学习使用</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        xarray处理气象数据
-    </h2>
-    
-        <p>最近做课程论文需要读取气象数据 (<code>nc</code>格式)，之前处理雷达数据时一直都是用 <code>netCDF4</code> 直接梭哈，但是处理全球大尺度的数据时，经常搞日平均月平均，单独取某些月做操作，这个时候 <code>netCDF</code> 就不够看了。正好学一学 <code>xarray</code>，水几篇博客。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/10/" class="post-meta__date button">2022-10-16</a>
-    
-    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
-<a href="/2022/10/16/learn-xarray-with-netcdf/" class="post-entry__link">xarray处理气象数据</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        2022年10月10日在海大
-    </h2>
-    
-        <p>距离上次写日记是10天前，这期间到也没什么事，就只是忙于作业，也没遇到什么困难。昨天开始想期末的课程论文，人要麻了，又是天气学，又是气象卫星数据应用，最后还要答辩，感觉好多事情。今天一天除了上课吃饭就是窝在宿舍里，天气很晴，阳光很足，也不热，tmd，为什么我要窝在宿舍里搞作业，操。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/10/" class="post-meta__date button">2022-10-10</a>
-    
-    <span class="separate-dot"></span><a href="/categories/diary/" class="button">diary</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/diary/" class="post-tags__link button"># diary</a></div> 
-<a href="/2022/10/10/10-10-in-ouc/" class="post-entry__link">2022年10月10日在海大</a>
                 </div>
             
         

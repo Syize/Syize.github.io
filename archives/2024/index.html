@@ -151,6 +151,51 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
+        使用meson构建打包Python包
+    </h2>
+    
+        <p>最近在重构组里的代码上遇到一件稍微棘手的事情。导师的旧代码是使用Fortran编写的，其对一些Python无法方便读取的二进制数据做了非常精细的操作，导致将代码完全Python化的难度直线上升。折衷的方案是通过使用<code>numpy.f2py</code>工具，将Fortran代码转换成Python扩展，这样就引入了新的问题，如何将扩展的编译融合进Python包的打包和安装过程中。</p>
+<p><a target="_blank" rel="noopener" href="https://mesonbuild.com/">meson</a>构建系统是我在几个月前无意中了解到的新工具，其包含了能够帮助编译和打包的Python模块，并且现有的一些项目都已完全将meson作为后端，例如<a target="_blank" rel="noopener" href="https://github.com/scipy/scipy/tree/main">scipy</a>，<a target="_blank" rel="noopener" href="https://github.com/numpy/numpy">numpy</a>。因此我决定将这作为一个练手的机会，使用meson来帮助构建这个Python包。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2024/10/" class="post-meta__date button">2024-10-03</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/meson/" class="button">meson</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/meson/" class="post-tags__link button"># meson</a></div> 
+<a href="/2024/10/03/build-python-package-with-meson/" class="post-entry__link">使用meson构建打包Python包</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        使用cfgrib将数据保存为GRIB文件
+    </h2>
+    
+        <p>最近想要将导师的WRF工具包里的一些功能使用Python重写，因为想要使用优雅的方式实现，所以不可避免的涉及到了GRIB文件的读写。花了两天时间摸清楚了如何将数据写入GRIB文件，期间还遇到一些比较奇怪的问题。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2024/09/" class="post-meta__date button">2024-09-23</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
+<a href="/2024/09/23/write-grib-with-cfgrib/" class="post-entry__link">使用cfgrib将数据保存为GRIB文件</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
         在Ubuntu 22.04服务器上配置VNC服务
     </h2>
     

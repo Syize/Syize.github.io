@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>使用meson构建打包Python包 | Syize の blog</title>
+
+
+    <meta name="keywords" content="Python, meson">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="最近在重构组里的代码上遇到一件稍微棘手的事情。导师的旧代码是使用Fortran编写的，其对一些Python无法方便读取的二进制数据做了非常精细的操作，导致将代码完全Python化的难度直线上升。折衷的方案是通过使用numpy.f2py工具，将Fortran代码转换成Python扩展，这样就引入了新的问题，如何将扩展的编译融合进Python包的打包和安装过程中。 meson构建系统是我在几个月前无意">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用meson构建打包Python包">
+<meta property="og:url" content="https://blog.syize.cn/2024/10/03/build-python-package-with-meson/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="最近在重构组里的代码上遇到一件稍微棘手的事情。导师的旧代码是使用Fortran编写的，其对一些Python无法方便读取的二进制数据做了非常精细的操作，导致将代码完全Python化的难度直线上升。折衷的方案是通过使用numpy.f2py工具，将Fortran代码转换成Python扩展，这样就引入了新的问题，如何将扩展的编译融合进Python包的打包和安装过程中。 meson构建系统是我在几个月前无意">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2024/10/03/build-python-package-with-meson/image-20241002151555900.png">
+<meta property="og:image" content="https://blog.syize.cn/2024/10/03/build-python-package-with-meson/image-20241003152907462.png">
+<meta property="article:published_time" content="2024-10-03T07:53:35.000Z">
+<meta property="article:modified_time" content="2024-10-03T07:53:35.524Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="meson">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2024/10/03/build-python-package-with-meson/image-20241002151555900.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        使用meson构建打包Python包
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/10/" class="post-meta__date button">2024-10-03</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/meson/" class="button">meson</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#meson%E7%9A%84%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">meson的简单介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python%E9%A1%B9%E7%9B%AE%E7%9A%84meson%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">Python项目的meson配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E6%89%A9%E5%B1%95"><span class="toc-number">2.1.</span> <span class="toc-text">无扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E6%89%A9%E5%B1%95"><span class="toc-number">2.2.</span> <span class="toc-text">有扩展</span></a></li></ol></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#meson%E7%9A%84%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">meson的简单介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python%E9%A1%B9%E7%9B%AE%E7%9A%84meson%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">Python项目的meson配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E6%89%A9%E5%B1%95"><span class="toc-number">2.1.</span> <span class="toc-text">无扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E6%89%A9%E5%B1%95"><span class="toc-number">2.2.</span> <span class="toc-text">有扩展</span></a></li></ol></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2024-10-03"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <p>最近在重构组里的代码上遇到一件稍微棘手的事情。导师的旧代码是使用Fortran编写的，其对一些Python无法方便读取的二进制数据做了非常精细的操作，导致将代码完全Python化的难度直线上升。折衷的方案是通过使用<code>numpy.f2py</code>工具，将Fortran代码转换成Python扩展，这样就引入了新的问题，如何将扩展的编译融合进Python包的打包和安装过程中。</p>
+<p><a target="_blank" rel="noopener" href="https://mesonbuild.com/">meson</a>构建系统是我在几个月前无意中了解到的新工具，其包含了能够帮助编译和打包的Python模块，并且现有的一些项目都已完全将meson作为后端，例如<a target="_blank" rel="noopener" href="https://github.com/scipy/scipy/tree/main">scipy</a>，<a target="_blank" rel="noopener" href="https://github.com/numpy/numpy">numpy</a>。因此我决定将这作为一个练手的机会，使用meson来帮助构建这个Python包。</p>
+<span id="more"></span>
+
+<h2 id="meson的简单介绍"><a href="#meson的简单介绍" class="headerlink" title="meson的简单介绍"></a>meson的简单介绍</h2><p>meson是一个使用Python实现的项目构建系统，作用类似于Makefile或者CMake，提供了对多种平台、多种语言的支持。如果你的主要工作语言是Python，那么安装meson会变得非常方便，通过<code>pip</code>命令就能安装meson以及其默认的编译后端ninja。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install meson ninja</span><br></pre></td></tr></table></figure>
+
+<p>如果你的Python项目需要编译扩展，则你需要自己再安装对应的编译器，如gcc，gfortran等。</p>
+<p>meson的配置文件是名为<code>meson.build</code>的文件，该文件类似于<code>CMakeLists.txt</code>，里面定义了项目的信息以及编译的信息等。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">project</span><span class="params">(<span class="string">&#x27;simple&#x27;</span>, <span class="string">&#x27;c&#x27;</span>)</span></span></span><br><span class="line"><span class="attribute">src</span> = [<span class="string">&#x27;source1.c&#x27;</span>, <span class="string">&#x27;source2.c&#x27;</span>, <span class="string">&#x27;source3.c&#x27;</span>]</span><br><span class="line"><span class="function"><span class="title">executable</span><span class="params">(<span class="string">&#x27;myexe&#x27;</span>, sources : src)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>使用meson来编译其他语言不是这篇文章的重点，如有需要可以直接去<a target="_blank" rel="noopener" href="https://mesonbuild.com/Manual.html">meson官网手册</a>查看。</p>
+<h2 id="Python项目的meson配置"><a href="#Python项目的meson配置" class="headerlink" title="Python项目的meson配置"></a>Python项目的meson配置</h2><h3 id="无扩展"><a href="#无扩展" class="headerlink" title="无扩展"></a>无扩展</h3><p>假设你有以下这一个Python项目。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── main.<span class="keyword">py</span></span><br><span class="line">└── mypyproj	# 真正的Python包内容。</span><br><span class="line">    ├── __init__.<span class="keyword">py</span></span><br><span class="line">    ├── <span class="keyword">c</span>.<span class="keyword">py</span></span><br><span class="line">    ├── core</span><br><span class="line">    │   ├── __init__.<span class="keyword">py</span></span><br><span class="line">    │   ├── <span class="keyword">a</span>.<span class="keyword">py</span></span><br><span class="line">    │   └── <span class="keyword">b</span>.<span class="keyword">py</span></span><br><span class="line">    └── utils.<span class="keyword">py</span></span><br></pre></td></tr></table></figure>
+
+<p><code>mypyproj</code>目录内是真正的Python包代码。Python并不是编译型语言，该项目也没有需要编译的扩展，则完全用不到meson的编译功能，但是你依然可以将meson作为其打包的后端。首先在<code>mypyproj</code>同级目录添加<code>pyproject.toml</code>，配置项目信息、后端和依赖。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[build-system]</span></span><br><span class="line"><span class="attr">build-backend</span> = <span class="string">&quot;mesonpy&quot;</span></span><br><span class="line"><span class="attr">requires</span> = [<span class="string">&quot;meson-python&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="section">[project]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;mypyproj&quot;</span></span><br><span class="line"><span class="attr">version</span> = <span class="string">&quot;0.0.1&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>build-backend</code>字段指定了使用meson作为后端，但是由于meson并不会随Python一起安装，所以需要在<code>requires</code>中指定依赖，这样打包和安装时会先安装<code>meson-python</code>。<code>pyproject.toml</code>的配置完成后，我们需要再配置meson，指定需要打包的文件以及安装的位置。不同于<code>setuptools</code>，meson不会自动找寻和检测Python包的代码，而是需要我们在配置文件中详细列出需要包含的文件。这样的做法比<code>setuptools</code>更繁琐一些，但是能让我们更细粒度控制Python包内包含的东西。</p>
+<p>在<code>pyproject.toml</code>的同级目录下添加<code>meson.build</code>，同样写入项目配置。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">project(</span><br><span class="line">    <span class="string">&#x27;mypyproj&#x27;</span>,</span><br><span class="line">    version: <span class="string">&#x27;0.0.1&#x27;</span>,</span><br><span class="line">    license: <span class="string">&#x27;BSD-3&#x27;</span>,</span><br><span class="line">    meson_version: <span class="string">&#x27;&gt;=0.64.0&#x27;</span>,</span><br><span class="line">    default_options: <span class="selector-attr">[<span class="string">&#x27;warning_level=2&#x27;</span>]</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">py3 = import(<span class="string">&#x27;python&#x27;</span>)<span class="selector-class">.find_installation</span>(pure: false)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">subdir</span><span class="params">(<span class="string">&#x27;mypyproj&#x27;</span>)</span></span></span><br></pre></td></tr></table></figure>
+
+<p><code>project()</code>定义项目的名称，版本号，授权证书，meson版本等。<code>py3 = import(&#39;python&#39;).find_installation(pure: false)</code>导入Python模块，并找到安装的Python。<code>subdir()</code>指定了子目录，随后meson会去子目录下寻找子目录的<code>meson.build</code>，并再读取相应的配置。可以看到当前的<code>meson.build</code>并没有配置Python包的内容，这些是由子目录下的<code>meson.build</code>来配置的。</p>
+<blockquote>
+<p>添加<code>pyproject.toml</code>和<code>meson.build</code>后的目录结构。</p>
+</blockquote>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── <span class="selector-tag">main</span><span class="selector-class">.py</span></span><br><span class="line">├── meson<span class="selector-class">.build</span></span><br><span class="line">├── mypyproj</span><br><span class="line">│   ├── __init__<span class="selector-class">.py</span></span><br><span class="line">│   ├── c<span class="selector-class">.py</span></span><br><span class="line">│   ├── core</span><br><span class="line">│   │   ├── __init__<span class="selector-class">.py</span></span><br><span class="line">│   │   ├── <span class="selector-tag">a</span><span class="selector-class">.py</span></span><br><span class="line">│   │   └── <span class="selector-tag">b</span><span class="selector-class">.py</span></span><br><span class="line">│   └── utils<span class="selector-class">.py</span></span><br><span class="line">└── pyproject.toml</span><br></pre></td></tr></table></figure>
+
+<p>在<code>mypyproj</code>下添加新的<code>meson.build</code>，该文件将用于定义Python包的内容。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">py3</span><span class="selector-class">.install_sources</span>(</span><br><span class="line">    [</span><br><span class="line">        <span class="string">&#x27;__init__.py&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;c.py&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;utils.py&#x27;</span>,</span><br><span class="line">    ],</span><br><span class="line">    <span class="attribute">subdir</span>: <span class="string">&#x27;mypyproj&#x27;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">subdir</span>(<span class="string">&#x27;core&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>py3.install_sources()</code>定义了哪些文件会被包含到Python包中，以及他们在包中对应的位置<code>subdir</code>。<code>py3</code>是上一级的<code>meson.build</code>中获取，通过使用<code>subdir()</code>包含，我们可以在下级的<code>meson.build</code>中使用上级中的变量。由于我们的项目还包含了子目录<code>core</code>，所以我们进一步使用<code>subdir()</code>包含了<code>core</code>。同样的道理，在<code>core</code>目录下，我们同样需要添加<code>meson.build</code>，并定义需要被包含的文件。</p>
+<figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">py3.install_sources(</span><br><span class="line">    [</span><br><span class="line">        <span class="symbol">&#x27;__init__</span>.py&#x27;,</span><br><span class="line">        <span class="symbol">&#x27;a</span>.py&#x27;,</span><br><span class="line">        <span class="symbol">&#x27;b</span>.py&#x27;,</span><br><span class="line">    ],</span><br><span class="line">    subdir: <span class="symbol">&#x27;mypyproj</span>/core&#x27;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>完整的目录结构如下</p>
+</blockquote>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── main.py</span><br><span class="line">├── meson.<span class="keyword">build	</span><span class="comment"># 定义项目信息，subdir()包含下级meson.build</span></span><br><span class="line">├── mypyproj</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   ├── c.py</span><br><span class="line">│   ├── core</span><br><span class="line">│   │   ├── __init__.py</span><br><span class="line">│   │   ├── a.py</span><br><span class="line">│   │   ├── <span class="keyword">b.py</span></span><br><span class="line"><span class="keyword"></span>│   │   └── meson.<span class="keyword">build	</span><span class="comment"># 定义被包含的文件</span></span><br><span class="line">│   ├── meson.<span class="keyword">build	</span><span class="comment"># 定义被包含的文件，subdir()包含下级meson.build</span></span><br><span class="line">│   └── utils.py</span><br><span class="line">└── pyproject.toml</span><br></pre></td></tr></table></figure>
+
+<p>至此，meson的配置我们就完成了，每一个目录下都包含有对应的<code>meson.build</code>，他们分别用于定义项目信息、Python包包含的文件，并通过<code>subdir()</code>互相联系起来。</p>
+<p>完成<code>pyproject.toml</code>和<code>meson.build</code>的配置后，我们就可以使用build来打包Python了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m build</span><br></pre></td></tr></table></figure>
+
+<img src="/2024/10/03/build-python-package-with-meson/image-20241002151555900.png" class="" alt="image-20241002151555900">
+
+<p>呃，好吧。除了配置<code>pyproject.toml</code>和<code>meson.build</code>外，你还需要使用Git来配置一下项目，将需要打包的文件添加到版本控制系统，这是使用meson打包文件时meson要求必须做的工作。需要注意的是，meson进行源代码打包时，会将Git中包含的所有文件打包进来。你可以使用<code>.gitattributes</code>文件来排除不想打包的东西：</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.gitea/ ex<span class="keyword">port</span>-ignore</span><br><span class="line"><span class="title">images</span>/ ex<span class="keyword">port</span>-ignore</span><br></pre></td></tr></table></figure>
+
+<p>将文件都添加到Git后，再次build，就可以在<code>dist/</code>下看到打包好的Python包了。</p>
+<h3 id="有扩展"><a href="#有扩展" class="headerlink" title="有扩展"></a>有扩展</h3><p>现在我们想添加一个使用Fortran编写的扩展<code>d.f90</code>，它位于<code>mypyproj/core/d.f90</code>。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── <span class="selector-tag">main</span><span class="selector-class">.py</span></span><br><span class="line">├── meson<span class="selector-class">.build</span></span><br><span class="line">├── mypyproj</span><br><span class="line">│   ├── __init__<span class="selector-class">.py</span></span><br><span class="line">│   ├── c<span class="selector-class">.py</span></span><br><span class="line">│   ├── core</span><br><span class="line">│   │   ├── __init__<span class="selector-class">.py</span></span><br><span class="line">│   │   ├── <span class="selector-tag">a</span><span class="selector-class">.py</span></span><br><span class="line">│   │   ├── <span class="selector-tag">b</span><span class="selector-class">.py</span></span><br><span class="line">│   │   ├── d<span class="selector-class">.f90</span></span><br><span class="line">│   │   └── meson<span class="selector-class">.build</span></span><br><span class="line">│   ├── meson<span class="selector-class">.build</span></span><br><span class="line">│   └── utils<span class="selector-class">.py</span></span><br><span class="line">└── pyproject.toml</span><br></pre></td></tr></table></figure>
+
+<p>对于Fortran扩展的编译，我们首先需要使用<code>numpy.f2py</code>对其处理，生成C语言的wrap代码，然后再将生成的C wrap代码与原始Fortran文件一起编译，生成Python可直接import的扩展库。除了C wrap代码的生成需要我们额外进行控制，代码的编译过程直接由meson接管。</p>
+<p>由于编译的过程需要使用<code>numpy</code>，我们还需要对<code>pyproject.toml</code>文件进行修改，在<code>requires</code>中添加<code>numpy</code>。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[build-system]</span></span><br><span class="line"><span class="attr">build-backend</span> = <span class="string">&quot;mesonpy&quot;</span></span><br><span class="line"><span class="attr">requires</span> = [<span class="string">&quot;meson-python&quot;</span>, <span class="string">&quot;numpy&lt;2.0.0&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="section">[project]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;mypyproj&quot;</span></span><br><span class="line"><span class="attr">version</span> = <span class="string">&quot;0.0.1&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>编译的相关设置则都需要在<code>mypyproj/core/meson.build</code>文件中进行，因为<code>d.f90</code>扩展在<code>mypyproj/core/meson.build</code>所控制的目录下。首先调用<code>numpy.f2py</code>的配置如下。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">add_languages(<span class="string">&#x27;fortran&#x27;</span>)</span><br><span class="line">add_languages(<span class="string">&#x27;c&#x27;</span>)</span><br><span class="line"></span><br><span class="line">d = custom_target(</span><br><span class="line">    <span class="string">&#x27;dmodule&#x27;</span>,</span><br><span class="line">    inpu<span class="variable">t:</span> [<span class="string">&#x27;d.f90&#x27;</span>],</span><br><span class="line">    <span class="keyword">command</span>: [</span><br><span class="line">        <span class="keyword">py3</span>,</span><br><span class="line">        <span class="string">&#x27;-m&#x27;</span>, <span class="string">&#x27;numpy.f2py&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;@INPUT@&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;-m&#x27;</span>, <span class="string">&#x27;d&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;--lower&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;--build-dir&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;mypyproj/core&#x27;</span>,</span><br><span class="line">    ],</span><br><span class="line">    outpu<span class="variable">t:</span> [<span class="string">&#x27;dmodule.c&#x27;</span>, <span class="string">&#x27;d-f2pywrappers2.f90&#x27;</span>],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><code>add_languages()</code>设置了项目语言包含Fortran和C，然后使用<code>custom_target()</code>命令定义自定义构建目标。这里我们定义输入文件为<code>[&#39;d.f90&#39;]</code>，自定义的构建命令是<code>numpy.f2py</code>的构建命令，只不过将Python解释器替换为上级<code>meson.build</code>找到的<code>py3</code>，输入文件名设置为<code>@INPUT@</code>。<code>@INPUT@</code>是meson的语法，meson会自动将<code>@INPUT@</code>替换为正确的输入文件名。我们使用了<code>--build-dir</code>来指定了生成文件存放的目录，保证生成的文件位于<code>d.f90</code>同目录下。<code>output</code>参数表示该构建目标的输出，输出文件的命名是<code>numpy.f2py</code>固定的命名格式。</p>
+<p>由于我们是使用<code>numpy.f2py</code>来生成扩展，这部分涉及到<code>numpy</code>的C-API，因此需要知道<code>numpy</code>和<code>numpy.f2py</code>的头文件路径。可以使用meson的<code>run_command</code>函数来执行Python命令，获取头文件目录路径。然后使用<code>include_directories()</code>来设置包含路径。</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">incdir_numpy</span> = run_command(</span><br><span class="line">    py3,</span><br><span class="line">    [</span><br><span class="line">        &#x27;-c&#x27;, &#x27;<span class="built_in">import</span> os; os.chdir(<span class="string">&quot;..&quot;</span>); <span class="built_in">import</span> numpy; print(numpy.get_include())&#x27;,</span><br><span class="line">    ],</span><br><span class="line">    check: <span class="literal">true</span>,</span><br><span class="line">).stdout().strip()</span><br><span class="line"></span><br><span class="line"><span class="attr">incdir_f2py</span> = run_command(</span><br><span class="line">    py3,</span><br><span class="line">    [</span><br><span class="line">        &#x27;-c&#x27;, &#x27;<span class="built_in">import</span> os; os.chdir(<span class="string">&quot;..&quot;</span>); <span class="built_in">import</span> numpy.f2py; print(numpy.f2py.get_include())&#x27;,</span><br><span class="line">    ],</span><br><span class="line">    check: <span class="literal">true</span>,</span><br><span class="line">).stdout().strip()</span><br><span class="line"></span><br><span class="line"><span class="attr">inc_np</span> = include_directories(incdir_numpy, incdir_f2py)</span><br></pre></td></tr></table></figure>
+
+<p>同样，我们需要知道编译Python扩展所依赖的Python链接库，以及编译链接的参数等，这里使用<code>py3.dependency()</code>来获取相关的设置。以上的准备工作做完以后，就可以使用<code>py3.extension_module()</code>来真正设置编译扩展。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">py3</span><span class="selector-class">.extension_module</span>(</span><br><span class="line">    <span class="string">&#x27;d&#x27;</span>,</span><br><span class="line">    [<span class="string">&#x27;d.f90&#x27;</span>, d, incdir_f2py / <span class="string">&#x27;fortranobject.c&#x27;</span>],</span><br><span class="line">    <span class="attribute">include_directories</span>: inc_np,</span><br><span class="line">    <span class="attribute">dependencies</span>: py_dep,</span><br><span class="line">    <span class="attribute">install</span>: true,</span><br><span class="line">    <span class="attribute">subdir</span>: <span class="string">&#x27;mypyproj/core&#x27;</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数<code>&#39;d&#39;</code>是设置的独一无二的构建目标名称，<code>[&#39;d.f90&#39;, d, incdir_f2py / &#39;fortranobject.c&#39;]</code>是输入文件，包含了原始Fortran文件，通过<code>custom_target()</code>编译得到的文件，以及<code>numpy.f2py</code>中定义的文件。<code>include_directories</code>设置头文件路径，<code>dependencies</code>设置链接库路径，<code>install: true</code>设置编译好后将扩展放入<code>subdir</code>指定的路径中。</p>
+<p>到现在为止<code>mypyproj/core/meson.build</code>文件更改完毕，所有内容如下</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">py3</span>.install_sources(</span><br><span class="line">    [</span><br><span class="line">        <span class="string">&#x27;__init__.py&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;a.py&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;b.py&#x27;</span>,</span><br><span class="line">    ],</span><br><span class="line">    subdir: <span class="string">&#x27;mypyproj/core&#x27;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">add_languages(<span class="string">&#x27;fortran&#x27;</span>)</span><br><span class="line">add_languages(<span class="string">&#x27;c&#x27;</span>)</span><br><span class="line"></span><br><span class="line">d = custom_target(</span><br><span class="line">    <span class="string">&#x27;dmodule&#x27;</span>,</span><br><span class="line">    inpu<span class="variable">t:</span> [<span class="string">&#x27;d.f90&#x27;</span>],</span><br><span class="line">    <span class="keyword">command</span>: [</span><br><span class="line">        <span class="keyword">py3</span>,</span><br><span class="line">        <span class="string">&#x27;-m&#x27;</span>, <span class="string">&#x27;numpy.f2py&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;@INPUT@&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;-m&#x27;</span>, <span class="string">&#x27;d&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;--lower&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;--build-dir&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;mypyproj/core&#x27;</span>,</span><br><span class="line">    ],</span><br><span class="line">    outpu<span class="variable">t:</span> [<span class="string">&#x27;dmodule.c&#x27;</span>, <span class="string">&#x27;d-f2pywrappers2.f90&#x27;</span>],</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">incdir_numpy = run_command(</span><br><span class="line">    <span class="keyword">py3</span>,</span><br><span class="line">    [</span><br><span class="line">        <span class="string">&#x27;-c&#x27;</span>, <span class="string">&#x27;import os; os.chdir(&quot;..&quot;); import numpy; print(numpy.get_include())&#x27;</span>,</span><br><span class="line">    ],</span><br><span class="line">    check: true,</span><br><span class="line">).stdout().strip()</span><br><span class="line"></span><br><span class="line">incdir_f2py = run_command(</span><br><span class="line">    <span class="keyword">py3</span>,</span><br><span class="line">    [</span><br><span class="line">        <span class="string">&#x27;-c&#x27;</span>, <span class="string">&#x27;import os; os.chdir(&quot;..&quot;); import numpy.f2py; print(numpy.f2py.get_include())&#x27;</span>,</span><br><span class="line">    ],</span><br><span class="line">    check: true,</span><br><span class="line">).stdout().strip()</span><br><span class="line"></span><br><span class="line">inc_np = include_directories(incdir_numpy, incdir_f2py)</span><br><span class="line"></span><br><span class="line">py_dep = <span class="keyword">py3</span>.dependency()</span><br><span class="line"></span><br><span class="line"><span class="keyword">py3</span>.extension_module(</span><br><span class="line">    <span class="string">&#x27;d&#x27;</span>,</span><br><span class="line">    [<span class="string">&#x27;d.f90&#x27;</span>, d, incdir_f2py / <span class="string">&#x27;fortranobject.c&#x27;</span>],</span><br><span class="line">    include_directorie<span class="variable">s:</span> inc_np,</span><br><span class="line">    dependencie<span class="variable">s:</span> py_dep,</span><br><span class="line">    instal<span class="variable">l:</span> true,</span><br><span class="line">    subdir: <span class="string">&#x27;mypyproj/core&#x27;</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>可以先单独运行meson的命令来测试扩展是否可以编译成功。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">meson setup build</span><br><span class="line">meson compile -C build</span><br></pre></td></tr></table></figure>
+
+<p>如果没有问题，则可以将所有更改提交到Git，然后运行打包命令打包，打包完成后就可以看到含有扩展的<code>.whl</code>Python包了。</p>
+<img src="/2024/10/03/build-python-package-with-meson/image-20241003152907462.png" class="" alt="image-20241003152907462">
+
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2024/10/03/build-python-package-with-meson/">https://blog.syize.cn/2024/10/03/build-python-package-with-meson/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2024-10-03</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/meson/" class="post-tags__link button"># meson</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2024/09/23/write-grib-with-cfgrib/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            使用cfgrib将数据保存为GRIB文件
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2024 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
