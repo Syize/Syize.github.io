@@ -16,8 +16,6 @@
     <!--icon-->
 
     
-        <link rel="shortcut icon" href="/images/favicon.ico">
-    
     
     
     
@@ -49,8 +47,8 @@
 <meta property="og:image" content="https://blog.syize.cn/2022/10/25/install-wrf-on-arch/image-20221026140105987.png">
 <meta property="og:image" content="https://blog.syize.cn/2022/10/25/install-wrf-on-arch/image-20221026140725866.png">
 <meta property="og:image" content="https://blog.syize.cn/2022/10/25/install-wrf-on-arch/image-20221026142907877.png">
-<meta property="article:published_time" content="2022-10-25T08:56:31.000Z">
-<meta property="article:modified_time" content="2022-10-27T14:00:12.000Z">
+<meta property="article:published_time" content="2022-10-25T16:56:31.000Z">
+<meta property="article:modified_time" content="2024-10-04T08:13:56.768Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="WRF">
 <meta name="twitter:card" content="summary_large_image">
@@ -63,7 +61,7 @@
 
     
     
-        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" onload="this.media='all'">
         
     
 
@@ -71,43 +69,34 @@
     
 
     
-    
-<link rel="stylesheet" href="/css/style/dark.css">
-
-    
-<script src="/js/darkmode.js"></script>
-
-
 
      
 
     <!-- custom head -->
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
     <body>
         <div id="app" tabindex="-1">
             <header class="header">
     <div class="header__left">
         <a href="/" class="button">
-            <span class="logo__text">Syize の blog</span>
+            <span class="logo__text">Demo</span>
         </a>
     </div>
     <div class="header__right">
         
             <div class="navbar__menus">
                 
-                    <a href="/" class="navbar-menu button">home</a>
+                    <a href="/" class="navbar-menu button">首页</a>
                 
-                    <a href="/tags/" class="navbar-menu button">tags</a>
+                    <a href="/tags/" class="navbar-menu button">标签</a>
                 
-                    <a href="/archives/" class="navbar-menu button">archives</a>
+                    <a href="/archives/" class="navbar-menu button">归档</a>
                 
-                    <a href="/categories/" class="navbar-menu button">categories</a>
+                    <a href="/friends/" class="navbar-menu button">友链</a>
                 
-                    <a href="/about/" class="navbar-menu button">about</a>
-                
-                    <a href="/friend/" class="navbar-menu button">links</a>
+                    <a href="/page/" class="navbar-menu button">Page</a>
                 
             </div>
         
@@ -116,26 +105,20 @@
 
         
         
-    <a href="javaScript:void(0);" id="btn-toggle-dark">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    </a>
-
 
         
             <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
             <div class="dropdown-menus" id="dropdown-menus">
                 
-                    <a href="/" class="dropdown-menu button">home</a>
+                    <a href="/" class="dropdown-menu button">首页</a>
                 
-                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
                 
-                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
                 
-                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
                 
-                    <a href="/about/" class="dropdown-menu button">about</a>
-                
-                    <a href="/friend/" class="dropdown-menu button">links</a>
+                    <a href="/page/" class="dropdown-menu button">Page</a>
                 
             </div>
         
@@ -168,43 +151,9 @@
 </div>
 
 
-    <aside class="post-side">
-        <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#WRF-%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">WRF 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#clone-%E6%BA%90%E7%A0%81"><span class="toc-number">1.1.</span> <span class="toc-text">clone 源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="toc-number">1.2.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90-configure-wrf"><span class="toc-number">1.3.</span> <span class="toc-text">生成 configure.wrf</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9-CPP-%E7%BC%96%E8%AF%91%E5%99%A8%E8%B7%AF%E5%BE%84"><span class="toc-number">1.3.1.</span> <span class="toc-text">修改 CPP 编译器路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%BB%E9%99%A4%E8%B0%83%E7%94%A8-time-%E5%91%BD%E4%BB%A4%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.3.2.</span> <span class="toc-text">去除调用 time 命令的设置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E7%BC%96%E8%AF%91"><span class="toc-number">1.4.</span> <span class="toc-text">开始编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%8A%A5%E9%94%99"><span class="toc-number">1.5.</span> <span class="toc-text">解决报错</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dfft1f-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">1.5.1.</span> <span class="toc-text">dfft1f_ 符号未定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#get-dims-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">1.5.2.</span> <span class="toc-text">get_dims_ 符号未定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#module-wps-io-arw-mod-%E6%96%87%E4%BB%B6%E6%89%BE%E4%B8%8D%E5%88%B0"><span class="toc-number">1.5.3.</span> <span class="toc-text">module_wps_io_arw.mod 文件找不到</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WPS-%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">WPS 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#clone-%E6%BA%90%E7%A0%81-1"><span class="toc-number">2.1.</span> <span class="toc-text">clone 源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%8A%A5%E9%94%99-1"><span class="toc-number">2.2.</span> <span class="toc-text">解决报错</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nf-strerror-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">2.2.1.</span> <span class="toc-text">nf_strerror_ 符号未定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jpc-decode-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">2.2.2.</span> <span class="toc-text">jpc_decode 符号未定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#netcdf-MOD-nf90-get-var-4d-fourbytereal-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">2.2.3.</span> <span class="toc-text">__netcdf_MOD_nf90_get_var_4d_fourbytereal 符号未定义</span></a></li></ol></li></ol></li></ol>
-        </div>
-    </aside>
-    <a class="btn-toc button" id="btn-toc" tabindex="0">
-        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
-            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
-        </svg>
-    </a>
-    <div class="toc-menus" id="toc-menus">
-        <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#WRF-%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">WRF 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#clone-%E6%BA%90%E7%A0%81"><span class="toc-number">1.1.</span> <span class="toc-text">clone 源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="toc-number">1.2.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90-configure-wrf"><span class="toc-number">1.3.</span> <span class="toc-text">生成 configure.wrf</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9-CPP-%E7%BC%96%E8%AF%91%E5%99%A8%E8%B7%AF%E5%BE%84"><span class="toc-number">1.3.1.</span> <span class="toc-text">修改 CPP 编译器路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%BB%E9%99%A4%E8%B0%83%E7%94%A8-time-%E5%91%BD%E4%BB%A4%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.3.2.</span> <span class="toc-text">去除调用 time 命令的设置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E7%BC%96%E8%AF%91"><span class="toc-number">1.4.</span> <span class="toc-text">开始编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%8A%A5%E9%94%99"><span class="toc-number">1.5.</span> <span class="toc-text">解决报错</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dfft1f-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">1.5.1.</span> <span class="toc-text">dfft1f_ 符号未定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#get-dims-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">1.5.2.</span> <span class="toc-text">get_dims_ 符号未定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#module-wps-io-arw-mod-%E6%96%87%E4%BB%B6%E6%89%BE%E4%B8%8D%E5%88%B0"><span class="toc-number">1.5.3.</span> <span class="toc-text">module_wps_io_arw.mod 文件找不到</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WPS-%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">WPS 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#clone-%E6%BA%90%E7%A0%81-1"><span class="toc-number">2.1.</span> <span class="toc-text">clone 源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%8A%A5%E9%94%99-1"><span class="toc-number">2.2.</span> <span class="toc-text">解决报错</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nf-strerror-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">2.2.1.</span> <span class="toc-text">nf_strerror_ 符号未定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jpc-decode-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">2.2.2.</span> <span class="toc-text">jpc_decode 符号未定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#netcdf-MOD-nf90-get-var-4d-fourbytereal-%E7%AC%A6%E5%8F%B7%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">2.2.3.</span> <span class="toc-text">__netcdf_MOD_nf90_get_var_4d_fourbytereal 符号未定义</span></a></li></ol></li></ol></li></ol>
-    </div>
 
-
-<article class="post post__with-toc content-card">
-    <div class="post__header">
-    <div class="post__expire" id="post-expired-notify">
-        <p>
-            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
-        </p>
-    </div>
-    <script>
-        (() => {
-            var update = Date.parse("2022-10-27"),
-                date = new Date(),
-                now = date.getTime(),
-                expire = now - update,
-                expire_days = Math.floor(expire/(24*3600*1000));
-            if (expire_days >= 120) {
-                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
-                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
-            }
-        })();
-    </script>
-</div>
+<article class="post content-card">
+    <div class="post__header"></div>
     <div class="post__content">
         <p>老高让我学 <code>WRF</code>，我就装 <code>WRF</code>。装 <code>WRf</code> 的过程出现了很多问题，就开贴记录一下。</p>
 <blockquote>
@@ -215,7 +164,7 @@
 <h2 id="WRF-安装"><a href="#WRF-安装" class="headerlink" title="WRF 安装"></a>WRF 安装</h2><h3 id="clone-源码"><a href="#clone-源码" class="headerlink" title="clone 源码"></a>clone 源码</h3><p>根据 <a target="_blank" rel="noopener" href="https://www2.mmm.ucar.edu/wrf/users/download/get_sources_new.php">官网</a> 的描述，先执行以下代码将源代码 clone 下来。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recurse-submodules https://github.com/wrf-model/WRF</span><br></pre></td></tr></table></figure>
 
-<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S netcdf hdf5 netcdf-fortran</span><br></pre></td></tr></table></figure>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S netcdf hdf5 netcdf-fortran</span><br></pre></td></tr></table></figure>
 
 <p>gcc、gcc-fortran什么的都默认你已经装好了嗷，没有的话快装。</p>
 <h3 id="生成-configure-wrf"><a href="#生成-configure-wrf" class="headerlink" title="生成 configure.wrf"></a>生成 configure.wrf</h3><p>首先需要在环境变量中设置以下 <code>NETCDF</code>、<code>NETCDF_INC</code> 和 <code>NETCDF_LIB</code></p>
@@ -237,7 +186,7 @@
 <p>正常人谁特么会写死编译器路径？</p>
 </blockquote>
 <h4 id="去除调用-time-命令的设置"><a href="#去除调用-time-命令的设置" class="headerlink" title="去除调用 time 命令的设置"></a>去除调用 time 命令的设置</h4><p>之所以要去掉，是因为编译的时候会出现 <code>make</code> 找不到 <code>time</code> 命令的错误。翻了一下 Github 的 issue，开发者说 <code>time</code> 命令无关紧要，可以去掉。<del>那你特么调这个命令干啥</del>。定位到 <code>configure.wrf</code> 的第 139 行，内容应该如下</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">FC</span>              =       time $(DM_FC)</span><br></pre></td></tr></table></figure>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FC              =       <span class="built_in">time</span> $(DM_FC)</span><br></pre></td></tr></table></figure>
 
 <p>将其修改为</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">FC</span>              =       $(DM_FC)</span><br></pre></td></tr></table></figure>
@@ -264,8 +213,8 @@
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">build:</span></span><br><span class="line">        <span class="variable">$(CPP)</span> <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(name)</span>.F  &gt; <span class="variable">$(name)</span>.f90</span><br><span class="line">        <span class="variable">$(FC)</span> -c <span class="variable">$(FFLAGS)</span> <span class="variable">$(name)</span>.f90</span><br><span class="line">        <span class="variable">$(RM)</span> -f <span class="variable">$(name)</span>.f90</span><br></pre></td></tr></table></figure>
 
 <p>最后在终端中运行以下命令重新把文件全部编译一遍</p>
-<blockquote class="blockquote-note blockquote-note__warning"><div class="blockquote-note__header"><div class="blockquote-note__icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.06-1.78C8.18 5.31 8.68 2.45 5.05.32L5.03.3l.02.01z"></path></svg></div>注意</div><div class="blockquote-note__content"><p>我使用的是 zsh，若你使用其他类型的 shell，请注意修改 make 那一行的字符串切片</p>
-</div></blockquote>
+<blockquote><p><strong>注意</strong></p><p>我使用的是 zsh，若你使用其他类型的 shell，请注意修改 make 那一行的字符串切片</p>
+</blockquote>
 
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> *.F | <span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">make build name=<span class="variable">$&#123;line[1,-3]&#125;</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
 
@@ -328,26 +277,8 @@
 <h4 id="netcdf-MOD-nf90-get-var-4d-fourbytereal-符号未定义"><a href="#netcdf-MOD-nf90-get-var-4d-fourbytereal-符号未定义" class="headerlink" title="__netcdf_MOD_nf90_get_var_4d_fourbytereal 符号未定义"></a>__netcdf_MOD_nf90_get_var_4d_fourbytereal 符号未定义</h4><p>这个也是由于没有链接 <code>libnetcdff.so</code> 造成的，解决方法和 <code>nf_strerror_</code> 一样。</p>
 
     </div>
-    
-    <div class="post__license">
-        <p>
-            <strong>Author: </strong>Syize
-        </p>
-        <p>
-            <strong>
-                Permalink: 
-            </strong>
-            <a href="https://blog.syize.cn/2022/10/25/install-wrf-on-arch/">https://blog.syize.cn/2022/10/25/install-wrf-on-arch/</a>
-        </p>
-        
-            <strong>
-                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
-
-            </strong>
-        
-    </div>
- 
-    <div class="post-footer__meta"><p>updated at 2022-10-27</p></div> 
+     
+    <div class="post-footer__meta"><p>updated at 2024-10-04</p></div> 
     <div class="post-entry__tags"><a href="/tags/WRF/" class="post-tags__link button"># WRF</a></div> 
 </article>
 
@@ -391,26 +322,6 @@
 
 
 
-    <div class="post__comments post__with-toc content-card" id="comment">
-        
-    <h4>Comments</h4>
-    
-    
-    
-    
-    
-    <div id="gitalk-container"></div>
-
-    
-    
-    
-    
-    
-    
-
-
-    </div>
-
 
 
 </main>
@@ -428,7 +339,7 @@
     
         
         <p class="footer-copyright">
-            Copyright © 2021&nbsp;-&nbsp;2024 <a href="/">Syize の blog</a>
+            Copyright © 2024 <a href="/">Syize の blog</a>
         </p>
     
     
@@ -458,119 +369,16 @@
     
  
 
-
-    
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
-
-    
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
-
-    <script>
-        let lazyloadT = Boolean('false'),
-            auto_fancybox = Boolean('false')
-        if (auto_fancybox) {
-            $(".post__content").find('img').each(function () {
-                var element = document.createElement("a");
-                $(element).attr("data-fancybox", "gallery");
-                $(element).attr("href", $(this).attr("src"));
-                if (lazyloadT) {
-                    $(element).attr("href", $(this).attr("data-srcset"));
-                }
-                $(this).wrap(element);
-            });
-        } else {
-            $(".post__content").find("fancybox").find('img').each(function () {
-                var element = document.createElement("a");
-                $(element).attr("data-fancybox", "gallery");
-                $(element).attr("href", $(this).attr("src"));
-                if (lazyloadT) {
-                    $(element).attr("href", $(this).attr("data-srcset"));
-                }
-                $(this).wrap(element);
-            });
-        }
-    </script>
  
 
  
 
  
 
-
-    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
-    <script>
-            mermaid.initialize(JSON.stringify(''));
-    </script>
  
 
  
 
-
-    
-
-    
-    
-    
-
-    
-    
-    
-    <script>
-        function loadComment() {
-            let e, i;
-            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
-            document.body.appendChild(e);
-            e.onload = () => {
-                var gitalk = new Gitalk({
-                    clientID: 'f9cc68800d4b4684b855',
-                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
-                    repo: 'blog-comment',
-                    owner: 'Syize',
-                    admin: 'Syize',
-                    id: window.location.pathname,
-                    distractionFreeMode: false
-                });
-                gitalk.render('gitalk-container');
-            };
-            (i = document.createElement("link")).rel = "stylesheet",
-            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
-            document.head.appendChild(i);
-        }
-    
-        var runningOnBrowser = typeof window !== "undefined";
-        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
-        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
-    
-        setTimeout(function () {
-            if (!isBot && supportsIntersectionObserver) {
-                var comment_observer = new IntersectionObserver(function(entries) {
-                    if (entries[0].isIntersecting) {
-                        loadComment();
-                        comment_observer.disconnect();
-                    }
-                }, { threshold: [0] });
-                comment_observer.observe(document.getElementById('comment'));
-            } else {
-                loadComment();
-            }
-        }, 1);
-    </script>
-
-    
-    
-
-    
-    
-    
-    
-    
-
-    
-    
-    
 
 
 

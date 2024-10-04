@@ -16,8 +16,6 @@
     <!--icon-->
 
     
-        <link rel="shortcut icon" href="/images/favicon.ico">
-    
     
     
     
@@ -46,8 +44,8 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://blog.syize.cn/2022/10/16/learn-xarray-with-netcdf/image-20221020233513346.png">
 <meta property="og:image" content="https://blog.syize.cn/2022/10/16/learn-xarray-with-netcdf/image-20221020234820713.png">
-<meta property="article:published_time" content="2022-10-16T07:44:55.000Z">
-<meta property="article:modified_time" content="2022-11-13T15:01:31.000Z">
+<meta property="article:published_time" content="2022-10-16T15:44:55.000Z">
+<meta property="article:modified_time" content="2024-10-04T08:13:56.770Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
@@ -60,7 +58,7 @@
 
     
     
-        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" onload="this.media='all'">
         
     
 
@@ -68,43 +66,34 @@
     
 
     
-    
-<link rel="stylesheet" href="/css/style/dark.css">
-
-    
-<script src="/js/darkmode.js"></script>
-
-
 
      
 
     <!-- custom head -->
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
     <body>
         <div id="app" tabindex="-1">
             <header class="header">
     <div class="header__left">
         <a href="/" class="button">
-            <span class="logo__text">Syize の blog</span>
+            <span class="logo__text">Demo</span>
         </a>
     </div>
     <div class="header__right">
         
             <div class="navbar__menus">
                 
-                    <a href="/" class="navbar-menu button">home</a>
+                    <a href="/" class="navbar-menu button">首页</a>
                 
-                    <a href="/tags/" class="navbar-menu button">tags</a>
+                    <a href="/tags/" class="navbar-menu button">标签</a>
                 
-                    <a href="/archives/" class="navbar-menu button">archives</a>
+                    <a href="/archives/" class="navbar-menu button">归档</a>
                 
-                    <a href="/categories/" class="navbar-menu button">categories</a>
+                    <a href="/friends/" class="navbar-menu button">友链</a>
                 
-                    <a href="/about/" class="navbar-menu button">about</a>
-                
-                    <a href="/friend/" class="navbar-menu button">links</a>
+                    <a href="/page/" class="navbar-menu button">Page</a>
                 
             </div>
         
@@ -113,26 +102,20 @@
 
         
         
-    <a href="javaScript:void(0);" id="btn-toggle-dark">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    </a>
-
 
         
             <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
             <div class="dropdown-menus" id="dropdown-menus">
                 
-                    <a href="/" class="dropdown-menu button">home</a>
+                    <a href="/" class="dropdown-menu button">首页</a>
                 
-                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
                 
-                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
                 
-                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
                 
-                    <a href="/about/" class="dropdown-menu button">about</a>
-                
-                    <a href="/friend/" class="dropdown-menu button">links</a>
+                    <a href="/page/" class="dropdown-menu button">Page</a>
                 
             </div>
         
@@ -165,43 +148,9 @@
 </div>
 
 
-    <aside class="post-side">
-        <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96-netCDF-%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">读取 netCDF 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Positional-indexing"><span class="toc-number">2.</span> <span class="toc-text">Positional indexing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dataset-%E4%B8%AD%E7%9A%84-positional-indexing"><span class="toc-number">2.1.</span> <span class="toc-text">Dataset 中的 positional indexing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-%E4%B8%AD%E7%9A%84-positional-indexing"><span class="toc-number">2.2.</span> <span class="toc-text">DataArray 中的 positional indexing</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E7%85%A7%E6%9F%90%E4%B8%80%E7%BB%B4%E5%BA%A6%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">按照某一维度进行排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%BB%E9%99%A4-DataArray-%E4%B8%AD%E7%9A%84-NaN-%E6%95%B0%E6%8D%AE"><span class="toc-number">4.</span> <span class="toc-text">去除 DataArray 中的 NaN 数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%8F%E5%BA%A6%E5%9D%90%E6%A0%87%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">5.</span> <span class="toc-text">经度坐标的转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-%E6%96%B0%E5%BB%BA-Coordinate"><span class="toc-number">5.1.</span> <span class="toc-text">DataArray 新建 Coordinate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-%E4%BA%A4%E6%8D%A2%E4%B8%A4%E4%B8%AA-Coordinate"><span class="toc-number">5.2.</span> <span class="toc-text">DataArray 交换两个 Coordinate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-%E5%8E%BB%E9%99%A4%E6%97%A0%E7%94%A8%E7%9A%84-Coordinate"><span class="toc-number">5.3.</span> <span class="toc-text">DataArray 去除无用的 Coordinate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-Coordinate-%E9%87%8D%E5%91%BD%E5%90%8D"><span class="toc-number">5.4.</span> <span class="toc-text">DataArray Coordinate 重命名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-xarray-%E7%9A%84%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9A%84-key"><span class="toc-number">6.</span> <span class="toc-text">关于 xarray 的奇奇怪怪的 key</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-getitem-%E5%87%BD%E6%95%B0"><span class="toc-number">6.1.</span> <span class="toc-text">关于 __getitem__ 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xarray-%E4%B8%AD%E7%9A%84-getitem-%E5%87%BD%E6%95%B0"><span class="toc-number">6.2.</span> <span class="toc-text">xarray 中的 __getitem__ 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-xarray-%E7%9A%84-dt-%E5%8F%96%E7%89%B9%E5%AE%9A%E6%97%B6%E9%97%B4%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-number">6.3.</span> <span class="toc-text">通过 xarray 的 dt 取特定时间的数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%BE%E5%9B%9E%E4%B8%A2%E5%A4%B1%E7%9A%84-time-%E5%9D%90%E6%A0%87"><span class="toc-number">7.</span> <span class="toc-text">找回丢失的 time 坐标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%AF%8F%E4%B8%80%E5%B9%B4%E7%9A%84%E5%AD%A3%E8%8A%82%E5%B9%B3%E5%9D%87"><span class="toc-number">8.</span> <span class="toc-text">计算每一年的季节平均</span></a></li></ol>
-        </div>
-    </aside>
-    <a class="btn-toc button" id="btn-toc" tabindex="0">
-        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
-            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
-        </svg>
-    </a>
-    <div class="toc-menus" id="toc-menus">
-        <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96-netCDF-%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">读取 netCDF 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Positional-indexing"><span class="toc-number">2.</span> <span class="toc-text">Positional indexing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dataset-%E4%B8%AD%E7%9A%84-positional-indexing"><span class="toc-number">2.1.</span> <span class="toc-text">Dataset 中的 positional indexing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-%E4%B8%AD%E7%9A%84-positional-indexing"><span class="toc-number">2.2.</span> <span class="toc-text">DataArray 中的 positional indexing</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E7%85%A7%E6%9F%90%E4%B8%80%E7%BB%B4%E5%BA%A6%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">按照某一维度进行排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%BB%E9%99%A4-DataArray-%E4%B8%AD%E7%9A%84-NaN-%E6%95%B0%E6%8D%AE"><span class="toc-number">4.</span> <span class="toc-text">去除 DataArray 中的 NaN 数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%8F%E5%BA%A6%E5%9D%90%E6%A0%87%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">5.</span> <span class="toc-text">经度坐标的转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-%E6%96%B0%E5%BB%BA-Coordinate"><span class="toc-number">5.1.</span> <span class="toc-text">DataArray 新建 Coordinate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-%E4%BA%A4%E6%8D%A2%E4%B8%A4%E4%B8%AA-Coordinate"><span class="toc-number">5.2.</span> <span class="toc-text">DataArray 交换两个 Coordinate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-%E5%8E%BB%E9%99%A4%E6%97%A0%E7%94%A8%E7%9A%84-Coordinate"><span class="toc-number">5.3.</span> <span class="toc-text">DataArray 去除无用的 Coordinate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataArray-Coordinate-%E9%87%8D%E5%91%BD%E5%90%8D"><span class="toc-number">5.4.</span> <span class="toc-text">DataArray Coordinate 重命名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-xarray-%E7%9A%84%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9A%84-key"><span class="toc-number">6.</span> <span class="toc-text">关于 xarray 的奇奇怪怪的 key</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-getitem-%E5%87%BD%E6%95%B0"><span class="toc-number">6.1.</span> <span class="toc-text">关于 __getitem__ 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xarray-%E4%B8%AD%E7%9A%84-getitem-%E5%87%BD%E6%95%B0"><span class="toc-number">6.2.</span> <span class="toc-text">xarray 中的 __getitem__ 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-xarray-%E7%9A%84-dt-%E5%8F%96%E7%89%B9%E5%AE%9A%E6%97%B6%E9%97%B4%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-number">6.3.</span> <span class="toc-text">通过 xarray 的 dt 取特定时间的数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%BE%E5%9B%9E%E4%B8%A2%E5%A4%B1%E7%9A%84-time-%E5%9D%90%E6%A0%87"><span class="toc-number">7.</span> <span class="toc-text">找回丢失的 time 坐标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%AF%8F%E4%B8%80%E5%B9%B4%E7%9A%84%E5%AD%A3%E8%8A%82%E5%B9%B3%E5%9D%87"><span class="toc-number">8.</span> <span class="toc-text">计算每一年的季节平均</span></a></li></ol>
-    </div>
 
-
-<article class="post post__with-toc content-card">
-    <div class="post__header">
-    <div class="post__expire" id="post-expired-notify">
-        <p>
-            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
-        </p>
-    </div>
-    <script>
-        (() => {
-            var update = Date.parse("2022-11-13"),
-                date = new Date(),
-                now = date.getTime(),
-                expire = now - update,
-                expire_days = Math.floor(expire/(24*3600*1000));
-            if (expire_days >= 120) {
-                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
-                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
-            }
-        })();
-    </script>
-</div>
+<article class="post content-card">
+    <div class="post__header"></div>
     <div class="post__content">
         <p>最近做课程论文需要读取气象数据 (<code>nc</code>格式)，之前处理雷达数据时一直都是用 <code>netCDF4</code> 直接梭哈，但是处理全球大尺度的数据时，经常搞日平均月平均，单独取某些月做操作，这个时候 <code>netCDF</code> 就不够看了。正好学一学 <code>xarray</code>，水几篇博客。</p>
 <span id="more"></span>
@@ -211,8 +160,8 @@
 
 <figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;xarray.Dataset&gt;</span><br><span class="line">Dimensions:    (longitude: 1440, latitude: 721, time: 516)</span><br><span class="line">Coordinates:</span><br><span class="line">  * longitude  (longitude) float32 0.0 0.25 0.5 0.75 ... 359.0 359.2 359.5 359.8</span><br><span class="line">  * latitude   (latitude) float32 90.0 89.75 89.5 89.25 ... <span class="string">-89</span>.5 <span class="string">-89</span>.75 <span class="string">-90</span>.0</span><br><span class="line">  * time       (time) datetime64[ns] 1979<span class="string">-01</span><span class="string">-01</span> 1979<span class="string">-02</span><span class="string">-01</span> ... 2021<span class="string">-12</span><span class="string">-01</span></span><br><span class="line">Data variables:</span><br><span class="line">    sst        (time, latitude, longitude) float32 ...</span><br><span class="line">Attributes:</span><br><span class="line">    Conventions:  CF<span class="string">-1</span>.6</span><br><span class="line">    history:      2022<span class="string">-10</span><span class="string">-16</span> 08:00:21 GMT by grib_to_netcdf<span class="string">-2</span>.25.1: /opt/ecmw...</span><br></pre></td></tr></table></figure>
 
-<h2 id="Positional-indexing"><a href="#Positional-indexing" class="headerlink" title="Positional indexing"></a>Positional indexing</h2><blockquote class="blockquote-note blockquote-note__important"><div class="blockquote-note__header"><div class="blockquote-note__icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></div>关于坐标的绑定</div><div class="blockquote-note__content"><p>这里绑定的意思是，你在 <code>xarray</code> 的 <code>Dataset</code> 或者 <code>DataArray</code> 层面对数据操作时，坐标也随着变化。但是你要是直接取出格点数据进行操作的话，这里的绑定就是无效的。</p>
-</div></blockquote>
+<h2 id="Positional-indexing"><a href="#Positional-indexing" class="headerlink" title="Positional indexing"></a>Positional indexing</h2><blockquote><p><strong>关于坐标的绑定</strong></p><p>这里绑定的意思是，你在 <code>xarray</code> 的 <code>Dataset</code> 或者 <code>DataArray</code> 层面对数据操作时，坐标也随着变化。但是你要是直接取出格点数据进行操作的话，这里的绑定就是无效的。</p>
+</blockquote>
 
 <h3 id="Dataset-中的-positional-indexing"><a href="#Dataset-中的-positional-indexing" class="headerlink" title="Dataset 中的 positional indexing"></a>Dataset 中的 positional indexing</h3><p><code>xarray</code> 的 <code>Dataset</code> 中，数据是和坐标 (这里的坐标可以是经纬度、时间等) 绑定的，所以可以直接通过 <code>positional indexing</code> 来取想要的部分的数据，例如提取特定时间或者特定经纬度的数据。<strong>下面的例子展示了获取1999年3月1日的数据的方法</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这里写 “1999-03-01” 是因为与数据坐标里 `time` 维的坐标形式一致。</span></span><br><span class="line">data = dataset.loc[<span class="built_in">dict</span>(time=<span class="string">&quot;1999-03-01&quot;</span>)]</span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
@@ -230,8 +179,8 @@
 
 <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;xarray.Dataset&gt;</span><br><span class="line">Dimensions:    (longitude: <span class="number">721</span>, latitude: <span class="number">361</span>, time: <span class="number">12</span>)</span><br><span class="line">Coordinates:</span><br><span class="line">  * longitude  (longitude) float<span class="number">32 0.0 0</span>.<span class="number">25 0.5 0</span>.<span class="number">75</span> ... <span class="number">179.2 179.5</span> <span class="number">179.8 180.0</span></span><br><span class="line">  * latitude   (latitude) float<span class="number">32 90.0 89</span>.<span class="number">75 89.5 89</span>.<span class="number">25</span> ... <span class="number">0.75 0.5</span> <span class="number">0.25 0.0</span></span><br><span class="line">  * time       (time) datetime64[ns] <span class="number">1999-01-01</span> <span class="number">1999-02-01</span> ... <span class="number">1999-12-01</span></span><br><span class="line">Data variables:</span><br><span class="line">    sst        (time, latitude, longitude) float32 ...</span><br><span class="line">Attributes:</span><br><span class="line">    Conventions:  CF-<span class="number">1</span>.<span class="number">6</span></span><br><span class="line">    history:      <span class="number">2022-10-16</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">21</span> GMT by grib_to_netcdf-<span class="number">2</span>.<span class="number">25</span>.<span class="number">1</span>: /opt/ecmw...</span><br></pre></td></tr></table></figure>
 
-<blockquote class="blockquote-note blockquote-note__important"><div class="blockquote-note__header"><div class="blockquote-note__icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></div>切片的顺序</div><div class="blockquote-note__content"><p><code>slice</code> 中第一个数值或字符串代表起始坐标，第二个代表终止坐标，因此需要注意 <code>Dataset</code> 和 <code>DataArray</code> 中坐标的起始和终止顺序。如果取反的话将取不出数据。</p>
-</div></blockquote>
+<blockquote><p><strong>切片的顺序</strong></p><p><code>slice</code> 中第一个数值或字符串代表起始坐标，第二个代表终止坐标，因此需要注意 <code>Dataset</code> 和 <code>DataArray</code> 中坐标的起始和终止顺序。如果取反的话将取不出数据。</p>
+</blockquote>
 
 <h3 id="DataArray-中的-positional-indexing"><a href="#DataArray-中的-positional-indexing" class="headerlink" title="DataArray 中的 positional indexing"></a>DataArray 中的 positional indexing</h3><p><code>DataArray</code> 的 <code>loc</code> 使用方法与 <code>Dataset</code> 类似，但是不同的是不需要传入字典，而是以索引的形式传入。</p>
 <blockquote>
@@ -241,8 +190,8 @@
 
 <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;xarray.DataArray &#x27;sst&#x27; (time: <span class="number">12</span>, latitude: <span class="number">361</span>, longitude: <span class="number">721</span>)&gt;</span><br><span class="line">[<span class="number">3123372</span> values with dtype=float32]</span><br><span class="line">Coordinates:</span><br><span class="line">  * longitude  (longitude) float<span class="number">32 0.0 0</span>.<span class="number">25 0.5 0</span>.<span class="number">75</span> ... <span class="number">179.2 179.5</span> <span class="number">179.8 180.0</span></span><br><span class="line">  * latitude   (latitude) float<span class="number">32 90.0 89</span>.<span class="number">75 89.5 89</span>.<span class="number">25</span> ... <span class="number">0.75 0.5</span> <span class="number">0.25 0.0</span></span><br><span class="line">  * time       (time) datetime64[ns] <span class="number">1999-01-01</span> <span class="number">1999-02-01</span> ... <span class="number">1999-12-01</span></span><br><span class="line">Attributes:</span><br><span class="line">    units:      K</span><br><span class="line">    long_name:  Sea surface temperature</span><br></pre></td></tr></table></figure>
 
-<blockquote class="blockquote-note blockquote-note__important"><div class="blockquote-note__header"><div class="blockquote-note__icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></div>索引范围</div><div class="blockquote-note__content"><p>需要注意的是，这里的索引填写顺序要和坐标维度顺序相对应，具体的维度顺序可以查看打印出的 <code>Dataset</code> 的 <code>Data variables</code> 一栏。</p>
-</div></blockquote>
+<blockquote><p><strong>索引范围</strong></p><p>需要注意的是，这里的索引填写顺序要和坐标维度顺序相对应，具体的维度顺序可以查看打印出的 <code>Dataset</code> 的 <code>Data variables</code> 一栏。</p>
+</blockquote>
 
 <h2 id="按照某一维度进行排序"><a href="#按照某一维度进行排序" class="headerlink" title="按照某一维度进行排序"></a>按照某一维度进行排序</h2><p>有时候读取到的数据，经度或者纬度 (一般都是纬度) 顺序是从 90 到 -90 的，不太方便画图，需要对其重新排序，数据结构和代码如下</p>
 <blockquote>
@@ -337,8 +286,8 @@
 <p>然后将这个 <code>data_time</code> 作为 <code>year</code> 的子坐标添加进 <code>dataset</code> 中。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataset = dataset.assign_coords(time=(<span class="string">&#x27;year&#x27;</span>, data_time))</span><br></pre></td></tr></table></figure>
 
-<blockquote class="blockquote-note blockquote-note__important"><div class="blockquote-note__header"><div class="blockquote-note__icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></div>time参数</div><div class="blockquote-note__content"><p>这里的 time 形参表示添加的坐标名为 time，括号里 ‘year’ 为父坐标，data_time 是添加的坐标的数据</p>
-</div></blockquote>
+<blockquote><p><strong>time参数</strong></p><p>这里的 time 形参表示添加的坐标名为 time，括号里 ‘year’ 为父坐标，data_time 是添加的坐标的数据</p>
+</blockquote>
 
 <p>然后你就会看到 <code>dataset</code> 里出现了 <code>time</code> 坐标，只不过此时它还没有被使用。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&lt;xarray.DataArray</span> <span class="string">&#x27;sst&#x27;</span> <span class="string">(year:</span> <span class="number">43</span><span class="string">,</span> <span class="attr">latitude:</span> <span class="number">721</span><span class="string">,</span> <span class="attr">longitude:</span> <span class="number">1440</span><span class="string">)&gt;</span></span><br><span class="line"><span class="string">array()</span></span><br><span class="line"><span class="attr">Coordinates:</span></span><br><span class="line">  <span class="string">*</span> <span class="string">longitude</span>  <span class="string">(longitude)</span> <span class="string">float32</span> <span class="number">0.0</span> <span class="number">0.25</span> <span class="number">0.5</span> <span class="number">0.75</span> <span class="string">...</span> <span class="number">359.0</span> <span class="number">359.2</span> <span class="number">359.5</span> <span class="number">359.8</span></span><br><span class="line">  <span class="string">*</span> <span class="string">latitude</span>   <span class="string">(latitude)</span> <span class="string">float32</span> <span class="number">-90.0</span> <span class="number">-89.75</span> <span class="number">-89.5</span> <span class="number">-89.25</span> <span class="string">...</span> <span class="number">89.5</span> <span class="number">89.75</span> <span class="number">90.0</span></span><br><span class="line">  <span class="string">*</span> <span class="string">year</span>       <span class="string">(year)</span> <span class="string">int64</span> <span class="number">1979 </span><span class="number">1980 </span><span class="number">1981 </span><span class="number">1982 </span><span class="number">1983</span> <span class="string">...</span> <span class="number">2018 </span><span class="number">2019 </span><span class="number">2020 </span><span class="number">2021</span></span><br><span class="line">    <span class="string">time</span>       <span class="string">(year)</span> <span class="string">datetime64[ns]</span> <span class="number">1979-01-01 </span><span class="number">1980-01-01</span> <span class="string">...</span> <span class="number">2021-01-01</span></span><br><span class="line"><span class="attr">Attributes:</span></span><br><span class="line">    <span class="attr">units:</span>      <span class="string">K</span></span><br><span class="line">    <span class="attr">long_name:</span>  <span class="string">Sea</span> <span class="string">surface</span> <span class="string">temperature</span></span><br></pre></td></tr></table></figure>
@@ -370,26 +319,8 @@
 
 
     </div>
-    
-    <div class="post__license">
-        <p>
-            <strong>Author: </strong>Syize
-        </p>
-        <p>
-            <strong>
-                Permalink: 
-            </strong>
-            <a href="https://blog.syize.cn/2022/10/16/learn-xarray-with-netcdf/">https://blog.syize.cn/2022/10/16/learn-xarray-with-netcdf/</a>
-        </p>
-        
-            <strong>
-                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
-
-            </strong>
-        
-    </div>
- 
-    <div class="post-footer__meta"><p>updated at 2022-11-13</p></div> 
+     
+    <div class="post-footer__meta"><p>updated at 2024-10-04</p></div> 
     <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
 </article>
 
@@ -433,26 +364,6 @@
 
 
 
-    <div class="post__comments post__with-toc content-card" id="comment">
-        
-    <h4>Comments</h4>
-    
-    
-    
-    
-    
-    <div id="gitalk-container"></div>
-
-    
-    
-    
-    
-    
-    
-
-
-    </div>
-
 
 
 </main>
@@ -470,7 +381,7 @@
     
         
         <p class="footer-copyright">
-            Copyright © 2021&nbsp;-&nbsp;2024 <a href="/">Syize の blog</a>
+            Copyright © 2024 <a href="/">Syize の blog</a>
         </p>
     
     
@@ -500,119 +411,16 @@
     
  
 
-
-    
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
-
-    
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
-
-    <script>
-        let lazyloadT = Boolean('false'),
-            auto_fancybox = Boolean('false')
-        if (auto_fancybox) {
-            $(".post__content").find('img').each(function () {
-                var element = document.createElement("a");
-                $(element).attr("data-fancybox", "gallery");
-                $(element).attr("href", $(this).attr("src"));
-                if (lazyloadT) {
-                    $(element).attr("href", $(this).attr("data-srcset"));
-                }
-                $(this).wrap(element);
-            });
-        } else {
-            $(".post__content").find("fancybox").find('img').each(function () {
-                var element = document.createElement("a");
-                $(element).attr("data-fancybox", "gallery");
-                $(element).attr("href", $(this).attr("src"));
-                if (lazyloadT) {
-                    $(element).attr("href", $(this).attr("data-srcset"));
-                }
-                $(this).wrap(element);
-            });
-        }
-    </script>
  
 
  
 
  
 
-
-    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
-    <script>
-            mermaid.initialize(JSON.stringify(''));
-    </script>
  
 
  
 
-
-    
-
-    
-    
-    
-
-    
-    
-    
-    <script>
-        function loadComment() {
-            let e, i;
-            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
-            document.body.appendChild(e);
-            e.onload = () => {
-                var gitalk = new Gitalk({
-                    clientID: 'f9cc68800d4b4684b855',
-                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
-                    repo: 'blog-comment',
-                    owner: 'Syize',
-                    admin: 'Syize',
-                    id: window.location.pathname,
-                    distractionFreeMode: false
-                });
-                gitalk.render('gitalk-container');
-            };
-            (i = document.createElement("link")).rel = "stylesheet",
-            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
-            document.head.appendChild(i);
-        }
-    
-        var runningOnBrowser = typeof window !== "undefined";
-        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
-        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
-    
-        setTimeout(function () {
-            if (!isBot && supportsIntersectionObserver) {
-                var comment_observer = new IntersectionObserver(function(entries) {
-                    if (entries[0].isIntersecting) {
-                        loadComment();
-                        comment_observer.disconnect();
-                    }
-                }, { threshold: [0] });
-                comment_observer.observe(document.getElementById('comment'));
-            } else {
-                loadComment();
-            }
-        }, 1);
-    </script>
-
-    
-    
-
-    
-    
-    
-    
-    
-
-    
-    
-    
 
 
 

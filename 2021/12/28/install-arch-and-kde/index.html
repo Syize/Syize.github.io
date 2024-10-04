@@ -16,8 +16,6 @@
     <!--icon-->
 
     
-        <link rel="shortcut icon" href="/images/favicon.ico">
-    
     
     
     
@@ -30,7 +28,7 @@
 <title>Arch Linux, KDE 桌面及各种服务安装过程 | Syize の blog</title>
 
 
-    <meta name="keywords" content="KDE, Arch">
+    <meta name="keywords" content="Arch, KDE">
 
 
 
@@ -48,11 +46,11 @@
 <meta property="og:image" content="https://blog.syize.cn/2021/12/28/install-arch-and-kde/oh-my-zsh.png">
 <meta property="og:image" content="https://blog.syize.cn/2021/12/28/install-arch-and-kde/desktop.png">
 <meta property="og:image" content="https://blog.syize.cn/2021/12/28/install-arch-and-kde/cursor.png">
-<meta property="article:published_time" content="2021-12-28T15:02:04.000Z">
-<meta property="article:modified_time" content="2024-09-23T12:36:00.755Z">
+<meta property="article:published_time" content="2021-12-28T23:02:04.000Z">
+<meta property="article:modified_time" content="2024-10-04T08:13:56.757Z">
 <meta property="article:author" content="Syize">
-<meta property="article:tag" content="KDE">
 <meta property="article:tag" content="Arch">
+<meta property="article:tag" content="KDE">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://blog.syize.cn/2021/12/28/install-arch-and-kde/fcitx5.jpg">
 
@@ -63,7 +61,7 @@
 
     
     
-        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atom-one-dark.css" media="none" >
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" onload="this.media='all'">
         
     
 
@@ -71,43 +69,34 @@
     
 
     
-    
-<link rel="stylesheet" href="/css/style/dark.css">
-
-    
-<script src="/js/darkmode.js"></script>
-
-
 
      
 
     <!-- custom head -->
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
     <body>
         <div id="app" tabindex="-1">
             <header class="header">
     <div class="header__left">
         <a href="/" class="button">
-            <span class="logo__text">Syize の blog</span>
+            <span class="logo__text">Demo</span>
         </a>
     </div>
     <div class="header__right">
         
             <div class="navbar__menus">
                 
-                    <a href="/" class="navbar-menu button">home</a>
+                    <a href="/" class="navbar-menu button">首页</a>
                 
-                    <a href="/tags/" class="navbar-menu button">tags</a>
+                    <a href="/tags/" class="navbar-menu button">标签</a>
                 
-                    <a href="/archives/" class="navbar-menu button">archives</a>
+                    <a href="/archives/" class="navbar-menu button">归档</a>
                 
-                    <a href="/categories/" class="navbar-menu button">categories</a>
+                    <a href="/friends/" class="navbar-menu button">友链</a>
                 
-                    <a href="/about/" class="navbar-menu button">about</a>
-                
-                    <a href="/friend/" class="navbar-menu button">links</a>
+                    <a href="/page/" class="navbar-menu button">Page</a>
                 
             </div>
         
@@ -116,26 +105,20 @@
 
         
         
-    <a href="javaScript:void(0);" id="btn-toggle-dark">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    </a>
-
 
         
             <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
             <div class="dropdown-menus" id="dropdown-menus">
                 
-                    <a href="/" class="dropdown-menu button">home</a>
+                    <a href="/" class="dropdown-menu button">首页</a>
                 
-                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
                 
-                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
                 
-                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
                 
-                    <a href="/about/" class="dropdown-menu button">about</a>
-                
-                    <a href="/friend/" class="dropdown-menu button">links</a>
+                    <a href="/page/" class="dropdown-menu button">Page</a>
                 
             </div>
         
@@ -168,43 +151,9 @@
 </div>
 
 
-    <aside class="post-side">
-        <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">安装过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E7%83%A6%E4%BA%BA%E7%9A%84-beep"><span class="toc-number">3.1.</span> <span class="toc-text">关闭烦人的 beep</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%BD%91%E7%BB%9C"><span class="toc-number">3.2.</span> <span class="toc-text">连接网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E7%BA%BF%E7%BD%91%E7%BB%9C"><span class="toc-number">3.2.1.</span> <span class="toc-text">有线网络</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C"><span class="toc-number">3.3.</span> <span class="toc-text">无线网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4"><span class="toc-number">3.4.</span> <span class="toc-text">更新系统时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA"><span class="toc-number">3.5.</span> <span class="toc-text">磁盘分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD%E5%88%86%E5%8C%BA"><span class="toc-number">3.6.</span> <span class="toc-text">挂载分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BF%85%E9%9C%80%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="toc-number">3.7.</span> <span class="toc-text">安装必需软件包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90-fstab"><span class="toc-number">3.8.</span> <span class="toc-text">生成 fstab</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%89%E8%A3%85%E7%9A%84%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.9.</span> <span class="toc-text">进入安装的系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%97%B6%E5%8C%BA"><span class="toc-number">3.10.</span> <span class="toc-text">设置时区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%8C%96%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.11.</span> <span class="toc-text">本地化设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.12.</span> <span class="toc-text">网络设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-root-%E5%AF%86%E7%A0%81"><span class="toc-number">3.13.</span> <span class="toc-text">设置 root 密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-GRUB-%E5%BC%95%E5%AF%BC"><span class="toc-number">3.14.</span> <span class="toc-text">安装 GRUB 引导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E9%87%8D%E5%90%AF"><span class="toc-number">3.15.</span> <span class="toc-text">准备重启</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C-1"><span class="toc-number">3.15.1.</span> <span class="toc-text">无线网络</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E9%99%86"><span class="toc-number">3.16.</span> <span class="toc-text">登陆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%BD%91%E7%BB%9C-1"><span class="toc-number">3.17.</span> <span class="toc-text">连接网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">3.18.</span> <span class="toc-text">图形界面的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7"><span class="toc-number">3.19.</span> <span class="toc-text">添加普通用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BE%93%E5%85%A5%E6%B3%95-fcitx5"><span class="toc-number">3.20.</span> <span class="toc-text">安装输入法 fcitx5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%AD%97%E4%BD%93"><span class="toc-number">3.21.</span> <span class="toc-text">安装字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF"><span class="toc-number">3.22.</span> <span class="toc-text">重启</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AA%E6%80%A7%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">个性化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-number">4.1.</span> <span class="toc-text">浏览器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">中文输入法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#emoji"><span class="toc-number">4.3.</span> <span class="toc-text">emoji</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-%E4%B8%AA%E6%80%A7%E5%8C%96"><span class="toc-number">4.4.</span> <span class="toc-text">zsh 个性化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-%E6%8F%92%E4%BB%B6"><span class="toc-number">4.5.</span> <span class="toc-text">zsh 插件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%E9%AB%98%E4%BA%AE"><span class="toc-number">4.5.1.</span> <span class="toc-text">语法高亮</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A5%E5%85%A8%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.5.2.</span> <span class="toc-text">补全建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KDE-%E9%83%A8%E4%BB%B6"><span class="toc-number">4.6.</span> <span class="toc-text">KDE 部件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Variety"><span class="toc-number">4.7.</span> <span class="toc-text">Variety</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%8D%A2%E9%BC%A0%E6%A0%87"><span class="toc-number">4.8.</span> <span class="toc-text">更换鼠标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sddm-%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%8D%A2"><span class="toc-number">4.9.</span> <span class="toc-text">sddm 主题更换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grub-%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%8D%A2"><span class="toc-number">4.10.</span> <span class="toc-text">grub 主题更换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dnsmasq-%E5%AE%89%E8%A3%85"><span class="toc-number">4.11.</span> <span class="toc-text">dnsmasq 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aria2-%E5%AE%89%E8%A3%85-1"><span class="toc-number">4.12.</span> <span class="toc-text">aria2 安装-1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-%E5%AE%89%E8%A3%85"><span class="toc-number">4.13.</span> <span class="toc-text">nginx 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aria2-%E5%AE%89%E8%A3%85-2"><span class="toc-number">4.14.</span> <span class="toc-text">aria2 安装-2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%85%A7%E7%89%87%E5%92%8C%E8%A7%86%E9%A2%91%E5%A4%87%E4%BB%BD"><span class="toc-number">4.15.</span> <span class="toc-text">照片和视频备份</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PhotoPrism"><span class="toc-number">4.15.1.</span> <span class="toc-text">PhotoPrism</span></a></li></ol></li></ol></li></ol>
-        </div>
-    </aside>
-    <a class="btn-toc button" id="btn-toc" tabindex="0">
-        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
-            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
-        </svg>
-    </a>
-    <div class="toc-menus" id="toc-menus">
-        <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">安装过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E7%83%A6%E4%BA%BA%E7%9A%84-beep"><span class="toc-number">3.1.</span> <span class="toc-text">关闭烦人的 beep</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%BD%91%E7%BB%9C"><span class="toc-number">3.2.</span> <span class="toc-text">连接网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E7%BA%BF%E7%BD%91%E7%BB%9C"><span class="toc-number">3.2.1.</span> <span class="toc-text">有线网络</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C"><span class="toc-number">3.3.</span> <span class="toc-text">无线网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4"><span class="toc-number">3.4.</span> <span class="toc-text">更新系统时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA"><span class="toc-number">3.5.</span> <span class="toc-text">磁盘分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD%E5%88%86%E5%8C%BA"><span class="toc-number">3.6.</span> <span class="toc-text">挂载分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BF%85%E9%9C%80%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="toc-number">3.7.</span> <span class="toc-text">安装必需软件包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90-fstab"><span class="toc-number">3.8.</span> <span class="toc-text">生成 fstab</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%89%E8%A3%85%E7%9A%84%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.9.</span> <span class="toc-text">进入安装的系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%97%B6%E5%8C%BA"><span class="toc-number">3.10.</span> <span class="toc-text">设置时区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%8C%96%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.11.</span> <span class="toc-text">本地化设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.12.</span> <span class="toc-text">网络设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-root-%E5%AF%86%E7%A0%81"><span class="toc-number">3.13.</span> <span class="toc-text">设置 root 密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-GRUB-%E5%BC%95%E5%AF%BC"><span class="toc-number">3.14.</span> <span class="toc-text">安装 GRUB 引导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E9%87%8D%E5%90%AF"><span class="toc-number">3.15.</span> <span class="toc-text">准备重启</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C-1"><span class="toc-number">3.15.1.</span> <span class="toc-text">无线网络</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E9%99%86"><span class="toc-number">3.16.</span> <span class="toc-text">登陆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%BD%91%E7%BB%9C-1"><span class="toc-number">3.17.</span> <span class="toc-text">连接网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">3.18.</span> <span class="toc-text">图形界面的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7"><span class="toc-number">3.19.</span> <span class="toc-text">添加普通用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BE%93%E5%85%A5%E6%B3%95-fcitx5"><span class="toc-number">3.20.</span> <span class="toc-text">安装输入法 fcitx5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%AD%97%E4%BD%93"><span class="toc-number">3.21.</span> <span class="toc-text">安装字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF"><span class="toc-number">3.22.</span> <span class="toc-text">重启</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AA%E6%80%A7%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">个性化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-number">4.1.</span> <span class="toc-text">浏览器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">中文输入法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#emoji"><span class="toc-number">4.3.</span> <span class="toc-text">emoji</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-%E4%B8%AA%E6%80%A7%E5%8C%96"><span class="toc-number">4.4.</span> <span class="toc-text">zsh 个性化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-%E6%8F%92%E4%BB%B6"><span class="toc-number">4.5.</span> <span class="toc-text">zsh 插件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%E9%AB%98%E4%BA%AE"><span class="toc-number">4.5.1.</span> <span class="toc-text">语法高亮</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A5%E5%85%A8%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.5.2.</span> <span class="toc-text">补全建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KDE-%E9%83%A8%E4%BB%B6"><span class="toc-number">4.6.</span> <span class="toc-text">KDE 部件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Variety"><span class="toc-number">4.7.</span> <span class="toc-text">Variety</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%8D%A2%E9%BC%A0%E6%A0%87"><span class="toc-number">4.8.</span> <span class="toc-text">更换鼠标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sddm-%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%8D%A2"><span class="toc-number">4.9.</span> <span class="toc-text">sddm 主题更换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grub-%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%8D%A2"><span class="toc-number">4.10.</span> <span class="toc-text">grub 主题更换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dnsmasq-%E5%AE%89%E8%A3%85"><span class="toc-number">4.11.</span> <span class="toc-text">dnsmasq 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aria2-%E5%AE%89%E8%A3%85-1"><span class="toc-number">4.12.</span> <span class="toc-text">aria2 安装-1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-%E5%AE%89%E8%A3%85"><span class="toc-number">4.13.</span> <span class="toc-text">nginx 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aria2-%E5%AE%89%E8%A3%85-2"><span class="toc-number">4.14.</span> <span class="toc-text">aria2 安装-2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%85%A7%E7%89%87%E5%92%8C%E8%A7%86%E9%A2%91%E5%A4%87%E4%BB%BD"><span class="toc-number">4.15.</span> <span class="toc-text">照片和视频备份</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PhotoPrism"><span class="toc-number">4.15.1.</span> <span class="toc-text">PhotoPrism</span></a></li></ol></li></ol></li></ol>
-    </div>
 
-
-<article class="post post__with-toc content-card">
-    <div class="post__header">
-    <div class="post__expire" id="post-expired-notify">
-        <p>
-            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
-        </p>
-    </div>
-    <script>
-        (() => {
-            var update = Date.parse("2024-09-23"),
-                date = new Date(),
-                now = date.getTime(),
-                expire = now - update,
-                expire_days = Math.floor(expire/(24*3600*1000));
-            if (expire_days >= 120) {
-                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
-                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
-            }
-        })();
-    </script>
-</div>
+<article class="post content-card">
+    <div class="post__header"></div>
     <div class="post__content">
         <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><blockquote>
 <p>更新完毕</p>
@@ -277,16 +226,16 @@
 <p>注意不是个性化</p>
 </blockquote>
 <ol>
-<li>编辑 /etc/locale.gen 并将 en_US.UTF-8 和 zh_CN.UTF-8 取消注释</li>
+<li>编辑 &#x2F;etc&#x2F;locale.gen 并将 en_US.UTF-8 和 zh_CN.UTF-8 取消注释</li>
 <li>执行 locale-gen 命令生成 locale</li>
-<li>创建 /etc/locale.conf 并添加变量 LANG</li>
+<li>创建 &#x2F;etc&#x2F;locale.conf 并添加变量 LANG</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LANG=en_US.UTF-8</span><br></pre></td></tr></table></figure>
 
 <p><strong>最好不要设置为中文的 locale，会导致终端乱码</strong></p>
 <h3 id="网络设置"><a href="#网络设置" class="headerlink" title="网络设置"></a>网络设置</h3><ol>
-<li>创建 /etc/hostname 并为你的电脑命名</li>
-<li>配置 /etc/hosts ，内容如下</li>
+<li>创建 &#x2F;etc&#x2F;hostname 并为你的电脑命名</li>
+<li>配置 &#x2F;etc&#x2F;hosts ，内容如下</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1	localhost</span><br><span class="line">::1			localhost</span><br></pre></td></tr></table></figure>
 
@@ -321,7 +270,7 @@
 <p>安装桌面环境，我选择 KDE 的 plasma，美化效果一级棒</p>
 <p>arch 仓库里有两个组</p>
 <ol>
-<li> plasma-meta，这个包会将所有 plasma 桌面用到的东西都给你装上，不过我不太喜欢，因为有一些包我用不到，就白白浪费空间 (我的 root 分区只给了 20G)。</li>
+<li>plasma-meta，这个包会将所有 plasma 桌面用到的东西都给你装上，不过我不太喜欢，因为有一些包我用不到，就白白浪费空间 (我的 root 分区只给了 20G)。</li>
 <li>plasma-desktop，这个是最小化安装，也就是能跑起来图形界面，但是各种其他组件需要自己安装</li>
 </ol>
 <p>我安装的是 plasma-desktop，以及下列其他一些组件</p>
@@ -359,9 +308,9 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd syize</span><br></pre></td></tr></table></figure>
 
 <p>赋予 sudo 权限</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S sudo	<span class="comment"># 安装 sudo 包</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S <span class="built_in">sudo</span>	<span class="comment"># 安装 sudo 包</span></span><br></pre></td></tr></table></figure>
 
-<p>编辑 /etc/sudoers 并加入下面的内容</p>
+<p>编辑 &#x2F;etc&#x2F;sudoers 并加入下面的内容</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 需要在 root ALL=(ALL) ALL 下面一行插入</span><br><span class="line">syize ALL=(ALL) ALL</span><br></pre></td></tr></table></figure>
 
 <p>vim 的话需要用 :w! 强制保存</p>
@@ -380,42 +329,42 @@
 
 <h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><p>到目前为止就装的差不多了，重启即可进入桌面了</p>
 <p>由于不再使用 iwd，可以将其删除，并将 NetworkManager 设置开机启动</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -Rs iwd</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> NetworkManager</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rs iwd</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> NetworkManager</span><br></pre></td></tr></table></figure>
 
 <h2 id="个性化"><a href="#个性化" class="headerlink" title="个性化"></a>个性化</h2><h3 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h3><p><del>没有浏览器，你们怎么看我的教程</del></p>
 <p>仓库里没有我喜爱的 chrome，可以先安装 firefox 凑活用一下</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S firefox firefox-i18n-zh-cn</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S firefox firefox-i18n-zh-cn</span><br></pre></td></tr></table></figure>
 
 <h3 id="中文输入法"><a href="#中文输入法" class="headerlink" title="中文输入法"></a>中文输入法</h3><p><del>没有输入法，你们怎么给我评论</del></p>
 <p>由于之前安装过了 fcitx5，直接在 系统设置-&gt;区域设置 里面就能找到输入法设置，键盘配置如图</p>
 <img src="/2021/12/28/install-arch-and-kde/fcitx5.jpg" class="">
 
 <p>如果你前面没有配置环境变量，需要配置一下</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/environment</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> vim /etc/environment</span><br></pre></td></tr></table></figure>
 
 <p>加入下面的内容</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">GTK_IM_MODULE</span>=fcitx</span><br><span class="line"><span class="attr">QT_IM_MODULE</span>=fcitx</span><br><span class="line"><span class="attr">XMODIFIERS</span>=\@im=fcitx</span><br><span class="line"><span class="attr">SDL_IM_MODULE</span>=fcitx</span><br><span class="line"><span class="attr">INPUT_METHOD</span>=fcitx</span><br><span class="line"><span class="attr">GLFW_IM_MODULE</span>=fcitx</span><br></pre></td></tr></table></figure>
 
 <h3 id="emoji"><a href="#emoji" class="headerlink" title="emoji"></a>emoji</h3><p>为了能打出流汗黄豆，我们需要安装 emoji 字体</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S noto-fonts-emoji	<span class="comment"># emoji</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S noto-fonts-emoji	<span class="comment"># emoji</span></span><br></pre></td></tr></table></figure>
 
-<p>还需要配置一下 emoji 让其正常显示。编辑 /etc/fonts/conf.d/75-noto-color-emoji.conf，加入下面的内容</p>
+<p>还需要配置一下 emoji 让其正常显示。编辑 &#x2F;etc&#x2F;fonts&#x2F;conf.d&#x2F;75-noto-color-emoji.conf，加入下面的内容</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">fontconfig</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;fonts.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">fontconfig</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Add generic family. --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- This adds Noto Color Emoji as a final fallback font for the default font families. --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>sans<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;append&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>serif<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;append&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>sans-serif<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;append&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>monospace<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;append&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Block Symbola from the list of fallback fonts. --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">selectfont</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">rejectfont</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">pattern</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">patelt</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">string</span>&gt;</span>Symbola<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">patelt</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">rejectfont</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">selectfont</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Use Noto Color Emoji when other popular fonts are being specifically requested. --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Apple Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Segoe UI Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Segoe UI Symbol<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Android Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Twitter Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Twemoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Twemoji Mozilla<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>TwemojiMozilla<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>EmojiTwo<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Emoji Two<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>EmojiSymbols<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">match</span> <span class="attr">target</span>=<span class="string">&quot;pattern&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">test</span> <span class="attr">qual</span>=<span class="string">&quot;any&quot;</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Symbola<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">edit</span> <span class="attr">name</span>=<span class="string">&quot;family&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;assign&quot;</span> <span class="attr">binding</span>=<span class="string">&quot;same&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">string</span>&gt;</span>Noto Color Emoji<span class="tag">&lt;/<span class="name">string</span>&gt;</span><span class="tag">&lt;/<span class="name">edit</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">match</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">fontconfig</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="zsh-个性化"><a href="#zsh-个性化" class="headerlink" title="zsh 个性化"></a>zsh 个性化</h3><p>默认的 zsh 很丑，需要 oh-my-zsh 来 <del>给它整容</del></p>
 <p>网络上的教程是需要自己 curl 脚本安装，幸运的是我们有 archlinuxcn 仓库</p>
 <p>首先确认一下自己的 localtime 是否正常。<del>某张姓人士被我带的又趟了一遍坑后得到的教训</del></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo timedatectl status</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> timedatectl status</span><br></pre></td></tr></table></figure>
 
 <p>如果不对，去系统设置里面更改一下时区，等系统时间正常后进行下面的操作。</p>
-<p>编辑 /etc/pacman.conf 并加入下面三行来添加仓库</p>
+<p>编辑 &#x2F;etc&#x2F;pacman.conf 并加入下面三行来添加仓库</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Arch Linux CN</span><br><span class="line">[archlinuxcn]</span><br><span class="line">Server = https://repo.archlinuxcn.org/$arch</span><br></pre></td></tr></table></figure>
 
 <p>还需到导入 GPG 的 key 才行</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S archlinuxcn-keyring</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S archlinuxcn-keyring</span><br></pre></td></tr></table></figure>
 
 <p>更新，并安装 oh-my-zsh-git 和 git</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -Sy &amp;&amp; sudo pacman -S oh-my-zsh-git git</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Sy &amp;&amp; <span class="built_in">sudo</span> pacman -S oh-my-zsh-git git</span><br></pre></td></tr></table></figure>
 
 <p>使用 oh-my-zsh 的 zshrc 替换原来的 .zshrc</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> /usr/share/oh-my-zsh/zshrc ~/.zshrc</span><br></pre></td></tr></table></figure>
@@ -424,7 +373,7 @@
 <p>如果你有重要的设置请注意保存</p>
 </blockquote>
 <p>oh-my-zsh 默认的主题其实比较好看了，但是我更喜欢 amuse</p>
-<p>编辑 ~/.zshrc，将 theme 改为 amuse</p>
+<p>编辑 ~&#x2F;.zshrc，将 theme 改为 amuse</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZSH_THEME=&quot;amuse&quot;</span><br></pre></td></tr></table></figure>
 
 <p>执行下面的命令看一看效果吧</p>
@@ -434,13 +383,13 @@
 <blockquote>
 <p>可能需要科学上网</p>
 </blockquote>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/custom/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/custom/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
 
-<p>编辑 ~/.zshrc 在 plugin 里面添加进去</p>
+<p>编辑 ~&#x2F;.zshrc 在 plugin 里面添加进去</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plugins=(</span><br><span class="line">	# other plugins</span><br><span class="line">	zsh-syntax-highlighting)</span><br></pre></td></tr></table></figure>
 
 <h4 id="补全建议"><a href="#补全建议" class="headerlink" title="补全建议"></a>补全建议</h4><p>以淡色字体显示，根据最近敲击的命令对命令进行建议，减少重复敲键盘次数</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions /usr/share/oh-my-zsh/custom/plugins/zsh-autosuggestions</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions /usr/share/oh-my-zsh/custom/plugins/zsh-autosuggestions</span><br></pre></td></tr></table></figure>
 
 <p>添加进 .zshrc</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plugins=(</span><br><span class="line">	# other plugins</span><br><span class="line">	zsh-autosuggestions)</span><br></pre></td></tr></table></figure>
@@ -449,7 +398,7 @@
 <img src="/2021/12/28/install-arch-and-kde/oh-my-zsh.png" class="">
 
 <h3 id="KDE-部件"><a href="#KDE-部件" class="headerlink" title="KDE 部件"></a>KDE 部件</h3><p>按照上面的流程下来的话就已经有比较多的小部件了，但是没有我想要的便利贴。安装下面的包获得便利贴和更多的部件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S kwidgetsaddons kdeplasma-addons</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S kwidgetsaddons kdeplasma-addons</span><br></pre></td></tr></table></figure>
 
 <p>还有一些监控系统系统信息的比如网络速度，内存使用情况等。</p>
 <img src="/2021/12/28/install-arch-and-kde/desktop.png" class="">
@@ -458,73 +407,73 @@
 <p>便利贴没有半透明的效果，稍微有点格格不入</p>
 </blockquote>
 <p>spectacle 是 kde 的截图工具</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S spectacle</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S spectacle</span><br></pre></td></tr></table></figure>
 
 <h3 id="Variety"><a href="#Variety" class="headerlink" title="Variety"></a>Variety</h3><p>Variety 可以自动切换壁纸，选择一些你喜欢的照片，然后让它定时更换。作为老虚荣玩家 (<del>泪目</del>)，当然是虚荣美美的英雄皮肤高清原图了</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S variety</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S variety</span><br></pre></td></tr></table></figure>
 
 <h3 id="更换鼠标"><a href="#更换鼠标" class="headerlink" title="更换鼠标"></a>更换鼠标</h3><p>bibata-cursor-theme 包含多个可以更换的鼠标皮肤</p>
 <img src="/2021/12/28/install-arch-and-kde/cursor.png" class="">
 
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S bibata-cursor-theme</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S bibata-cursor-theme</span><br></pre></td></tr></table></figure>
 
 <h3 id="sddm-主题更换"><a href="#sddm-主题更换" class="headerlink" title="sddm 主题更换"></a>sddm 主题更换</h3><p>默认的蓝色登录界面太丑了，KDE Store 的 <a target="_blank" rel="noopener" href="https://store.kde.org/p/1272122">Sugar Dark for SDDM</a> 看起来非常的优雅，并且我将后面的壁纸换成了 <a target="_blank" rel="noopener" href="https://zh.moegirl.org.cn/index.php?title=%E6%A2%85%E5%85%B0%E5%A6%AE&variant=zh-cn&mobileaction=toggle_view_desktop">梅兰妮</a> 万圣节🎃皮肤，颜色非常搭。</p>
 <p>想要从系统设置里直接更改 sddm 的登录界面，你需要安装 kcm 包</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S sddm-kcm</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S sddm-kcm</span><br></pre></td></tr></table></figure>
 
 <p>不过对于我来说让系统设置下太慢了，我还是手动下载安装的好</p>
 <ol>
 <li>去 KDE Store 下载主题包</li>
-<li>解压到  /usr/share/sddm/themes</li>
+<li>解压到  &#x2F;usr&#x2F;share&#x2F;sddm&#x2F;themes</li>
 </ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -zxvf sugar-dark.tar.gz -C  /usr/share/sddm/themes</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> -zxvf sugar-dark.tar.gz -C  /usr/share/sddm/themes</span><br></pre></td></tr></table></figure>
 
-<p>如果你不想用默认的壁纸，准备一个 2400*1600 的 jpg 图片，替换掉 /usr/share/sddm/themes/suger-dark 下的Background.jpg</p>
+<p>如果你不想用默认的壁纸，准备一个 2400*1600 的 jpg 图片，替换掉 &#x2F;usr&#x2F;share&#x2F;sddm&#x2F;themes&#x2F;suger-dark 下的Background.jpg</p>
 <p>之后就可以在系统设置里面更改了。注销重新登录就可以看到效果了</p>
 <h3 id="grub-主题更换"><a href="#grub-主题更换" class="headerlink" title="grub 主题更换"></a>grub 主题更换</h3><p>我一直用的是 <a target="_blank" rel="noopener" href="https://draculatheme.com/grub">dracula 的主题</a> 。他们的网站上还有很多用于其他应用的主题，强烈推荐。不过似乎 Libreoffice 的主题不能用，好像也没人修</p>
 <ol>
 <li>下载文件压缩包并解压：<a target="_blank" rel="noopener" href="https://github.com/dracula/grub/archive/master.zip">地址</a></li>
-<li>将文件夹放入 /usr/share/grub/themes/</li>
-<li>修改 /etc/default/grub 中的主题，改为如下 (应该是在 47 行左右)</li>
+<li>将文件夹放入 &#x2F;usr&#x2F;share&#x2F;grub&#x2F;themes&#x2F;</li>
+<li>修改 &#x2F;etc&#x2F;default&#x2F;grub 中的主题，改为如下 (应该是在 47 行左右)</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRUB_THEME=&quot;/usr/share/grub/themes/dracula/theme.txt&quot;</span><br></pre></td></tr></table></figure>
 
 <ol start="4">
 <li>重新生成 grub 配置文件</li>
 </ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure>
 
 <p>如果你觉得字体过小，则需要重新设置一下 grub 的分辨率。例如我的电脑 grub 推荐 2560x1600，但是我改小到 1280x960 字体才正常大小</p>
 <ol>
 <li>查看支持的分辨率选项。在 grub 界面按 c 键进入命令模式，输入 videoinfo 查看可用分辨率。</li>
-<li>挑一个小的，编辑 /etc/default/grub，并更改如下</li>
+<li>挑一个小的，编辑 &#x2F;etc&#x2F;default&#x2F;grub，并更改如下</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 分辨率改为你自己的，注意中间的 &quot;x&quot; 是小写字母 x</span><br><span class="line">GRUB_GFXMODE=&quot;1280x960&quot;</span><br></pre></td></tr></table></figure>
 
 <ol start="3">
 <li>重新生成配置文件</li>
 </ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure>
 
 <ol start="4">
 <li>重启查看效果</li>
 </ol>
-<h3 id="dnsmasq-安装"><a href="#dnsmasq-安装" class="headerlink" title="dnsmasq 安装"></a>dnsmasq 安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S dnsmasq</span><br></pre></td></tr></table></figure>
+<h3 id="dnsmasq-安装"><a href="#dnsmasq-安装" class="headerlink" title="dnsmasq 安装"></a>dnsmasq 安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S dnsmasq</span><br></pre></td></tr></table></figure>
 
 <p>停用 <code>systemd-resolved</code> 并启用 <code>dnsmasq</code>。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> --now systemd-resolved</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> --now dnsmasq</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">disable</span> --now systemd-resolved</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now dnsmasq</span><br></pre></td></tr></table></figure>
 
 <p><code>NetworkManager</code> 会修改 <code>/etc/resolv.conf</code> ，但是我们想要其里面的内容保持固定，因此需要额外配置 <code>NetworkManager</code>。编辑  <code>/etc/NetworkManager/NetworkManager.conf</code> 并添加以下内容：</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[main]</span></span><br><span class="line"><span class="attr">dns</span>=none</span><br><span class="line"><span class="attr">rc-manager</span>=unmanaged</span><br></pre></td></tr></table></figure>
 
 <p>然后重启 <code>NetworkManager</code>。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart NetworkManager</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart NetworkManager</span><br></pre></td></tr></table></figure>
 
 <p>编辑 <code>/etc/dnsmasq.conf</code>，取消注释修改以下配置：</p>
-<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">strict-order</span><br><span class="line">listen-address=<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line"><span class="built_in">log</span>-queries</span><br><span class="line"><span class="built_in">log</span>-facility=<span class="regexp">/var/</span><span class="built_in">log</span>/dnsmasq/dnsmasq.<span class="built_in">log</span></span><br><span class="line">conf-dir=<span class="regexp">/etc/</span>dnsmasq.d</span><br></pre></td></tr></table></figure>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">strict-<span class="keyword">order</span></span><br><span class="line">listen-address=127.0.0.1</span><br><span class="line"><span class="keyword">log</span>-queries</span><br><span class="line"><span class="keyword">log</span>-facility=/<span class="keyword">var</span>/<span class="keyword">log</span>/dnsmasq/dnsmasq.<span class="keyword">log</span></span><br><span class="line"><span class="keyword">conf</span>-<span class="keyword">dir</span>=/etc/dnsmasq.<span class="keyword">d</span></span><br></pre></td></tr></table></figure>
 
 <p>创建日志文件夹和配置文件文件夹</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -p /var/log/dnsmasq</span><br><span class="line">sudo <span class="built_in">mkdir</span> /etc/dnsmasq.d</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /var/log/dnsmasq</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /etc/dnsmasq.d</span><br></pre></td></tr></table></figure>
 
 <p><code>Github</code> 上有用于 <code>dnsmasq</code> 的 <a target="_blank" rel="noopener" href="https://github.com/felixonmars/dnsmasq-china-list">特殊配置文件</a>，我选用了其中三个：</p>
 <ul>
@@ -537,22 +486,22 @@
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">nameserver</span>      <span class="number">127.0.0.1</span></span><br><span class="line">nameserver      <span class="number">8.8.8.8</span></span><br><span class="line">nameserver      <span class="number">114.114.114.114</span></span><br></pre></td></tr></table></figure>
 
 <p>为了防止文件被修改，修改其权限</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chattr +i <span class="regexp">/etc/</span>resolv.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> chattr +i /etc/resolv.conf</span><br></pre></td></tr></table></figure>
 
 <p>最后重启 <code>dnsmasq</code></p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo systemctl restart dnsmasq</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart dnsmasq</span><br></pre></td></tr></table></figure>
 
 <p>安装 <code>bind</code> 包，里面有 <code>dig</code> 命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S <span class="built_in">bind</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S <span class="built_in">bind</span></span><br></pre></td></tr></table></figure>
 
 <p>然后运行下列命令检验 <code>dnsmasq</code> 是否工作正常</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig www.baidu.com</span><br></pre></td></tr></table></figure>
 
 <p>只要 SERVER 显示为 127.0.0.1 即表明 <code>dnsmasq</code> 工作正常。</p>
-<h3 id="aria2-安装-1"><a href="#aria2-安装-1" class="headerlink" title="aria2 安装-1"></a>aria2 安装-1</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S aria2</span><br></pre></td></tr></table></figure>
+<h3 id="aria2-安装-1"><a href="#aria2-安装-1" class="headerlink" title="aria2 安装-1"></a>aria2 安装-1</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S aria2</span><br></pre></td></tr></table></figure>
 
 <p>aria2 只是一个命令行程序，github 上有许多好用的前端。我选择了 <a target="_blank" rel="noopener" href="https://github.com/mayswind/AriaNg">AriaNg</a>，并决定安装 nginx 来将其部署在本地。</p>
-<h3 id="nginx-安装"><a href="#nginx-安装" class="headerlink" title="nginx 安装"></a>nginx 安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S nginx</span><br></pre></td></tr></table></figure>
+<h3 id="nginx-安装"><a href="#nginx-安装" class="headerlink" title="nginx 安装"></a>nginx 安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S nginx</span><br></pre></td></tr></table></figure>
 
 <p>然后编辑 <code>/etc/nginx/nginx.conf</code>，在第31行下添加如下配置</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">types_hash_max_size</span> <span class="number">2048</span>;</span><br><span class="line"><span class="attribute">types_hash_bucket_size</span> <span class="number">128</span>;</span><br><span class="line"><span class="attribute">include</span> conf.d/<span class="regexp">*.conf</span>;</span><br></pre></td></tr></table></figure>
@@ -591,7 +540,7 @@
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">AssetsPath:</span> <span class="string">/usr/share/photoprism</span></span><br><span class="line"><span class="attr">ConfigPath:</span> <span class="string">/home/photoprism/config</span></span><br><span class="line"><span class="attr">ImportPath:</span> <span class="string">/home/photoprism/import</span></span><br><span class="line"><span class="attr">OriginalsPath:</span> <span class="string">/home/photoprism/originals</span></span><br><span class="line"><span class="attr">StoragePath:</span> <span class="string">/home/photoprism/storage</span></span><br></pre></td></tr></table></figure>
 
 <p>并将在<code>/var/lib/photoprism</code>下的所有文件复制到新的目录下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cp</span> /var/lib/photoprism/* /home/photoprism</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /var/lib/photoprism/* /home/photoprism</span><br></pre></td></tr></table></figure>
 
 <p>编辑配置文件<code>/home/photoprism/config/options.yml</code>，修改更多配置</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">AdminUser:</span> <span class="string">&quot;管理员名称&quot;</span></span><br><span class="line"><span class="attr">AdminPassword:</span> <span class="string">&quot;管理员密码&quot;</span></span><br><span class="line"><span class="attr">LogLevel:</span> <span class="string">&quot;warning&quot;</span></span><br><span class="line"><span class="attr">SiteCaption:</span> <span class="string">&quot;站点名称&quot;</span></span><br><span class="line"><span class="attr">DisableTLS:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">DatabaseDriver:</span> <span class="string">&quot;数据库类型&quot;</span></span><br><span class="line"><span class="attr">DatabaseServer:</span> <span class="string">&quot;数据库地址&quot;</span></span><br><span class="line"><span class="attr">DatabasePassword:</span> <span class="string">&quot;数据库密码&quot;</span></span><br><span class="line"><span class="attr">OriginalsLimit:</span> <span class="number">3000</span></span><br><span class="line"><span class="attr">IndexSchedule:</span> <span class="string">&quot;0 */3 * * *&quot;</span></span><br></pre></td></tr></table></figure>
@@ -606,31 +555,13 @@
 <p>你需要手动创建一下对应的数据库</p>
 </blockquote>
 <p>设置好以后启动对应服务即可</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> --now photoprism</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now photoprism</span><br></pre></td></tr></table></figure>
 
 
     </div>
-    
-    <div class="post__license">
-        <p>
-            <strong>Author: </strong>Syize
-        </p>
-        <p>
-            <strong>
-                Permalink: 
-            </strong>
-            <a href="https://blog.syize.cn/2021/12/28/install-arch-and-kde/">https://blog.syize.cn/2021/12/28/install-arch-and-kde/</a>
-        </p>
-        
-            <strong>
-                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
-
-            </strong>
-        
-    </div>
- 
-    <div class="post-footer__meta"><p>updated at 2024-09-23</p></div> 
-    <div class="post-entry__tags"><a href="/tags/KDE/" class="post-tags__link button"># KDE</a><a href="/tags/Arch/" class="post-tags__link button"># Arch</a></div> 
+     
+    <div class="post-footer__meta"><p>updated at 2024-10-04</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Arch/" class="post-tags__link button"># Arch</a><a href="/tags/KDE/" class="post-tags__link button"># KDE</a></div> 
 </article>
 
 
@@ -673,26 +604,6 @@
 
 
 
-    <div class="post__comments post__with-toc content-card" id="comment">
-        
-    <h4>Comments</h4>
-    
-    
-    
-    
-    
-    <div id="gitalk-container"></div>
-
-    
-    
-    
-    
-    
-    
-
-
-    </div>
-
 
 
 </main>
@@ -710,7 +621,7 @@
     
         
         <p class="footer-copyright">
-            Copyright © 2021&nbsp;-&nbsp;2024 <a href="/">Syize の blog</a>
+            Copyright © 2024 <a href="/">Syize の blog</a>
         </p>
     
     
@@ -740,119 +651,16 @@
     
  
 
-
-    
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
-
-    
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
-
-    <script>
-        let lazyloadT = Boolean('false'),
-            auto_fancybox = Boolean('false')
-        if (auto_fancybox) {
-            $(".post__content").find('img').each(function () {
-                var element = document.createElement("a");
-                $(element).attr("data-fancybox", "gallery");
-                $(element).attr("href", $(this).attr("src"));
-                if (lazyloadT) {
-                    $(element).attr("href", $(this).attr("data-srcset"));
-                }
-                $(this).wrap(element);
-            });
-        } else {
-            $(".post__content").find("fancybox").find('img').each(function () {
-                var element = document.createElement("a");
-                $(element).attr("data-fancybox", "gallery");
-                $(element).attr("href", $(this).attr("src"));
-                if (lazyloadT) {
-                    $(element).attr("href", $(this).attr("data-srcset"));
-                }
-                $(this).wrap(element);
-            });
-        }
-    </script>
  
 
  
 
  
 
-
-    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
-    <script>
-            mermaid.initialize(JSON.stringify(''));
-    </script>
  
 
  
 
-
-    
-
-    
-    
-    
-
-    
-    
-    
-    <script>
-        function loadComment() {
-            let e, i;
-            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
-            document.body.appendChild(e);
-            e.onload = () => {
-                var gitalk = new Gitalk({
-                    clientID: 'f9cc68800d4b4684b855',
-                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
-                    repo: 'blog-comment',
-                    owner: 'Syize',
-                    admin: 'Syize',
-                    id: window.location.pathname,
-                    distractionFreeMode: false
-                });
-                gitalk.render('gitalk-container');
-            };
-            (i = document.createElement("link")).rel = "stylesheet",
-            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
-            document.head.appendChild(i);
-        }
-    
-        var runningOnBrowser = typeof window !== "undefined";
-        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
-        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
-    
-        setTimeout(function () {
-            if (!isBot && supportsIntersectionObserver) {
-                var comment_observer = new IntersectionObserver(function(entries) {
-                    if (entries[0].isIntersecting) {
-                        loadComment();
-                        comment_observer.disconnect();
-                    }
-                }, { threshold: [0] });
-                comment_observer.observe(document.getElementById('comment'));
-            } else {
-                loadComment();
-            }
-        }, 1);
-    </script>
-
-    
-    
-
-    
-    
-    
-    
-    
-
-    
-    
-    
 
 
 
