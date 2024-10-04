@@ -16,6 +16,8 @@
     <!--icon-->
 
     
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
     
     
     
@@ -47,7 +49,7 @@
 <meta property="og:image" content="https://blog.syize.cn/2021/12/28/install-arch-and-kde/desktop.png">
 <meta property="og:image" content="https://blog.syize.cn/2021/12/28/install-arch-and-kde/cursor.png">
 <meta property="article:published_time" content="2021-12-28T23:02:04.000Z">
-<meta property="article:modified_time" content="2024-10-04T08:23:30.012Z">
+<meta property="article:modified_time" content="2024-10-04T08:28:22.568Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Arch">
 <meta property="article:tag" content="KDE">
@@ -61,7 +63,7 @@
 
     
     
-        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" onload="this.media='all'">
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
         
     
 
@@ -69,6 +71,13 @@
     
 
     
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
 
      
 
@@ -81,22 +90,24 @@
             <header class="header">
     <div class="header__left">
         <a href="/" class="button">
-            <span class="logo__text">Demo</span>
+            <span class="logo__text">Syize の blog</span>
         </a>
     </div>
     <div class="header__right">
         
             <div class="navbar__menus">
                 
-                    <a href="/" class="navbar-menu button">首页</a>
+                    <a href="/" class="navbar-menu button">home</a>
                 
-                    <a href="/tags/" class="navbar-menu button">标签</a>
+                    <a href="/tags/" class="navbar-menu button">tags</a>
                 
-                    <a href="/archives/" class="navbar-menu button">归档</a>
+                    <a href="/archives/" class="navbar-menu button">archives</a>
                 
-                    <a href="/friends/" class="navbar-menu button">友链</a>
+                    <a href="/categories/" class="navbar-menu button">categories</a>
                 
-                    <a href="/page/" class="navbar-menu button">Page</a>
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
                 
             </div>
         
@@ -105,20 +116,26 @@
 
         
         
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
 
         
             <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
             <div class="dropdown-menus" id="dropdown-menus">
                 
-                    <a href="/" class="dropdown-menu button">首页</a>
+                    <a href="/" class="dropdown-menu button">home</a>
                 
-                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
                 
-                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
                 
-                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
                 
-                    <a href="/page/" class="dropdown-menu button">Page</a>
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
                 
             </div>
         
@@ -151,9 +168,43 @@
 </div>
 
 
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">安装过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E7%83%A6%E4%BA%BA%E7%9A%84-beep"><span class="toc-number">3.1.</span> <span class="toc-text">关闭烦人的 beep</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%BD%91%E7%BB%9C"><span class="toc-number">3.2.</span> <span class="toc-text">连接网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E7%BA%BF%E7%BD%91%E7%BB%9C"><span class="toc-number">3.2.1.</span> <span class="toc-text">有线网络</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C"><span class="toc-number">3.3.</span> <span class="toc-text">无线网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4"><span class="toc-number">3.4.</span> <span class="toc-text">更新系统时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA"><span class="toc-number">3.5.</span> <span class="toc-text">磁盘分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD%E5%88%86%E5%8C%BA"><span class="toc-number">3.6.</span> <span class="toc-text">挂载分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BF%85%E9%9C%80%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="toc-number">3.7.</span> <span class="toc-text">安装必需软件包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90-fstab"><span class="toc-number">3.8.</span> <span class="toc-text">生成 fstab</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%89%E8%A3%85%E7%9A%84%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.9.</span> <span class="toc-text">进入安装的系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%97%B6%E5%8C%BA"><span class="toc-number">3.10.</span> <span class="toc-text">设置时区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%8C%96%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.11.</span> <span class="toc-text">本地化设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.12.</span> <span class="toc-text">网络设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-root-%E5%AF%86%E7%A0%81"><span class="toc-number">3.13.</span> <span class="toc-text">设置 root 密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-GRUB-%E5%BC%95%E5%AF%BC"><span class="toc-number">3.14.</span> <span class="toc-text">安装 GRUB 引导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E9%87%8D%E5%90%AF"><span class="toc-number">3.15.</span> <span class="toc-text">准备重启</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C-1"><span class="toc-number">3.15.1.</span> <span class="toc-text">无线网络</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E9%99%86"><span class="toc-number">3.16.</span> <span class="toc-text">登陆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%BD%91%E7%BB%9C-1"><span class="toc-number">3.17.</span> <span class="toc-text">连接网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">3.18.</span> <span class="toc-text">图形界面的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7"><span class="toc-number">3.19.</span> <span class="toc-text">添加普通用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BE%93%E5%85%A5%E6%B3%95-fcitx5"><span class="toc-number">3.20.</span> <span class="toc-text">安装输入法 fcitx5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%AD%97%E4%BD%93"><span class="toc-number">3.21.</span> <span class="toc-text">安装字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF"><span class="toc-number">3.22.</span> <span class="toc-text">重启</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AA%E6%80%A7%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">个性化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-number">4.1.</span> <span class="toc-text">浏览器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">中文输入法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#emoji"><span class="toc-number">4.3.</span> <span class="toc-text">emoji</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-%E4%B8%AA%E6%80%A7%E5%8C%96"><span class="toc-number">4.4.</span> <span class="toc-text">zsh 个性化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-%E6%8F%92%E4%BB%B6"><span class="toc-number">4.5.</span> <span class="toc-text">zsh 插件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%E9%AB%98%E4%BA%AE"><span class="toc-number">4.5.1.</span> <span class="toc-text">语法高亮</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A5%E5%85%A8%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.5.2.</span> <span class="toc-text">补全建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KDE-%E9%83%A8%E4%BB%B6"><span class="toc-number">4.6.</span> <span class="toc-text">KDE 部件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Variety"><span class="toc-number">4.7.</span> <span class="toc-text">Variety</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%8D%A2%E9%BC%A0%E6%A0%87"><span class="toc-number">4.8.</span> <span class="toc-text">更换鼠标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sddm-%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%8D%A2"><span class="toc-number">4.9.</span> <span class="toc-text">sddm 主题更换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grub-%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%8D%A2"><span class="toc-number">4.10.</span> <span class="toc-text">grub 主题更换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dnsmasq-%E5%AE%89%E8%A3%85"><span class="toc-number">4.11.</span> <span class="toc-text">dnsmasq 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aria2-%E5%AE%89%E8%A3%85-1"><span class="toc-number">4.12.</span> <span class="toc-text">aria2 安装-1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-%E5%AE%89%E8%A3%85"><span class="toc-number">4.13.</span> <span class="toc-text">nginx 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aria2-%E5%AE%89%E8%A3%85-2"><span class="toc-number">4.14.</span> <span class="toc-text">aria2 安装-2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%85%A7%E7%89%87%E5%92%8C%E8%A7%86%E9%A2%91%E5%A4%87%E4%BB%BD"><span class="toc-number">4.15.</span> <span class="toc-text">照片和视频备份</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PhotoPrism"><span class="toc-number">4.15.1.</span> <span class="toc-text">PhotoPrism</span></a></li></ol></li></ol></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">安装过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E7%83%A6%E4%BA%BA%E7%9A%84-beep"><span class="toc-number">3.1.</span> <span class="toc-text">关闭烦人的 beep</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%BD%91%E7%BB%9C"><span class="toc-number">3.2.</span> <span class="toc-text">连接网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E7%BA%BF%E7%BD%91%E7%BB%9C"><span class="toc-number">3.2.1.</span> <span class="toc-text">有线网络</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C"><span class="toc-number">3.3.</span> <span class="toc-text">无线网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4"><span class="toc-number">3.4.</span> <span class="toc-text">更新系统时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA"><span class="toc-number">3.5.</span> <span class="toc-text">磁盘分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD%E5%88%86%E5%8C%BA"><span class="toc-number">3.6.</span> <span class="toc-text">挂载分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BF%85%E9%9C%80%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="toc-number">3.7.</span> <span class="toc-text">安装必需软件包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90-fstab"><span class="toc-number">3.8.</span> <span class="toc-text">生成 fstab</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%89%E8%A3%85%E7%9A%84%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.9.</span> <span class="toc-text">进入安装的系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%97%B6%E5%8C%BA"><span class="toc-number">3.10.</span> <span class="toc-text">设置时区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%8C%96%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.11.</span> <span class="toc-text">本地化设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.12.</span> <span class="toc-text">网络设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-root-%E5%AF%86%E7%A0%81"><span class="toc-number">3.13.</span> <span class="toc-text">设置 root 密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-GRUB-%E5%BC%95%E5%AF%BC"><span class="toc-number">3.14.</span> <span class="toc-text">安装 GRUB 引导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E9%87%8D%E5%90%AF"><span class="toc-number">3.15.</span> <span class="toc-text">准备重启</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C-1"><span class="toc-number">3.15.1.</span> <span class="toc-text">无线网络</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E9%99%86"><span class="toc-number">3.16.</span> <span class="toc-text">登陆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%BD%91%E7%BB%9C-1"><span class="toc-number">3.17.</span> <span class="toc-text">连接网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">3.18.</span> <span class="toc-text">图形界面的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7"><span class="toc-number">3.19.</span> <span class="toc-text">添加普通用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BE%93%E5%85%A5%E6%B3%95-fcitx5"><span class="toc-number">3.20.</span> <span class="toc-text">安装输入法 fcitx5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%AD%97%E4%BD%93"><span class="toc-number">3.21.</span> <span class="toc-text">安装字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF"><span class="toc-number">3.22.</span> <span class="toc-text">重启</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AA%E6%80%A7%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">个性化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-number">4.1.</span> <span class="toc-text">浏览器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">中文输入法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#emoji"><span class="toc-number">4.3.</span> <span class="toc-text">emoji</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-%E4%B8%AA%E6%80%A7%E5%8C%96"><span class="toc-number">4.4.</span> <span class="toc-text">zsh 个性化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-%E6%8F%92%E4%BB%B6"><span class="toc-number">4.5.</span> <span class="toc-text">zsh 插件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%E9%AB%98%E4%BA%AE"><span class="toc-number">4.5.1.</span> <span class="toc-text">语法高亮</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A5%E5%85%A8%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.5.2.</span> <span class="toc-text">补全建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KDE-%E9%83%A8%E4%BB%B6"><span class="toc-number">4.6.</span> <span class="toc-text">KDE 部件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Variety"><span class="toc-number">4.7.</span> <span class="toc-text">Variety</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%8D%A2%E9%BC%A0%E6%A0%87"><span class="toc-number">4.8.</span> <span class="toc-text">更换鼠标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sddm-%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%8D%A2"><span class="toc-number">4.9.</span> <span class="toc-text">sddm 主题更换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grub-%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%8D%A2"><span class="toc-number">4.10.</span> <span class="toc-text">grub 主题更换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dnsmasq-%E5%AE%89%E8%A3%85"><span class="toc-number">4.11.</span> <span class="toc-text">dnsmasq 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aria2-%E5%AE%89%E8%A3%85-1"><span class="toc-number">4.12.</span> <span class="toc-text">aria2 安装-1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-%E5%AE%89%E8%A3%85"><span class="toc-number">4.13.</span> <span class="toc-text">nginx 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aria2-%E5%AE%89%E8%A3%85-2"><span class="toc-number">4.14.</span> <span class="toc-text">aria2 安装-2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%85%A7%E7%89%87%E5%92%8C%E8%A7%86%E9%A2%91%E5%A4%87%E4%BB%BD"><span class="toc-number">4.15.</span> <span class="toc-text">照片和视频备份</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PhotoPrism"><span class="toc-number">4.15.1.</span> <span class="toc-text">PhotoPrism</span></a></li></ol></li></ol></li></ol>
+    </div>
 
-<article class="post content-card">
-    <div class="post__header"></div>
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2024-10-04"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
     <div class="post__content">
         <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><blockquote>
 <p>更新完毕</p>
@@ -559,7 +610,25 @@
 
 
     </div>
-     
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2021/12/28/install-arch-and-kde/">https://blog.syize.cn/2021/12/28/install-arch-and-kde/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
     <div class="post-footer__meta"><p>updated at 2024-10-04</p></div> 
     <div class="post-entry__tags"><a href="/tags/Arch/" class="post-tags__link button"># Arch</a><a href="/tags/KDE/" class="post-tags__link button"># KDE</a></div> 
 </article>
@@ -604,6 +673,29 @@
 
 
 
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
 
 
 </main>
@@ -621,7 +713,7 @@
     
         
         <p class="footer-copyright">
-            Copyright © 2024 <a href="/">Syize の blog</a>
+            Copyright © 2021&nbsp;-&nbsp;2024 <a href="/">Syize の blog</a>
         </p>
     
     
@@ -651,16 +743,121 @@
     
  
 
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
  
 
  
 
  
 
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
  
 
  
 
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: '2021/12/28/install-arch-and-kde/',
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
 
 
 

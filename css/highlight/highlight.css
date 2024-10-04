@@ -1,6 +1,20 @@
 /*
 
-Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
+Atom One Dark by Daniel Gamage
+Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+
+base:    #282c34
+mono-1:  #abb2bf
+mono-2:  #818896
+mono-3:  #5c6370
+hue-1:   #56b6c2
+hue-2:   #61aeee
+hue-3:   #c678dd
+hue-4:   #98c379
+hue-5:   #e06c75
+hue-5-2: #be5046
+hue-6:   #d19a66
+hue-6-2: #e6c07b
 
 */
 
@@ -8,87 +22,66 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
   display: block;
   overflow-x: auto;
   padding: 0.5em;
-  background: #F0F0F0;
+  color: #abb2bf;
+  background: #282c34;
 }
 
-
-/* Base color: saturation 0; */
-
-.highlight,
-.highlight .subst {
-  color: #444;
+.highlight .comment,
+.highlight .quote {
+  color: #5c6370;
+  font-style: italic;
 }
 
-.highlight .comment {
-  color: #888888;
-}
-
-.highlight .keyword,
-.highlight .attribute,
-.highlight .selector-tag,
-.highlight .meta-keyword,
 .highlight .doctag,
-.highlight .name {
-  font-weight: bold;
+.highlight .keyword,
+.highlight .formula {
+  color: #c678dd;
 }
 
-
-/* User color: hue: 0 */
-
-.highlight .type,
-.highlight .string,
-.highlight .number,
-.highlight .selector-id,
-.highlight .selector-class,
-.highlight .quote,
-.highlight .template-tag,
-.highlight .deletion {
-  color: #880000;
+.highlight .section,
+.highlight .name,
+.highlight .selector-tag,
+.highlight .deletion,
+.highlight .subst {
+  color: #e06c75;
 }
-
-.highlight .title,
-.highlight .section {
-  color: #880000;
-  font-weight: bold;
-}
-
-.highlight .regexp,
-.highlight .symbol,
-.highlight .variable,
-.highlight .template-variable,
-.highlight .link,
-.highlight .selector-attr,
-.highlight .selector-pseudo {
-  color: #BC6060;
-}
-
-
-/* Language color: hue: 90; */
 
 .highlight .literal {
-  color: #78A960;
+  color: #56b6c2;
+}
+
+.highlight .string,
+.highlight .regexp,
+.highlight .addition,
+.highlight .attribute,
+.highlight .meta-string {
+  color: #98c379;
 }
 
 .highlight .built_in,
+.highlight .class .highlight .title {
+  color: #e6c07b;
+}
+
+.highlight .attr,
+.highlight .variable,
+.highlight .template-variable,
+.highlight .type,
+.highlight .selector-class,
+.highlight .selector-attr,
+.highlight .selector-pseudo,
+.highlight .number {
+  color: #d19a66;
+}
+
+.highlight .symbol,
 .highlight .bullet,
-.highlight .code,
-.highlight .addition {
-  color: #397300;
+.highlight .link,
+.highlight .meta,
+.highlight .selector-id,
+.highlight .title {
+  color: #61aeee;
 }
-
-
-/* Meta color: hue: 200 */
-
-.highlight .meta {
-  color: #1f7199;
-}
-
-.highlight .meta-string {
-  color: #4d99bf;
-}
-
-
-/* Misc effects */
 
 .highlight .emphasis {
   font-style: italic;
@@ -96,5 +89,9 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 
 .highlight .strong {
   font-weight: bold;
+}
+
+.highlight .link {
+  text-decoration: underline;
 }
 
