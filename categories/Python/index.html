@@ -152,6 +152,28 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
+        pycurl多进程下载数据
+    </h2>
+    
+        <p>在我为组里写的海雾反演工具包中，有一个葵花卫星数据下载的函数。因为葵花卫星数据是通过FTP方式下载的，而Python的requests库又不支持FTP协议，所以只好借助了pycurl来下载数据。</p>
+<p>最近葵花数据的下载异常的慢，而pycurl似乎没有多线程下载的功能(我在撰写这篇发现pycurl中有一个<code>CurlMulti</code>对象，似乎可以通过该对象实现在一个Python进程中同时下载多个数据片段)，pycurl对多线程的支持也不好，无奈只能自己想办法实现多进程下载的功能了。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2024/11/" class="post-meta__date button">2024-11-05</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/pycurl/" class="post-tags__link button"># pycurl</a></div> 
+<a href="/2024/11/05/pycurl-multiple-process-download/" class="post-entry__link">pycurl多进程下载数据</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
         使用meson构建打包Python包
     </h2>
     
@@ -349,31 +371,6 @@
 </div>
 <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a><a href="/tags/radar/" class="post-tags__link button"># radar</a><a href="/tags/cnmaps/" class="post-tags__link button"># cnmaps</a></div> 
 <a href="/2023/01/13/plot-map-on-radar/" class="post-entry__link">为雷达 PPI 图像添加地图底图</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        Cartopy学习使用
-    </h2>
-    
-        <p>昨天本来打算用 <code>matplotlib</code> 和 <code>Cartopy</code> 画几张海温图的，结果意外发现我的 <code>Arch Linux</code> 更新软件包以后，估计是 <code>libc</code> 版本太新导致 <code>matplotlib</code> break 了，只要一调用 <code>plt.show</code> 或者是 <code>plt.savefig</code> 必崩，给我人整傻了，又是更换内核又是搞虚拟机，今天下午临时装了一个 <code>Ubuntu 22.04</code> 用着，白白折腾了一天的时间 🤡。</p>
-<p>更新：我发现不是 <code>matplotlib</code> break 了，是 <code>Cartopy</code> 和新版的 <code>Shapely</code> 不兼容导致的。执行以下命令从源码重新安装 <code>Shapely</code> 即可恢复正常。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install <span class="string">&quot;shapely&lt;2&quot;</span> --no-binary shapely --force-reinstall</span><br></pre></td></tr></table></figure>
-
-<p>我之前就用过 <code>Cartopy</code>，但是并不是特别熟。今天画海温图的时候顺便探索了一下，发现了几件有趣的事情，所以分享一下。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2022/10/" class="post-meta__date button">2022-10-17</a>
-    
-    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a></div> 
-<a href="/2022/10/17/learn-cartopy/" class="post-entry__link">Cartopy学习使用</a>
                 </div>
             
         

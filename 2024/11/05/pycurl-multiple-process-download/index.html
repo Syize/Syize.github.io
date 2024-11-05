@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>pycurl多进程下载数据 | Syize の blog</title>
+
+
+    <meta name="keywords" content="Python, pycurl">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="在我为组里写的海雾反演工具包中，有一个葵花卫星数据下载的函数。因为葵花卫星数据是通过FTP方式下载的，而Python的requests库又不支持FTP协议，所以只好借助了pycurl来下载数据。 最近葵花数据的下载异常的慢，而pycurl似乎没有多线程下载的功能(我在撰写这篇发现pycurl中有一个CurlMulti对象，似乎可以通过该对象实现在一个Python进程中同时下载多个数据片段)，pyc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pycurl多进程下载数据">
+<meta property="og:url" content="https://blog.syize.cn/2024/11/05/pycurl-multiple-process-download/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="在我为组里写的海雾反演工具包中，有一个葵花卫星数据下载的函数。因为葵花卫星数据是通过FTP方式下载的，而Python的requests库又不支持FTP协议，所以只好借助了pycurl来下载数据。 最近葵花数据的下载异常的慢，而pycurl似乎没有多线程下载的功能(我在撰写这篇发现pycurl中有一个CurlMulti对象，似乎可以通过该对象实现在一个Python进程中同时下载多个数据片段)，pyc">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2024/11/05/pycurl-multiple-process-download/compare.png">
+<meta property="article:published_time" content="2024-11-05T14:14:30.000Z">
+<meta property="article:modified_time" content="2024-11-05T06:17:27.509Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="pycurl">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2024/11/05/pycurl-multiple-process-download/compare.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        pycurl多进程下载数据
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/11/" class="post-meta__date button">2024-11-05</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%A7%8B%E7%89%88%E6%9C%AC"><span class="toc-number">1.</span> <span class="toc-text">原始版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%89%88%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">多进程版本</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%A7%8B%E7%89%88%E6%9C%AC"><span class="toc-number">1.</span> <span class="toc-text">原始版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%89%88%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">多进程版本</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2024-11-05"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <p>在我为组里写的海雾反演工具包中，有一个葵花卫星数据下载的函数。因为葵花卫星数据是通过FTP方式下载的，而Python的requests库又不支持FTP协议，所以只好借助了pycurl来下载数据。</p>
+<p>最近葵花数据的下载异常的慢，而pycurl似乎没有多线程下载的功能(我在撰写这篇发现pycurl中有一个<code>CurlMulti</code>对象，似乎可以通过该对象实现在一个Python进程中同时下载多个数据片段)，pycurl对多线程的支持也不好，无奈只能自己想办法实现多进程下载的功能了。</p>
+<span id="more"></span>
+
+<h2 id="原始版本"><a href="#原始版本" class="headerlink" title="原始版本"></a>原始版本</h2><p>原始的下载代码实现起来非常简单，调用<code>setopt()</code>函数依次设置好各个参数就可以下载数据了。这里只放出核心的代码部分</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">CURL.setopt(pycurl.URL, ftp_url)</span><br><span class="line">CURL.setopt(pycurl.NOPROGRESS, <span class="literal">False</span>)</span><br><span class="line">CURL.setopt(pycurl.XFERINFOFUNCTION, ftp_callback)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> exists(<span class="string">f&quot;<span class="subst">&#123;save_path&#125;</span>/<span class="subst">&#123;temp_filename&#125;</span>&quot;</span>):</span><br><span class="line">    open_type = <span class="string">&quot;ab&quot;</span></span><br><span class="line">    file_size = getsize(<span class="string">f&quot;<span class="subst">&#123;save_path&#125;</span>/<span class="subst">&#123;temp_filename&#125;</span>&quot;</span>)</span><br><span class="line">    CURL.setopt(pycurl.RESUME_FROM, file_size)</span><br><span class="line">    ftp_callback.set_start_size(file_size)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    open_type = <span class="string">&quot;wb&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">f&quot;<span class="subst">&#123;save_path&#125;</span>/<span class="subst">&#123;temp_filename&#125;</span>&quot;</span>, open_type) <span class="keyword">as</span> f:</span><br><span class="line">    CURL.setopt(pycurl.WRITEDATA, f)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        CURL.perform()</span><br><span class="line">    <span class="keyword">except</span> pycurl.error <span class="keyword">as</span> e:</span><br><span class="line">        logger.error(<span class="string">f&quot;Failed to download data: <span class="subst">&#123;ftp_url&#125;</span>&quot;</span>)</span><br><span class="line">        logger.error(<span class="string">f&quot;Error occurred: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<p>这里为了能够回报下载进度，我使用了自定义的<code>ftp_callback</code>对象作为回调函数，下载之前先判断临时文件是否已经存在，存在的话就断点续传，避免重复下载。</p>
+<p>pycurl有个不好的地方，就是它的错误处理很丑。无论是哪种类型的错误，它都会捕获，然后抛出自己的<code>pycurl.error</code>，这里我们不考虑下载重试的功能，所以错误的类型暂时没有影响，有错误就直接返回<code>False</code>。</p>
+<h2 id="多进程版本"><a href="#多进程版本" class="headerlink" title="多进程版本"></a>多进程版本</h2><p>多进程版本的实现原理是，首先获取文件大小信息，然后根据使用的进程数，计算得到每个进程需要下载的起点和终点，并使用<code>multiprocessing</code>分段下载文件。下载完成后，再合并。</p>
+<p>获取文件的大小可以通过设置<code>NOBODY</code>来只获取头信息，但是pycurl会强制打印出两行信息出来，没办法控制不输出。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl = pycurl.Curl()</span><br><span class="line">curl.setopt(pycurl.URL, <span class="variable language_">self</span>.url)</span><br><span class="line">curl.setopt(pycurl.NOPROGRESS, <span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 设置只获取头信息</span></span><br><span class="line">curl.setopt(pycurl.NOBODY, <span class="number">1</span>)</span><br><span class="line">curl.perform()</span><br><span class="line">file_size = <span class="built_in">int</span>(curl.getinfo(pycurl.CONTENT_LENGTH_DOWNLOAD))</span><br></pre></td></tr></table></figure>
+
+<p>获取到文件之后，就可以计算出每个进程所需要下载的文件范围，然后起子进程开始下载。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">process_num = <span class="number">6</span></span><br><span class="line">chunk_size = file_size // process_num</span><br><span class="line">process_pool = []</span><br><span class="line">recv_pipe, send_pipe = Pipe(<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (i, _part_filename) <span class="keyword">in</span> <span class="built_in">enumerate</span>(part_filenames[:-<span class="number">1</span>]):</span><br><span class="line">    process_pool.append(</span><br><span class="line">        Process(</span><br><span class="line">            target=<span class="variable language_">self</span>.multiple_process, args=[_part_filename, chunk_size * i, chunk_size * (i + <span class="number">1</span>) - <span class="number">1</span>, send_pipe]</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">    process_pool[i].start()</span><br><span class="line"></span><br><span class="line">process_pool.append(Process(</span><br><span class="line">    target=<span class="variable language_">self</span>.multiple_process, args=[part_filenames[-<span class="number">1</span>], chunk_size * (process_num - <span class="number">1</span>), file_size, send_pipe]</span><br><span class="line">))</span><br><span class="line">process_pool[-<span class="number">1</span>].start()</span><br></pre></td></tr></table></figure>
+
+<p>为了能够在多进程的情况下也能回报进度，这里使用<code>multiprocessing</code>的<code>Piep</code>创建了一个管道，<code>send_pipe</code>分发给所有的子进程，用于回报下载进度。子进程启动后，需要轮询子进程的状态，在正常下载完毕或者子进程异常退出时做出相应的处理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">loop_flag = <span class="number">1</span></span><br><span class="line">stop_flag = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> loop_flag:</span><br><span class="line">    status_code = []</span><br><span class="line">    <span class="keyword">for</span> _process <span class="keyword">in</span> process_pool:</span><br><span class="line">        <span class="comment"># 更新进度条</span></span><br><span class="line">        <span class="keyword">if</span> pid <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">if</span> recv_pipe.poll():</span><br><span class="line">                progress.update(pid, advance=recv_pipe.recv())</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> _process.is_alive():</span><br><span class="line">            status_code.append(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">elif</span> _process.exitcode != <span class="number">0</span>:</span><br><span class="line">            status_code.append(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            status_code.append(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="number">1</span> <span class="keyword">in</span> status_code:</span><br><span class="line">        loop_flag = <span class="number">0</span></span><br><span class="line">        stop_flag = <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="number">0</span> <span class="keyword">not</span> <span class="keyword">in</span> status_code:</span><br><span class="line">        loop_flag = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> stop_flag:</span><br><span class="line">    <span class="keyword">for</span> _process <span class="keyword">in</span> process_pool:</span><br><span class="line">        <span class="keyword">if</span> _process.is_alive():</span><br><span class="line">            _process.terminate()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="comment"># 其他处理</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p>这里我们在轮询的过程中顺便通过<code>recv_pipe</code>接收下载进度回报，更新进度。</p>
+<p>如果有子进程异常退出(<code>exitcode != 0</code>)，则直接退出轮询，然后停止掉所有其他正在运行的子进程，结束本次下载。</p>
+<p>在每个进程的内部，pycurl的使用方式和单进程版本没有区别，只不过多了一步设置文件下载范围的步骤。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">multiple_process</span>(<span class="params">self, part_filename: <span class="built_in">str</span>, start: <span class="built_in">int</span>, end: <span class="built_in">int</span>, send_pipe: Connection</span>):</span><br><span class="line">    curl = pycurl.Curl()</span><br><span class="line">    curl.setopt(pycurl.URL, <span class="variable language_">self</span>.url)</span><br><span class="line">    curl.setopt(pycurl.NOPROGRESS, <span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    save_path = <span class="string">f&quot;<span class="subst">&#123;self.save_path&#125;</span>/<span class="subst">&#123;part_filename&#125;</span>&quot;</span></span><br><span class="line">    <span class="keyword">if</span> exists(save_path):</span><br><span class="line">        downloaded_size = getsize(save_path)</span><br><span class="line">        <span class="keyword">if</span> downloaded_size &gt; (end - start):</span><br><span class="line">            open_type = <span class="string">&quot;wb&quot;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            open_type = <span class="string">&quot;ab&quot;</span></span><br><span class="line">            <span class="comment"># 如果分片文件存在，则重新计算起点，以断点续传</span></span><br><span class="line">            start = start + downloaded_size</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        downloaded_size = <span class="number">0</span></span><br><span class="line">        open_type = <span class="string">&quot;wb&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 设置下载范围</span></span><br><span class="line">    curl.setopt(pycurl.RANGE, <span class="string">f&quot;<span class="subst">&#123;start&#125;</span>-<span class="subst">&#123;end&#125;</span>&quot;</span>)</span><br><span class="line">    curl.setopt(pycurl.XFERINFOFUNCTION, CurlMultiProcessCallback(send_pipe, downloaded_size))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(save_path, open_type) <span class="keyword">as</span> f:</span><br><span class="line">        curl.setopt(pycurl.WRITEDATA, f)</span><br><span class="line">        curl.perform()</span><br></pre></td></tr></table></figure>
+
+<p>这里自定义了一个<code>CurlMultiProcessCallback</code>类作为回调函数，使用分配的<code>send_pipe</code>发送每次新写入的文件大小来汇报下载进度。</p>
+<p>最后贴一张单进程和多进程下载的对比图</p>
+<img src="/2024/11/05/pycurl-multiple-process-download/compare.png" class="">
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2024/11/05/pycurl-multiple-process-download/">https://blog.syize.cn/2024/11/05/pycurl-multiple-process-download/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2024-11-05</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/pycurl/" class="post-tags__link button"># pycurl</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2024/10/03/build-python-package-with-meson/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            使用meson构建打包Python包
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2024 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: '2024/11/05/pycurl-multiple-process-download/',
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
