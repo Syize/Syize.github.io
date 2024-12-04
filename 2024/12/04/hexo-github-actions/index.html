@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>使用GitHub的Action自动生成和部署Hexo博客 | Syize の blog</title>
+
+
+    <meta name="keywords" content="Hexo">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="最近又有点犯懒了，甚至博客都有点懒得写，主要是感觉每次都要生成一次博客文件然后推送，真的很麻烦啊。我在笔记本上面配置好的环境，经常忘记同步到台式上，博客的源文件也经常忘记拉取更新，导致一些旧的博客莫名奇妙就消失了，还要我手动去提交记录里面找到文件恢复出来。于是索性研究了一下怎么用GitHub的Action自动生成和部署博客，一劳永逸。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用GitHub的Action自动生成和部署Hexo博客">
+<meta property="og:url" content="https://blog.syize.cn/2024/12/04/hexo-github-actions/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="最近又有点犯懒了，甚至博客都有点懒得写，主要是感觉每次都要生成一次博客文件然后推送，真的很麻烦啊。我在笔记本上面配置好的环境，经常忘记同步到台式上，博客的源文件也经常忘记拉取更新，导致一些旧的博客莫名奇妙就消失了，还要我手动去提交记录里面找到文件恢复出来。于是索性研究了一下怎么用GitHub的Action自动生成和部署博客，一劳永逸。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2024/12/04/hexo-github-actions/image-20241204204529904.png">
+<meta property="og:image" content="https://blog.syize.cn/2024/12/04/hexo-github-actions/image-20241204205035962.png">
+<meta property="og:image" content="https://blog.syize.cn/2024/12/04/hexo-github-actions/image-20241204210226489.png">
+<meta property="og:image" content="https://blog.syize.cn/2024/12/04/hexo-github-actions/image-20241204210422848.png">
+<meta property="article:published_time" content="2024-12-04T21:17:14.000Z">
+<meta property="article:modified_time" content="2024-12-04T13:18:26.770Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="Hexo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2024/12/04/hexo-github-actions/image-20241204204529904.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">categories</a>
+                
+                    <a href="/about/" class="navbar-menu button">about</a>
+                
+                    <a href="/friend/" class="navbar-menu button">links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                
+                    <a href="/about/" class="dropdown-menu button">about</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        使用GitHub的Action自动生成和部署Hexo博客
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/12/" class="post-meta__date button">2024-12-04</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Hexo/" class="button">Hexo</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B%E6%A6%82%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">基本流程概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B3%E8%AF%B7Token%E7%94%A8%E4%BA%8E%E8%AE%BF%E9%97%AE%E4%BB%93%E5%BA%93%E7%9A%84%E6%9D%83%E9%99%90"><span class="toc-number">2.</span> <span class="toc-text">申请Token用于访问仓库的权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%AD%98%E6%94%BE%E5%8D%9A%E5%AE%A2%E6%BA%90%E6%96%87%E4%BB%B6%E7%9A%84%E4%BB%93%E5%BA%93"><span class="toc-number">3.</span> <span class="toc-text">设置存放博客源文件的仓库</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B%E6%A6%82%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">基本流程概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B3%E8%AF%B7Token%E7%94%A8%E4%BA%8E%E8%AE%BF%E9%97%AE%E4%BB%93%E5%BA%93%E7%9A%84%E6%9D%83%E9%99%90"><span class="toc-number">2.</span> <span class="toc-text">申请Token用于访问仓库的权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%AD%98%E6%94%BE%E5%8D%9A%E5%AE%A2%E6%BA%90%E6%96%87%E4%BB%B6%E7%9A%84%E4%BB%93%E5%BA%93"><span class="toc-number">3.</span> <span class="toc-text">设置存放博客源文件的仓库</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2024-12-04"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <p>最近又有点犯懒了，甚至博客都有点懒得写，主要是感觉每次都要生成一次博客文件然后推送，真的很麻烦啊。我在笔记本上面配置好的环境，经常忘记同步到台式上，博客的源文件也经常忘记拉取更新，导致一些旧的博客莫名奇妙就消失了，还要我手动去提交记录里面找到文件恢复出来。于是索性研究了一下怎么用GitHub的Action自动生成和部署博客，一劳永逸。</p>
+<span id="more"></span>
+
+<h2 id="基本流程概览"><a href="#基本流程概览" class="headerlink" title="基本流程概览"></a>基本流程概览</h2><pre class="mermaid">graph TB
+    A(博客源文件) --推送--> B[博客源文件仓库]
+    B --触发Action--> C[/生成用于部署的博客文件/]
+    C --推送--> D[博客仓库]</pre>
+
+<p>除了博客源文件的撰写是在本地，博客文件的生成、推送都是在博客源文件仓库的Action中生成的。</p>
+<h2 id="申请Token用于访问仓库的权限"><a href="#申请Token用于访问仓库的权限" class="headerlink" title="申请Token用于访问仓库的权限"></a>申请Token用于访问仓库的权限</h2><p>需要到GitHub个人设置的<code>Developer Settings</code>下面，申请一下<code>Tokens (classic)</code>。</p>
+<img src="/2024/12/04/hexo-github-actions/image-20241204204529904.png" class="" alt="image-20241204204529904">
+
+<p><code>Note</code>可以填一个容易辨识的名字，<code>Expiration</code>也就是过期时间一定要选<code>No expiration</code>，即永不过期。<code>Select scopes</code>那里就把仓库的权限全部勾上就可以。</p>
+<img src="/2024/12/04/hexo-github-actions/image-20241204205035962.png" class="" alt="image-20241204205035962">
+
+<p>点击生成以后会出现一串token，这串token记下来，稍后会用到。同时这串token不能泄漏给别人，否则别人就有权限操作你的仓库了。</p>
+<h2 id="设置存放博客源文件的仓库"><a href="#设置存放博客源文件的仓库" class="headerlink" title="设置存放博客源文件的仓库"></a>设置存放博客源文件的仓库</h2><p>为了保证Action生成的博客和在本地预览的效果是完全一致的，这里我将博客源文件连同Hexo的配置文件全部上传到仓库中了。</p>
+<img src="/2024/12/04/hexo-github-actions/image-20241204210226489.png" class="" alt="image-20241204210226489">
+
+<p>在仓库的设置中，找到<code>Secrets and variables</code>下的<code>Actions</code>，添加一个<code>secret</code>。</p>
+<img src="/2024/12/04/hexo-github-actions/image-20241204210422848.png" class="" alt="image-20241204210422848">
+
+<p><code>Name</code>同样写一个有标识性的名字，最好是大写，不是大写的话GitHub也会自动换成大写的。<code>Secret</code>的内容就填刚刚申请好的token。</p>
+<p>然后，需要在存放博客源文件仓库的根目录下创建目录<code>.github/workflows</code>，并在其中创建文件<code>.github/workflows/hexo-actions.yml</code>，内容如下</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Deploy</span> <span class="string">Hexo</span> <span class="string">to</span> <span class="string">Github</span> <span class="string">Pages</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置当main分支有新的推送时，触发该Action</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">main</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置该Action的job</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span>	<span class="comment"># 使用最新的ubuntu镜像</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Git</span>	<span class="comment"># 安装Git</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">sudo</span> <span class="string">apt</span> <span class="string">update</span> <span class="string">&amp;&amp;</span> <span class="string">sudo</span> <span class="string">apt</span> <span class="string">install</span> <span class="string">-y</span> <span class="string">git</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">blog</span> <span class="string">source</span>	<span class="comment"># 获取博客的源文件</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">blog</span>	<span class="comment"># 博客的源文件会被放置在blog目录下</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">Node.js</span>	<span class="comment"># 安装nodejs</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">&quot;18&quot;</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Cache</span> <span class="string">dependencies</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/cache@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">node_modules</span></span><br><span class="line">          <span class="attr">key:</span> <span class="string">$&#123;&#123;</span> <span class="string">runner.os</span> <span class="string">&#125;&#125;-node-$&#123;&#123;</span> <span class="string">hashFiles(&#x27;**/package-lock.json&#x27;)</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">restore-keys:</span> <span class="string">|</span></span><br><span class="line"><span class="string">            $&#123;&#123; runner.os &#125;&#125;-node-</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Hexo</span> <span class="string">CLI</span> <span class="string">and</span> <span class="string">yarn</span>		<span class="comment"># 安装hexo以及yarn，我个人更习惯用yarn</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">-g</span> <span class="string">hexo-cli</span> <span class="string">yarn</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">dependencies</span>	<span class="comment"># 进入blog目录，安装博客的依赖</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">yarn</span> <span class="string">install</span></span><br><span class="line">        <span class="attr">working-directory:</span> <span class="string">./blog</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">theme</span>		<span class="comment"># clone博客使用的主题</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">git</span> <span class="string">clone</span> <span class="string">https://github.com/ChrAlpha/hexo-theme-cards.git</span> <span class="string">blog/themes/cards</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Restore</span> <span class="string">theme</span> <span class="string">config.</span>		<span class="comment"># 将配置好的主题配置复制到对应主题目录下</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">mv</span> <span class="string">blog/themes/_config.yml</span> <span class="string">blog/themes/cards/_config.yml</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Generate</span> <span class="string">static</span> <span class="string">pages</span>		<span class="comment"># 生成博客</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">hexo</span> <span class="string">generate</span></span><br><span class="line">        <span class="attr">working-directory:</span> <span class="string">./blog</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span> <span class="string">to</span> <span class="string">GitHub</span> <span class="string">Pages</span>	<span class="comment"># 将生成的博客推送到你对应的仓库中</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">peaceiris/actions-gh-pages@v3</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">personal_token:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.PERSONAL_TOKEN</span> <span class="string">&#125;&#125;</span>		<span class="comment"># PERSONAL_TOKEN更换为你自己的token的名称，一定全写成大写</span></span><br><span class="line">          <span class="attr">publish_dir:</span> <span class="string">./blog/public</span></span><br><span class="line">          <span class="attr">external_repository:</span> <span class="string">Syize/Syize.github.io</span> <span class="comment"># 更改为你的 GitHub Pages 仓库，格式是username/repo</span></span><br><span class="line">          <span class="attr">publish_branch:</span> <span class="string">master</span> <span class="comment"># GitHub Pages 的分支</span></span><br></pre></td></tr></table></figure>
+
+<p>然后试着给博客做一下修改，推送，等着Action给你自动生成和部署吧。</p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2024/12/04/hexo-github-actions/">https://blog.syize.cn/2024/12/04/hexo-github-actions/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2024-12-04</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Hexo/" class="post-tags__link button"># Hexo</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2024/11/05/pycurl-multiple-process-download/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            pycurl多进程下载数据
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2024 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF6Y5KEM39"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-VF6Y5KEM39');
+    </script>
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: '2024/12/04/hexo-github-actions/',
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
