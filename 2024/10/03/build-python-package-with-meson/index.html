@@ -47,7 +47,7 @@
 <meta property="og:image" content="https://blog.syize.cn/2024/10/03/build-python-package-with-meson/image-20241002151555900.png">
 <meta property="og:image" content="https://blog.syize.cn/2024/10/03/build-python-package-with-meson/image-20241003152907462.png">
 <meta property="article:published_time" content="2024-10-03T15:53:35.000Z">
-<meta property="article:modified_time" content="2025-03-07T10:36:10.985Z">
+<meta property="article:modified_time" content="2025-05-18T13:19:17.851Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="meson">
@@ -193,7 +193,7 @@
     </div>
     <script>
         (() => {
-            var update = Date.parse("2025-03-07"),
+            var update = Date.parse("2025-05-18"),
                 date = new Date(),
                 now = date.getTime(),
                 expire = now - update,
@@ -226,9 +226,9 @@
 
 <p><code>build-backend</code>字段指定了使用meson作为后端，但是由于meson并不会随Python一起安装，所以需要在<code>requires</code>中指定依赖，这样打包和安装时会先安装<code>meson-python</code>。<code>pyproject.toml</code>的配置完成后，我们需要再配置meson，指定需要打包的文件以及安装的位置。不同于<code>setuptools</code>，meson不会自动找寻和检测Python包的代码，而是需要我们在配置文件中详细列出需要包含的文件。这样的做法比<code>setuptools</code>更繁琐一些，但是能让我们更细粒度控制Python包内包含的东西。</p>
 <p>在<code>pyproject.toml</code>的同级目录下添加<code>meson.build</code>，同样写入项目配置。</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">project</span>(</span><br><span class="line">    <span class="string">&#x27;mypyproj&#x27;</span>,</span><br><span class="line">    version: <span class="string">&#x27;0.0.1&#x27;</span>,</span><br><span class="line">    license: <span class="string">&#x27;BSD-3&#x27;</span>,</span><br><span class="line">    meson_version: <span class="string">&#x27;&gt;=0.64.0&#x27;</span>,</span><br><span class="line">    default_options: <span class="selector-attr">[<span class="string">&#x27;warning_level=2&#x27;</span>]</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">py3 = <span class="built_in">import</span>(<span class="string">&#x27;python&#x27;</span>)<span class="selector-class">.find_installation</span>(pure: false)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">subdir</span><span class="params">(<span class="string">&#x27;mypyproj&#x27;</span>)</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">project</span>(</span><br><span class="line">    <span class="string">&#x27;mypyproj&#x27;</span>,</span><br><span class="line">    version: <span class="string">&#x27;0.0.1&#x27;</span>,</span><br><span class="line">    license: <span class="string">&#x27;BSD-3&#x27;</span>,</span><br><span class="line">    meson_version: <span class="string">&#x27;&gt;=0.64.0&#x27;</span>,</span><br><span class="line">    default_options: <span class="selector-attr">[<span class="string">&#x27;warning_level=2&#x27;</span>]</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">py3 = <span class="built_in">import</span>(<span class="string">&#x27;python&#x27;</span>)<span class="selector-class">.find_installation</span>(pure: true)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">subdir</span><span class="params">(<span class="string">&#x27;mypyproj&#x27;</span>)</span></span></span><br></pre></td></tr></table></figure>
 
-<p><code>project()</code>定义项目的名称，版本号，授权证书，meson版本等。<code>py3 = import(&#39;python&#39;).find_installation(pure: false)</code>导入Python模块，并找到安装的Python。<code>subdir()</code>指定了子目录，随后meson会去子目录下寻找子目录的<code>meson.build</code>，并再读取相应的配置。可以看到当前的<code>meson.build</code>并没有配置Python包的内容，这些是由子目录下的<code>meson.build</code>来配置的。</p>
+<p><code>project()</code>定义项目的名称，版本号，授权证书，meson版本等。<code>py3 = import(&#39;python&#39;).find_installation(pure: true)</code>导入Python模块，并找到安装的Python。<code>find_installation(pure: true)</code>中的<code>pure: true</code>告诉meson你的项目是一个纯Python项目，这样最后打包得到的wheel包的tag是<code>py3-none-any</code>。<code>subdir()</code>指定了子目录，随后meson会去子目录下寻找子目录的<code>meson.build</code>，并再读取相应的配置。可以看到当前的<code>meson.build</code>并没有配置Python包的内容，这些是由子目录下的<code>meson.build</code>来配置的。</p>
 <blockquote>
 <p>添加<code>pyproject.toml</code>和<code>meson.build</code>后的目录结构。</p>
 </blockquote>
@@ -303,7 +303,7 @@
         
     </div>
  
-    <div class="post-footer__meta"><p>updated at 2025-03-07</p></div> 
+    <div class="post-footer__meta"><p>updated at 2025-05-18</p></div> 
     <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/meson/" class="post-tags__link button"># meson</a></div> 
 </article>
 
