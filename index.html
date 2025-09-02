@@ -149,6 +149,31 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
+        让 TensorBoard 支持具有自定义子类的 Keras 模型
+    </h2>
+    
+        <p>Keras 中的<code>TensorBoard</code>回调可以方便的用来记录模型训练过程中的各种参数变化，以在训练后对模型进行分析。在 Keras 的<a target="_blank" rel="noopener" href="https://keras.io/api/callbacks/tensorboard/">官方示例</a>中，展示了如何将<code>TensorBoard</code>回调用在自定义的 Keras 模型中。但是在实际使用中，如果你像我一样继承了写 PyTorch 的习惯，将整个 Keras 模型模块化成多个子模型的话，就会发现<code>TensorBoard</code>回调在这个时候失效了。这个时候就需要对<code>TensorBoard</code>回调的功能做增强，让它支持 Keras 模型中的子模型。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2025/09/" class="post-meta__date button">2025-09-02</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/Keras/" class="button">Keras</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/Keras/TensorBoard/" class="button">TensorBoard</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Keras/" class="post-tags__link button"># Keras</a><a href="/tags/TensorBoard/" class="post-tags__link button"># TensorBoard</a></div> 
+<a href="/2025/09/02/tensorboard-support-custom-keras-model/" class="post-entry__link">让 TensorBoard 支持具有自定义子类的 Keras 模型</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
         (转载)GCN的理解
     </h2>
     
@@ -340,27 +365,6 @@
 </div>
 <div class="post-entry__tags"><a href="/tags/Linux/" class="post-tags__link button"># Linux</a><a href="/tags/VNC/" class="post-tags__link button"># VNC</a></div> 
 <a href="/2024/05/13/ubuntu-22-04-tigervnc-server/" class="post-entry__link">在Ubuntu 22.04服务器上配置VNC服务</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        配置dnsmasq使用DoH
-    </h2>
-    
-        <p>最近学院的网络异常的差，DNS查询也异常的慢。索性升级一下台式dnsmasq的配置，使用DoH来解析DNS。这样DNS的解析请求就可以通过台式配置好的SSH隧道使用服务器的代理。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2024/05/" class="post-meta__date button">2024-05-11</a>
-    
-    <span class="separate-dot"></span><a href="/categories/dnsmasq/" class="button">dnsmasq</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/dnsmasq/" class="post-tags__link button"># dnsmasq</a></div> 
-<a href="/2024/05/11/dnsmasq-doh/" class="post-entry__link">配置dnsmasq使用DoH</a>
                 </div>
             
         

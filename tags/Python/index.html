@@ -152,6 +152,31 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
+        让 TensorBoard 支持具有自定义子类的 Keras 模型
+    </h2>
+    
+        <p>Keras 中的<code>TensorBoard</code>回调可以方便的用来记录模型训练过程中的各种参数变化，以在训练后对模型进行分析。在 Keras 的<a target="_blank" rel="noopener" href="https://keras.io/api/callbacks/tensorboard/">官方示例</a>中，展示了如何将<code>TensorBoard</code>回调用在自定义的 Keras 模型中。但是在实际使用中，如果你像我一样继承了写 PyTorch 的习惯，将整个 Keras 模型模块化成多个子模型的话，就会发现<code>TensorBoard</code>回调在这个时候失效了。这个时候就需要对<code>TensorBoard</code>回调的功能做增强，让它支持 Keras 模型中的子模型。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2025/09/" class="post-meta__date button">2025-09-02</a>
+    
+    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/Keras/" class="button">Keras</a>
+
+    <span class="separate-dot"></span><a href="/categories/Python/Keras/TensorBoard/" class="button">TensorBoard</a>
+
+ 
+</div>
+<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Keras/" class="post-tags__link button"># Keras</a><a href="/tags/TensorBoard/" class="post-tags__link button"># TensorBoard</a></div> 
+<a href="/2025/09/02/tensorboard-support-custom-keras-model/" class="post-entry__link">让 TensorBoard 支持具有自定义子类的 Keras 模型</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
         给Zotero的引用添加跳转到参考文献表的链接
     </h2>
     
@@ -350,30 +375,6 @@
 </div>
 <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a></div> 
 <a href="/2023/07/22/matplotlib-cartopy-on-click-event/" class="post-entry__link">matplotlib和Cartopy的点击取值</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        xarray中合并nc文件导致数据的数值改变/出现nan
-    </h2>
-    
-        <p>今天下了ERA5的再分析数据准备做REOF，结果却发现报错说我的数据有缺测值。搜索了一番发现原来是ERA5的<code>scale</code>和<code>offset</code>导致的。</p>
-<blockquote>
-<p>水博客+1</p>
-</blockquote>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2023/07/" class="post-meta__date button">2023-07-09</a>
-    
-    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
-
- 
-</div>
-<div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
-<a href="/2023/07/09/xarray-open-mfdataset-value-change/" class="post-entry__link">xarray中合并nc文件导致数据的数值改变/出现nan</a>
                 </div>
             
         
