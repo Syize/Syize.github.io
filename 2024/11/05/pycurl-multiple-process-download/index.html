@@ -46,7 +46,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://blog.syize.cn/2024/11/05/pycurl-multiple-process-download/compare.png">
 <meta property="article:published_time" content="2024-11-05T14:14:30.000Z">
-<meta property="article:modified_time" content="2025-09-02T02:54:53.087Z">
+<meta property="article:modified_time" content="2025-11-07T09:22:31.783Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="pycurl">
@@ -94,17 +94,19 @@
         
             <div class="navbar__menus">
                 
-                    <a href="/" class="navbar-menu button">home</a>
+                    <a href="/" class="navbar-menu button">Home</a>
                 
-                    <a href="/tags/" class="navbar-menu button">tags</a>
+                    <a href="/tags/" class="navbar-menu button">Tags</a>
                 
-                    <a href="/archives/" class="navbar-menu button">archives</a>
+                    <a href="/archives/" class="navbar-menu button">Archives</a>
                 
-                    <a href="/categories/" class="navbar-menu button">categories</a>
+                    <a href="/categories/" class="navbar-menu button">Categories</a>
                 
-                    <a href="/about/" class="navbar-menu button">about</a>
+                    <a href="/categories/notes/" class="navbar-menu button">Notes</a>
                 
-                    <a href="/friend/" class="navbar-menu button">links</a>
+                    <a href="/about/" class="navbar-menu button">About</a>
+                
+                    <a href="/friend/" class="navbar-menu button">Links</a>
                 
             </div>
         
@@ -122,17 +124,19 @@
             <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
             <div class="dropdown-menus" id="dropdown-menus">
                 
-                    <a href="/" class="dropdown-menu button">home</a>
+                    <a href="/" class="dropdown-menu button">Home</a>
                 
-                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                    <a href="/tags/" class="dropdown-menu button">Tags</a>
                 
-                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                    <a href="/archives/" class="dropdown-menu button">Archives</a>
                 
-                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                    <a href="/categories/" class="dropdown-menu button">Categories</a>
                 
-                    <a href="/about/" class="dropdown-menu button">about</a>
+                    <a href="/categories/notes/" class="dropdown-menu button">Notes</a>
                 
-                    <a href="/friend/" class="dropdown-menu button">links</a>
+                    <a href="/about/" class="dropdown-menu button">About</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">Links</a>
                 
             </div>
         
@@ -190,7 +194,7 @@
     </div>
     <script>
         (() => {
-            var update = Date.parse("2025-09-02"),
+            var update = Date.parse("2025-11-07"),
                 date = new Date(),
                 now = date.getTime(),
                 expire = now - update,
@@ -203,7 +207,7 @@
     </script>
 </div>
     <div class="post__content">
-        <p>在我为组里写的海雾反演工具包中，有一个葵花卫星数据下载的函数。因为葵花卫星数据是通过FTP方式下载的，而Python的requests库又不支持FTP协议，所以只好借助了pycurl来下载数据。</p>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>在我为组里写的海雾反演工具包中，有一个葵花卫星数据下载的函数。因为葵花卫星数据是通过FTP方式下载的，而Python的requests库又不支持FTP协议，所以只好借助了pycurl来下载数据。</p>
 <p>最近葵花数据的下载异常的慢，而pycurl似乎没有多线程下载的功能(我在撰写这篇发现pycurl中有一个<code>CurlMulti</code>对象，似乎可以通过该对象实现在一个Python进程中同时下载多个数据片段)，pycurl对多线程的支持也不好，无奈只能自己想办法实现多进程下载的功能了。</p>
 <span id="more"></span>
 
@@ -251,7 +255,7 @@
         
     </div>
  
-    <div class="post-footer__meta"><p>updated at 2025-09-02</p></div> 
+    <div class="post-footer__meta"><p>updated at 2025-11-07</p></div> 
     <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/pycurl/" class="post-tags__link button"># pycurl</a></div> 
 </article>
 

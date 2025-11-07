@@ -50,7 +50,7 @@
 <meta property="og:image" content="https://blog.syize.cn/2022/06/11/Lily-radar-painter/hwr-1.png">
 <meta property="og:image" content="https://blog.syize.cn/2022/06/11/Lily-radar-painter/run-1.png">
 <meta property="article:published_time" content="2022-06-11T21:05:41.000Z">
-<meta property="article:modified_time" content="2025-09-02T02:54:52.993Z">
+<meta property="article:modified_time" content="2025-11-07T09:22:31.710Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="PyQt">
@@ -98,17 +98,19 @@
         
             <div class="navbar__menus">
                 
-                    <a href="/" class="navbar-menu button">home</a>
+                    <a href="/" class="navbar-menu button">Home</a>
                 
-                    <a href="/tags/" class="navbar-menu button">tags</a>
+                    <a href="/tags/" class="navbar-menu button">Tags</a>
                 
-                    <a href="/archives/" class="navbar-menu button">archives</a>
+                    <a href="/archives/" class="navbar-menu button">Archives</a>
                 
-                    <a href="/categories/" class="navbar-menu button">categories</a>
+                    <a href="/categories/" class="navbar-menu button">Categories</a>
                 
-                    <a href="/about/" class="navbar-menu button">about</a>
+                    <a href="/categories/notes/" class="navbar-menu button">Notes</a>
                 
-                    <a href="/friend/" class="navbar-menu button">links</a>
+                    <a href="/about/" class="navbar-menu button">About</a>
+                
+                    <a href="/friend/" class="navbar-menu button">Links</a>
                 
             </div>
         
@@ -126,17 +128,19 @@
             <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
             <div class="dropdown-menus" id="dropdown-menus">
                 
-                    <a href="/" class="dropdown-menu button">home</a>
+                    <a href="/" class="dropdown-menu button">Home</a>
                 
-                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                    <a href="/tags/" class="dropdown-menu button">Tags</a>
                 
-                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                    <a href="/archives/" class="dropdown-menu button">Archives</a>
                 
-                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                    <a href="/categories/" class="dropdown-menu button">Categories</a>
                 
-                    <a href="/about/" class="dropdown-menu button">about</a>
+                    <a href="/categories/notes/" class="dropdown-menu button">Notes</a>
                 
-                    <a href="/friend/" class="dropdown-menu button">links</a>
+                    <a href="/about/" class="dropdown-menu button">About</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">Links</a>
                 
             </div>
         
@@ -194,7 +198,7 @@
     </div>
     <script>
         (() => {
-            var update = Date.parse("2025-09-02"),
+            var update = Date.parse("2025-11-07"),
                 date = new Date(),
                 now = date.getTime(),
                 expire = now - update,
@@ -207,7 +211,7 @@
     </script>
 </div>
     <div class="post__content">
-        <h2 id="前前言"><a href="#前前言" class="headerlink" title="前前言"></a>前前言</h2><p>前段时间用 Python 帮某市气象局的工作人员画了一下雷达图。最近他们又来找我，想整合一下之前的画图脚本，看看能不能写出一个带有图形界面的画图程序。一来想我们几个一起申请个软著，二来他们以后画图也方便。我正好会一些 Qt，借此机会再练练手，顺便赚亿点钱花😋。</p>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="前前言"><a href="#前前言" class="headerlink" title="前前言"></a>前前言</h2><p>前段时间用 Python 帮某市气象局的工作人员画了一下雷达图。最近他们又来找我，想整合一下之前的画图脚本，看看能不能写出一个带有图形界面的画图程序。一来想我们几个一起申请个软著，二来他们以后画图也方便。我正好会一些 Qt，借此机会再练练手，顺便赚亿点钱花😋。</p>
 <p>今晚研究了一下怎么用 Qt 展示图片，最后做出了不错的成果，单开一贴记录一下。做完了才想起来之前也跟着教程研究过怎么用 C++ 和 Qt 写一个图片展示器，最后没有成功，不了了之，没想到现在在 Python 上竟然成功了，好耶。<del>那我之前挖的坑就不用埋了吧</del></p>
 <span id="more"></span>
 
@@ -313,7 +317,7 @@
         
     </div>
  
-    <div class="post-footer__meta"><p>updated at 2025-09-02</p></div> 
+    <div class="post-footer__meta"><p>updated at 2025-11-07</p></div> 
     <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/PyQt/" class="post-tags__link button"># PyQt</a></div> 
 </article>
 

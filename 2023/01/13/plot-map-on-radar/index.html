@@ -50,7 +50,7 @@
 <meta property="og:image" content="https://blog.syize.cn/2023/01/13/plot-map-on-radar/image-20230524211002144.png">
 <meta property="og:image" content="https://blog.syize.cn/2023/01/13/plot-map-on-radar/image-20230524211424284.png">
 <meta property="article:published_time" content="2023-01-13T19:16:43.000Z">
-<meta property="article:modified_time" content="2025-09-02T02:54:53.071Z">
+<meta property="article:modified_time" content="2025-11-07T09:22:31.771Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="Cartopy">
@@ -100,17 +100,19 @@
         
             <div class="navbar__menus">
                 
-                    <a href="/" class="navbar-menu button">home</a>
+                    <a href="/" class="navbar-menu button">Home</a>
                 
-                    <a href="/tags/" class="navbar-menu button">tags</a>
+                    <a href="/tags/" class="navbar-menu button">Tags</a>
                 
-                    <a href="/archives/" class="navbar-menu button">archives</a>
+                    <a href="/archives/" class="navbar-menu button">Archives</a>
                 
-                    <a href="/categories/" class="navbar-menu button">categories</a>
+                    <a href="/categories/" class="navbar-menu button">Categories</a>
                 
-                    <a href="/about/" class="navbar-menu button">about</a>
+                    <a href="/categories/notes/" class="navbar-menu button">Notes</a>
                 
-                    <a href="/friend/" class="navbar-menu button">links</a>
+                    <a href="/about/" class="navbar-menu button">About</a>
+                
+                    <a href="/friend/" class="navbar-menu button">Links</a>
                 
             </div>
         
@@ -128,17 +130,19 @@
             <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
             <div class="dropdown-menus" id="dropdown-menus">
                 
-                    <a href="/" class="dropdown-menu button">home</a>
+                    <a href="/" class="dropdown-menu button">Home</a>
                 
-                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                    <a href="/tags/" class="dropdown-menu button">Tags</a>
                 
-                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                    <a href="/archives/" class="dropdown-menu button">Archives</a>
                 
-                    <a href="/categories/" class="dropdown-menu button">categories</a>
+                    <a href="/categories/" class="dropdown-menu button">Categories</a>
                 
-                    <a href="/about/" class="dropdown-menu button">about</a>
+                    <a href="/categories/notes/" class="dropdown-menu button">Notes</a>
                 
-                    <a href="/friend/" class="dropdown-menu button">links</a>
+                    <a href="/about/" class="dropdown-menu button">About</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">Links</a>
                 
             </div>
         
@@ -196,7 +200,7 @@
     </div>
     <script>
         (() => {
-            var update = Date.parse("2025-09-02"),
+            var update = Date.parse("2025-11-07"),
                 date = new Date(),
                 now = date.getTime(),
                 expire = now - update,
@@ -209,7 +213,7 @@
     </script>
 </div>
     <div class="post__content">
-        <p>昨天开始改本科论文，发现了一个问题：如何给自己绘制的雷达 PPI 图添加上地图底图。</p>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>昨天开始改本科论文，发现了一个问题：如何给自己绘制的雷达 PPI 图添加上地图底图。</p>
 <p>画地图底图的话肯定是用 <code>Cartopy</code> 或者是 <code>cnmaps</code> 来画，但是问题是<strong>雷达数据存放的形式是极坐标形式</strong>，而 <code>Cartopy</code> 或者 <code>cnmaps</code> 绘制地图使用的是经纬度坐标。将雷达数据由极坐标系转换为经纬度坐标系有一个小问题，就是数据量大。<code>haversine</code> 虽然可以根据两个地理位置的距离和角度计算经纬度，但是好像只能计算两个点之间的，一个一个点算的话太慢了。</p>
 <p>后来我想到的解决办法是绘制两个图层，然后分别叠加到一起。<code>matplotlib</code> 的 <code>Axes</code> 类有一个 <code>set_alpha</code> 函数可以设置背景透明度，只需要让覆盖在上面的图层背景透明，显示出下面的图，就可以达到图层叠加的目的了。</p>
 <span id="more"></span>
@@ -275,7 +279,7 @@
         
     </div>
  
-    <div class="post-footer__meta"><p>updated at 2025-09-02</p></div> 
+    <div class="post-footer__meta"><p>updated at 2025-11-07</p></div> 
     <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/Cartopy/" class="post-tags__link button"># Cartopy</a><a href="/tags/radar/" class="post-tags__link button"># radar</a><a href="/tags/cnmaps/" class="post-tags__link button"># cnmaps</a></div> 
 </article>
 
