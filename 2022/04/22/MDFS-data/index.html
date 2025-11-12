@@ -48,7 +48,7 @@
 <meta property="og:image" content="https://blog.syize.cn/2022/04/22/MDFS-data/time-usage.png">
 <meta property="og:image" content="https://blog.syize.cn/2022/04/22/MDFS-data/done.png">
 <meta property="article:published_time" content="2022-04-22T19:02:05.000Z">
-<meta property="article:modified_time" content="2025-11-12T03:49:04.843Z">
+<meta property="article:modified_time" content="2025-11-12T04:46:30.815Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="Cython">
@@ -174,7 +174,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">数据格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4"><span class="toc-number">3.</span> <span class="toc-text">运行时间</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text"> 数据格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text"> 代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4"><span class="toc-number">3.</span> <span class="toc-text"> 运行时间</span></a></li></ol>
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -184,7 +184,7 @@
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">数据格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4"><span class="toc-number">3.</span> <span class="toc-text">运行时间</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text"> 数据格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text"> 代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4"><span class="toc-number">3.</span> <span class="toc-text"> 运行时间</span></a></li></ol>
     </div>
 
 
@@ -213,25 +213,21 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>最近要读取 MDFS 格式的气象站点数据在 Python 中使用，但是由于其数据格式不是标准的 JSON ，需要用脚本进行转换。于是我去学校网站下载了一个写好的 Python 脚本，但是运行一遍之后发现不仅需要我额外下载 JSON 的库，而且转换一个文件竟然要 <strong>368秒</strong> ？？？</p>
 <p>为了提升效率，我就用 C + Cython 写了一个速度更快的。</p>
 <span id="more"></span>
-
-<h2 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h2><p>就是下面这个样子，为什么不直接存成 JSON 呢</p>
+<h2 id="数据格式"><a class="markdownIt-Anchor" href="#数据格式"></a> 数据格式</h2>
+<p>就是下面这个样子，为什么不直接存成 JSON 呢</p>
 <img src="/2022/04/22/MDFS-data/data-format.png" class="">
-
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>废话不多说，直接贴代码</p>
+<h2 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h2>
+<p>废话不多说，直接贴代码</p>
 <p><code>C</code></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">fk_mdfs</span><span class="params">(<span class="type">char</span>* filename, <span class="type">char</span>* savename)</span></span><br><span class="line">&#123;</span><br><span class="line">    FILE *fid = fopen(filename, <span class="string">&quot;r&quot;</span>);</span><br><span class="line">    FILE *wfid = fopen(savename, <span class="string">&quot;w&quot;</span>);</span><br><span class="line">    <span class="type">char</span> text[<span class="number">2</span>];</span><br><span class="line">    <span class="type">char</span> quotation[] = <span class="string">&quot;\&quot;&quot;</span>;</span><br><span class="line">    <span class="type">char</span> colon[] = <span class="string">&quot;:&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里是判断，给键名加上引号 &quot;&quot;</span></span><br><span class="line">    <span class="keyword">while</span>(!feof(fid))</span><br><span class="line">    &#123;</span><br><span class="line">        fread(text, <span class="number">1</span>, <span class="number">1</span>, fid);</span><br><span class="line">        <span class="keyword">if</span>(!<span class="built_in">strcmp</span>(text, <span class="string">&quot;&#123;&quot;</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            fwrite(text, <span class="number">1</span>, <span class="number">1</span>, wfid);</span><br><span class="line">            fwrite(quotation, <span class="number">1</span>, <span class="number">1</span>, wfid);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(text, <span class="string">&quot;=&quot;</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            fwrite(quotation, <span class="number">1</span>, <span class="number">1</span>, wfid);</span><br><span class="line">            fwrite(colon, <span class="number">1</span>, <span class="number">1</span>, wfid);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(text, <span class="string">&quot; &quot;</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            fwrite(text, <span class="number">1</span>, <span class="number">1</span>, wfid);</span><br><span class="line">            fwrite(quotation, <span class="number">1</span>, <span class="number">1</span>, wfid);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            fwrite(text, <span class="number">1</span>, <span class="number">1</span>, wfid);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    fclose(fid);</span><br><span class="line">    fclose(wfid);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><code>Cython</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cdef extern from &quot;main.c&quot;:</span><br><span class="line">    int fk_mdfs(char* filename, char* savename)</span><br><span class="line"></span><br><span class="line"># 包装 C 函数</span><br><span class="line">def FkMdfs(filename, savename):</span><br><span class="line">    fk_mdfs(filename.encode(&#x27;UTF-8&#x27;), savename.encode(&#x27;UTF-8&#x27;))</span><br></pre></td></tr></table></figure>
-
 <blockquote class="blockquote-note blockquote-note__caution"><div class="blockquote-note__header"><div class="blockquote-note__icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></div>注意</div><div class="blockquote-note__content"><p>C 语言代码只实现了处理单个文件的功能，而且文件前 5 行的文件头已默认去掉。</p>
 </div></blockquote>
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> fk_msdf <span class="keyword">import</span> FkMdfs</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> listdir</span><br><span class="line"></span><br><span class="line">path = <span class="string">&#x27;../SURFACE/RAIN01_ALL_STATION/&#x27;</span></span><br><span class="line">filenames = [x <span class="keyword">for</span> x <span class="keyword">in</span> listdir(path) <span class="keyword">if</span> <span class="string">&#x27;txt&#x27;</span> <span class="keyword">in</span> x]</span><br><span class="line"><span class="keyword">for</span> filename <span class="keyword">in</span> filenames:</span><br><span class="line">    <span class="comment"># 去除前 5 行的文件头</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(path + filename, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">            f.readline()</span><br><span class="line">        text = f.read()</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;.tmp&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(text)</span><br><span class="line">    FkMdfs(<span class="string">&#x27;.tmp&#x27;</span>, path + <span class="string">&#x27;json/&#x27;</span> + filename[<span class="number">10</span>:-<span class="number">4</span>] + <span class="string">&#x27;.json&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="运行时间"><a href="#运行时间" class="headerlink" title="运行时间"></a>运行时间</h2><p>效率直接提升 28 万倍</p>
+<h2 id="运行时间"><a class="markdownIt-Anchor" href="#运行时间"></a> 运行时间</h2>
+<p>效率直接提升 28 万倍</p>
 <img src="/2022/04/22/MDFS-data/time-usage.png" class="">
-
 <img src="/2022/04/22/MDFS-data/done.png" class="">
     </div>
     
@@ -247,7 +243,7 @@
         </p>
         
             <strong>
-                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn">Syizeのblog</a>！</p>
 
             </strong>
         

@@ -37,16 +37,16 @@
 
     <!-- OpenGraph -->
  
-    <meta name="description" content="前言这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制雷达图并进行反射率修正的教程。 这篇文章是我在去年暑假–也就是 2020年8月–做大创项目的时候写的，想着既然要写自己的博客了那就一块搬过来吧，当然原博客的地址还是要加的 由于中间修改过代码，并不确定代码 100% 正确 原地址：Py-ART 简易中文教程">
+    <meta name="description" content="前言 这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制雷达图并进行反射率修正的教程。 这篇文章是我在去年暑假–也就是 2020年8月–做大创项目的时候写的，想着既然要写自己的博客了那就一块搬过来吧，当然原博客的地址还是要加的 由于中间修改过代码，并不确定代码 100% 正确 原地址：Py-ART 简易中文教程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用 pyart 绘制雷达图像并进行反射率修正">
 <meta property="og:url" content="https://blog.syize.cn/2021/09/10/reflectivity-recorrection/index.html">
 <meta property="og:site_name" content="Syize の blog">
-<meta property="og:description" content="前言这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制雷达图并进行反射率修正的教程。 这篇文章是我在去年暑假–也就是 2020年8月–做大创项目的时候写的，想着既然要写自己的博客了那就一块搬过来吧，当然原博客的地址还是要加的 由于中间修改过代码，并不确定代码 100% 正确 原地址：Py-ART 简易中文教程">
+<meta property="og:description" content="前言 这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制雷达图并进行反射率修正的教程。 这篇文章是我在去年暑假–也就是 2020年8月–做大创项目的时候写的，想着既然要写自己的博客了那就一块搬过来吧，当然原博客的地址还是要加的 由于中间修改过代码，并不确定代码 100% 正确 原地址：Py-ART 简易中文教程">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://blog.syize.cn/2021/09/10/reflectivity-recorrection/corrent_reflectivity_attenuation_1.png">
 <meta property="article:published_time" content="2021-09-10T16:05:08.000Z">
-<meta property="article:modified_time" content="2025-11-12T03:49:04.903Z">
+<meta property="article:modified_time" content="2025-11-12T04:46:30.876Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="pyart">
@@ -171,7 +171,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E7%8E%87%E8%A1%B0%E5%87%8F%E4%BF%AE%E6%AD%A3"><span class="toc-number">2.</span> <span class="toc-text">反射率衰减修正</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E7%8E%87%E8%A1%B0%E5%87%8F%E4%BF%AE%E6%AD%A3"><span class="toc-number">2.</span> <span class="toc-text"> 反射率衰减修正</span></a></li></ol>
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -181,7 +181,7 @@
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E7%8E%87%E8%A1%B0%E5%87%8F%E4%BF%AE%E6%AD%A3"><span class="toc-number">2.</span> <span class="toc-text">反射率衰减修正</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E7%8E%87%E8%A1%B0%E5%87%8F%E4%BF%AE%E6%AD%A3"><span class="toc-number">2.</span> <span class="toc-text"> 反射率衰减修正</span></a></li></ol>
     </div>
 
 
@@ -207,16 +207,16 @@
     </script>
 </div>
     <div class="post__content">
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制雷达图并进行反射率修正的教程。</p>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制雷达图并进行反射率修正的教程。</p>
 <p>这篇文章是我在去年暑假–也就是 2020年8月–做大创项目的时候写的，想着既然要写自己的博客了那就一块搬过来吧，当然原博客的地址还是要加的</p>
 <p>由于中间修改过代码，并不确定代码 100% 正确</p>
 <p>原地址：<a target="_blank" rel="noopener" href="https://syize.gitee.io/">Py-ART 简易中文教程</a></p>
 <span id="more"></span>
-
-<h2 id="反射率衰减修正"><a href="#反射率衰减修正" class="headerlink" title="反射率衰减修正"></a>反射率衰减修正</h2><p>下面是从nc文件中读取数据，计算修正反射率衰减，绘制出图像的例子  </p>
+<h2 id="反射率衰减修正"><a class="markdownIt-Anchor" href="#反射率衰减修正"></a> 反射率衰减修正</h2>
+<p>下面是从nc文件中读取数据，计算修正反射率衰减，绘制出图像的例子</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#引入所依赖的第三方库  </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pyart</span><br><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> exit</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&#x27;__main__&#x27;</span>:  </span><br><span class="line">	</span><br><span class="line">    <span class="comment">#读取数据文件  </span></span><br><span class="line">	</span><br><span class="line">    radar=pyart.io.read_cfradial(<span class="string">&#x27;CfRadial_1.nc&#x27;</span>)  </span><br><span class="line">    </span><br><span class="line">    <span class="comment">#检查扫描方式</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> radar.scan_type!=<span class="string">&#x27;ppi&#x27;</span>:</span><br><span class="line">    	exit(<span class="string">&#x27;Error: 请使用扫描方式为PPI的数据文件&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#计算修正，返回计算出的衰减(spec_at)和修正后的反射率(cor_z)  </span></span><br><span class="line">    <span class="comment">#radar 是读取数据文件返回的对象，0 是水平反射率的偏移量  </span></span><br><span class="line">    <span class="comment">#refl_field 接收反射率的数据，ncp_field 接收信噪比  </span></span><br><span class="line">    <span class="comment">#rhv_field 接收相关系数，phidp_field 接收微分相  </span></span><br><span class="line">    </span><br><span class="line">    spec_at,cor_z=art.correct.calculate_attenuation(  </span><br><span class="line">            radar,<span class="number">0</span>,refl_field=<span class="string">&#x27;reflectivity&#x27;</span>,  </span><br><span class="line">            ncp_field=<span class="string">&#x27;SNR&#x27;</span>,rhv_field=<span class="string">&#x27;cross_correlation_ratio&#x27;</span>,  </span><br><span class="line">            phidp_field=<span class="string">&#x27;differential_phase&#x27;</span>)  </span><br><span class="line">    </span><br><span class="line">    <span class="comment">#将计算出来的衰减和修正之后的反射率添加到radar.fields中，fields为一个字典对象  </span></span><br><span class="line">    </span><br><span class="line">    radar.add_field(<span class="string">&#x27;specific_attenuation&#x27;</span>,spec_at)  </span><br><span class="line">    radar.add_field(<span class="string">&#x27;corrected_reflectivity_horizontal&#x27;</span>,cor_z)  </span><br><span class="line">    </span><br><span class="line">    <span class="comment">#设置仰角层  </span></span><br><span class="line">    </span><br><span class="line">    lyrNo=<span class="number">0</span>  </span><br><span class="line">    </span><br><span class="line">    fig=plt.figure(figsize=(<span class="number">15</span>,<span class="number">5</span>))  </span><br><span class="line">    ax1=fig.add_subplot(<span class="number">121</span>)  </span><br><span class="line">    display=pyart.graph.RadarDisply(radar)  </span><br><span class="line">    </span><br><span class="line">    <span class="comment">#绘制图像，vmin，vmax设置反射率的范围  </span></span><br><span class="line">    <span class="comment">#colorbar_label设置colorbar标题，cmap更改图像配色  </span></span><br><span class="line">    </span><br><span class="line">    display.plot(<span class="string">&#x27;reflectivity&#x27;</span>,lyrNo,ax=ax1,vmin=-<span class="number">20</span>,vmax=<span class="number">60.</span>,  </span><br><span class="line">            colorbar_label=<span class="string">&#x27;&#x27;</span>,title=<span class="string">&#x27;Raw Reflectivity&#x27;</span>,cmap=<span class="string">&#x27;jet&#x27;</span>)  </span><br><span class="line">    </span><br><span class="line">    <span class="comment">#设置横纵坐标轴的显示范围  </span></span><br><span class="line">    </span><br><span class="line">    display.set_limits((-<span class="number">150</span>,<span class="number">150</span>),(-<span class="number">150</span>,<span class="number">150</span>),ax=ax1)</span><br><span class="line">    </span><br><span class="line">    ax2=fig.add_subplot(<span class="number">122</span>)</span><br><span class="line">    display.plot(<span class="string">&#x27;corrected_reflectivity_horizontal&#x27;</span>,lyrNo,  </span><br><span class="line">            vmin=-<span class="number">20</span>,vmax=<span class="number">60.</span>,colorbar_label=<span class="string">&#x27;&#x27;</span>,ax=ax2,  </span><br><span class="line">            title=<span class="string">&#x27;Corrected Reflectivity&#x27;</span>,cmap=<span class="string">&#x27;jet&#x27;</span>)  </span><br><span class="line">    display.set_limits((-<span class="number">150</span>,<span class="number">150</span>),(-<span class="number">150</span>,<span class="number">150</span>),ax=ax2)  </span><br><span class="line">    </span><br><span class="line">    plt.suptitle(<span class="string">&#x27;Attenuation correction using Py-ART&#x27;</span>,fontsize=<span class="number">16</span>)  </span><br><span class="line">    plt.show()  </span><br></pre></td></tr></table></figure>
-
-<p>　　运行程序获得下图</p>
+<p>运行程序获得下图</p>
 <img src="/2021/09/10/reflectivity-recorrection/corrent_reflectivity_attenuation_1.png" class="" alt="反射率衰减修正对比图">
 
     </div>
@@ -233,7 +233,7 @@
         </p>
         
             <strong>
-                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn">Syizeのblog</a>！</p>
 
             </strong>
         

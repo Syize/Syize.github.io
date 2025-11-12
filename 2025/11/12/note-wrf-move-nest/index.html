@@ -35,15 +35,15 @@
 
     <!-- OpenGraph -->
  
-    <meta name="description" content="以下所有内容几乎全部来自ChatGPT。  要点总结（先看这一段） 两种实现方式： 自动移动子域（推荐用于台风跟踪）：WRF 支持 vortex-following 的自动移动（和“preset moves”指定移动两种模式）。要用自动移动必须在编译时打开移动嵌套选项（见下）。自动模式会定期寻找中层涡心并把子网格移动到合适位置。（参考链接WRF版本为v2，需要重新确认选项） 静态子域 + 手">
+    <meta name="description" content="以下所有内容几乎全部来自ChatGPT。   要点总结（先看这一段）  两种实现方式：  自动移动子域（推荐用于台风跟踪）：WRF 支持 vortex-following 的自动移动（和“preset moves”指定移动两种模式）。要用自动移动必须在编译时打开移动嵌套选项（见下）。自动模式会定期寻找中层涡心并把子网格移动到合适位置。（参考链接WRF版本为v2，需要重新确认选项） 静态子域 +">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WRF模式中的移动嵌套">
 <meta property="og:url" content="https://blog.syize.cn/2025/11/12/note-wrf-move-nest/index.html">
 <meta property="og:site_name" content="Syize の blog">
-<meta property="og:description" content="以下所有内容几乎全部来自ChatGPT。  要点总结（先看这一段） 两种实现方式： 自动移动子域（推荐用于台风跟踪）：WRF 支持 vortex-following 的自动移动（和“preset moves”指定移动两种模式）。要用自动移动必须在编译时打开移动嵌套选项（见下）。自动模式会定期寻找中层涡心并把子网格移动到合适位置。（参考链接WRF版本为v2，需要重新确认选项） 静态子域 + 手">
+<meta property="og:description" content="以下所有内容几乎全部来自ChatGPT。   要点总结（先看这一段）  两种实现方式：  自动移动子域（推荐用于台风跟踪）：WRF 支持 vortex-following 的自动移动（和“preset moves”指定移动两种模式）。要用自动移动必须在编译时打开移动嵌套选项（见下）。自动模式会定期寻找中层涡心并把子网格移动到合适位置。（参考链接WRF版本为v2，需要重新确认选项） 静态子域 +">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-11-12T11:23:09.000Z">
-<meta property="article:modified_time" content="2025-11-12T03:49:04.883Z">
+<meta property="article:modified_time" content="2025-11-12T04:46:30.856Z">
 <meta property="article:author" content="Syize">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -165,7 +165,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%81%E7%82%B9%E6%80%BB%E7%BB%93%EF%BC%88%E5%85%88%E7%9C%8B%E8%BF%99%E4%B8%80%E6%AE%B5%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">要点总结（先看这一段）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4%EF%BC%88%E4%BB%8E%E5%87%86%E5%A4%87%E5%88%B0%E8%BF%90%E8%A1%8C%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">详细步骤（从准备到运行）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-WPS%EF%BC%88namelist-wps%EF%BC%89%E2%80%94%E2%80%94%E5%9F%9F%E5%AE%9A%E4%B9%89%EF%BC%88%E9%9D%99%E6%80%81%E5%88%9D%E5%A7%8B%E4%BD%8D%E7%BD%AE%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">A. WPS（namelist.wps）——域定义（静态初始位置）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E7%BC%96%E8%AF%91-WRF%EF%BC%88%E5%A6%82%E9%9C%80%E7%A7%BB%E5%8A%A8%E5%B5%8C%E5%A5%97%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">B. 编译 WRF（如需移动嵌套）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-namelist-input-%E2%80%94%E2%80%94%E5%85%B3%E9%94%AE%E5%9F%9F%E4%B8%8E%E7%A7%BB%E5%8A%A8%E5%8F%82%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">C. namelist.input ——关键域与移动参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-%E6%A0%87%E5%87%86%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">2.4.</span> <span class="toc-text">D. 标准运行流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#E-%E8%BE%93%E5%87%BA%E5%92%8C%E5%8F%AF%E8%A7%86%E5%8C%96%E6%B3%A8%E6%84%8F"><span class="toc-number">2.5.</span> <span class="toc-text">E. 输出和可视化注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E7%9A%84%E7%89%A9%E7%90%86%E4%B8%8E%E8%BF%90%E8%A1%8C%E5%BB%BA%E8%AE%AE%EF%BC%88%E9%92%88%E5%AF%B9%E5%8F%B0%E9%A3%8E%E6%A8%A1%E6%8B%9F%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">推荐的物理与运行建议（针对台风模拟）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8B%A5%E4%BD%A0%E4%B8%8D%E8%83%BD%E9%87%8D%E7%BC%96%E8%AF%91-WRF%EF%BC%88%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">若你不能重编译 WRF（替代方案）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%8F%82%E8%80%83%EF%BC%88%E4%BD%A0%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E6%9F%A5%E9%98%85%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">关键参考（你可以直接查阅）</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%81%E7%82%B9%E6%80%BB%E7%BB%93%E5%85%88%E7%9C%8B%E8%BF%99%E4%B8%80%E6%AE%B5"><span class="toc-number">1.</span> <span class="toc-text"> 要点总结（先看这一段）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4%E4%BB%8E%E5%87%86%E5%A4%87%E5%88%B0%E8%BF%90%E8%A1%8C"><span class="toc-number">2.</span> <span class="toc-text"> 详细步骤（从准备到运行）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-wpsnamelistwps%E5%9F%9F%E5%AE%9A%E4%B9%89%E9%9D%99%E6%80%81%E5%88%9D%E5%A7%8B%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.1.</span> <span class="toc-text"> A. WPS（namelist.wps）——域定义（静态初始位置）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-%E7%BC%96%E8%AF%91-wrf%E5%A6%82%E9%9C%80%E7%A7%BB%E5%8A%A8%E5%B5%8C%E5%A5%97"><span class="toc-number">2.2.</span> <span class="toc-text"> B. 编译 WRF（如需移动嵌套）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c-namelistinput-%E5%85%B3%E9%94%AE%E5%9F%9F%E4%B8%8E%E7%A7%BB%E5%8A%A8%E5%8F%82%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text"> C. namelist.input ——关键域与移动参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#d-%E6%A0%87%E5%87%86%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">2.4.</span> <span class="toc-text"> D. 标准运行流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#e-%E8%BE%93%E5%87%BA%E5%92%8C%E5%8F%AF%E8%A7%86%E5%8C%96%E6%B3%A8%E6%84%8F"><span class="toc-number">2.5.</span> <span class="toc-text"> E. 输出和可视化注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E7%9A%84%E7%89%A9%E7%90%86%E4%B8%8E%E8%BF%90%E8%A1%8C%E5%BB%BA%E8%AE%AE%E9%92%88%E5%AF%B9%E5%8F%B0%E9%A3%8E%E6%A8%A1%E6%8B%9F"><span class="toc-number">3.</span> <span class="toc-text"> 推荐的物理与运行建议（针对台风模拟）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8B%A5%E4%BD%A0%E4%B8%8D%E8%83%BD%E9%87%8D%E7%BC%96%E8%AF%91-wrf%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88"><span class="toc-number">4.</span> <span class="toc-text"> 若你不能重编译 WRF（替代方案）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%8F%82%E8%80%83%E4%BD%A0%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E6%9F%A5%E9%98%85"><span class="toc-number">5.</span> <span class="toc-text"> 关键参考（你可以直接查阅）</span></a></li></ol>
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -175,7 +175,7 @@
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%81%E7%82%B9%E6%80%BB%E7%BB%93%EF%BC%88%E5%85%88%E7%9C%8B%E8%BF%99%E4%B8%80%E6%AE%B5%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">要点总结（先看这一段）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4%EF%BC%88%E4%BB%8E%E5%87%86%E5%A4%87%E5%88%B0%E8%BF%90%E8%A1%8C%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">详细步骤（从准备到运行）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-WPS%EF%BC%88namelist-wps%EF%BC%89%E2%80%94%E2%80%94%E5%9F%9F%E5%AE%9A%E4%B9%89%EF%BC%88%E9%9D%99%E6%80%81%E5%88%9D%E5%A7%8B%E4%BD%8D%E7%BD%AE%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">A. WPS（namelist.wps）——域定义（静态初始位置）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E7%BC%96%E8%AF%91-WRF%EF%BC%88%E5%A6%82%E9%9C%80%E7%A7%BB%E5%8A%A8%E5%B5%8C%E5%A5%97%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">B. 编译 WRF（如需移动嵌套）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-namelist-input-%E2%80%94%E2%80%94%E5%85%B3%E9%94%AE%E5%9F%9F%E4%B8%8E%E7%A7%BB%E5%8A%A8%E5%8F%82%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">C. namelist.input ——关键域与移动参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-%E6%A0%87%E5%87%86%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">2.4.</span> <span class="toc-text">D. 标准运行流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#E-%E8%BE%93%E5%87%BA%E5%92%8C%E5%8F%AF%E8%A7%86%E5%8C%96%E6%B3%A8%E6%84%8F"><span class="toc-number">2.5.</span> <span class="toc-text">E. 输出和可视化注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E7%9A%84%E7%89%A9%E7%90%86%E4%B8%8E%E8%BF%90%E8%A1%8C%E5%BB%BA%E8%AE%AE%EF%BC%88%E9%92%88%E5%AF%B9%E5%8F%B0%E9%A3%8E%E6%A8%A1%E6%8B%9F%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">推荐的物理与运行建议（针对台风模拟）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8B%A5%E4%BD%A0%E4%B8%8D%E8%83%BD%E9%87%8D%E7%BC%96%E8%AF%91-WRF%EF%BC%88%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">若你不能重编译 WRF（替代方案）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%8F%82%E8%80%83%EF%BC%88%E4%BD%A0%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E6%9F%A5%E9%98%85%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">关键参考（你可以直接查阅）</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%81%E7%82%B9%E6%80%BB%E7%BB%93%E5%85%88%E7%9C%8B%E8%BF%99%E4%B8%80%E6%AE%B5"><span class="toc-number">1.</span> <span class="toc-text"> 要点总结（先看这一段）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4%E4%BB%8E%E5%87%86%E5%A4%87%E5%88%B0%E8%BF%90%E8%A1%8C"><span class="toc-number">2.</span> <span class="toc-text"> 详细步骤（从准备到运行）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-wpsnamelistwps%E5%9F%9F%E5%AE%9A%E4%B9%89%E9%9D%99%E6%80%81%E5%88%9D%E5%A7%8B%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.1.</span> <span class="toc-text"> A. WPS（namelist.wps）——域定义（静态初始位置）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-%E7%BC%96%E8%AF%91-wrf%E5%A6%82%E9%9C%80%E7%A7%BB%E5%8A%A8%E5%B5%8C%E5%A5%97"><span class="toc-number">2.2.</span> <span class="toc-text"> B. 编译 WRF（如需移动嵌套）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c-namelistinput-%E5%85%B3%E9%94%AE%E5%9F%9F%E4%B8%8E%E7%A7%BB%E5%8A%A8%E5%8F%82%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text"> C. namelist.input ——关键域与移动参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#d-%E6%A0%87%E5%87%86%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">2.4.</span> <span class="toc-text"> D. 标准运行流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#e-%E8%BE%93%E5%87%BA%E5%92%8C%E5%8F%AF%E8%A7%86%E5%8C%96%E6%B3%A8%E6%84%8F"><span class="toc-number">2.5.</span> <span class="toc-text"> E. 输出和可视化注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E7%9A%84%E7%89%A9%E7%90%86%E4%B8%8E%E8%BF%90%E8%A1%8C%E5%BB%BA%E8%AE%AE%E9%92%88%E5%AF%B9%E5%8F%B0%E9%A3%8E%E6%A8%A1%E6%8B%9F"><span class="toc-number">3.</span> <span class="toc-text"> 推荐的物理与运行建议（针对台风模拟）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8B%A5%E4%BD%A0%E4%B8%8D%E8%83%BD%E9%87%8D%E7%BC%96%E8%AF%91-wrf%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88"><span class="toc-number">4.</span> <span class="toc-text"> 若你不能重编译 WRF（替代方案）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%8F%82%E8%80%83%E4%BD%A0%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E6%9F%A5%E9%98%85"><span class="toc-number">5.</span> <span class="toc-text"> 关键参考（你可以直接查阅）</span></a></li></ol>
     </div>
 
 
@@ -202,78 +202,89 @@
 </div>
     <div class="post__content">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><span id="more"></span>
-
 <blockquote>
 <p>以下所有内容几乎全部来自ChatGPT。</p>
 </blockquote>
-<h2 id="要点总结（先看这一段）"><a href="#要点总结（先看这一段）" class="headerlink" title="要点总结（先看这一段）"></a>要点总结（先看这一段）</h2><ol>
-<li><strong>两种实现方式</strong>：<ul>
+<h2 id="要点总结先看这一段"><a class="markdownIt-Anchor" href="#要点总结先看这一段"></a> 要点总结（先看这一段）</h2>
+<ol>
+<li><strong>两种实现方式</strong>：
+<ul>
 <li><strong>自动移动子域（推荐用于台风跟踪）</strong>：WRF 支持 <code>vortex-following</code> 的自动移动（和“preset moves”指定移动两种模式）。要用自动移动必须在编译时打开移动嵌套选项（见下）。自动模式会定期寻找中层涡心并把子网格移动到合适位置。（参考链接WRF版本为v2，需要重新确认选项）</li>
-<li><strong>静态子域 + 手动重心&#x2F;重新初始化</strong>：不想重新编译 WRF 的情况下，可以把 d02 设在台风可能经过的区域并做更长时间的多次重启&#x2F;重新定位（人工“跟随”），或把初始 d02 定在台风起始位置并接受一定偏移。</li>
+<li><strong>静态子域 + 手动重心/重新初始化</strong>：不想重新编译 WRF 的情况下，可以把 d02 设在台风可能经过的区域并做更长时间的多次重启/重新定位（人工“跟随”），或把初始 d02 定在台风起始位置并接受一定偏移。</li>
 </ul>
 </li>
-<li><strong>必须的准备</strong>：<ul>
+<li><strong>必须的准备</strong>：
+<ul>
 <li>WPS（<code>namelist.wps</code>）中按常规设置嵌套（<code>e_we</code>, <code>e_sn</code>, <code>parent_id</code>, <code>parent_grid_ratio</code>, <code>i_parent_start</code>, <code>j_parent_start</code> 等）。</li>
-<li>若用自动&#x2F;指定移动：<strong>编译 WRF 时需要打开移动嵌套支持</strong>（<code>-DMOVE_NESTS</code>；若使用 vortex-following 还需 <code>-DVORTEX_CENTER</code>），然后在 <code>namelist.input</code> 中设置移动相关参数。（参考链接WRF版本为v2，需要重新确认选项）</li>
+<li>若用自动/指定移动：<strong>编译 WRF 时需要打开移动嵌套支持</strong>（<code>-DMOVE_NESTS</code>；若使用 vortex-following 还需 <code>-DVORTEX_CENTER</code>），然后在 <code>namelist.input</code> 中设置移动相关参数。（参考链接WRF版本为v2，需要重新确认选项）</li>
 </ul>
 </li>
-<li><strong>常用&#x2F;重要的移动参数（都写在 <code>namelist.input</code> 中，通常在 &amp;domains 区块处或 namelist 变量区）</strong>：<ul>
+<li><strong>常用/重要的移动参数（都写在 <code>namelist.input</code> 中，通常在 &amp;domains 区块处或 namelist 变量区）</strong>：
+<ul>
 <li><code>vortex_interval</code>：多长时间（分钟）重新计算涡心（默认 15 min）。（参考链接WRF版本为v3.7，需要重新确认选项）</li>
-<li><code>max_vortex_speed</code>：计算搜索半径时用到的最大涡速（m&#x2F;s）。</li>
+<li><code>max_vortex_speed</code>：计算搜索半径时用到的最大涡速（m/s）。</li>
 <li><code>corral_dist</code>：当子域接近粗域边界时允许的最小距离（以粗域网格点数计），用于整体“牵带”。</li>
 <li><code>track_level</code>：用来追踪涡心的气压水平（Pa），例如 50000 Pa（500 hPa）或 85000 Pa 等。</li>
-<li><code>time_to_move</code> &#x2F; <code>move_interval</code> &#x2F; <code>move_cd_x/move_cd_y</code>：用于“指定移动（preset moves）”的参数（如果你想预先给出移动表）。（参考链接WRF版本为v3.7，需要重新确认选项）</li>
+<li><code>time_to_move</code> / <code>move_interval</code> / <code>move_cd_x/move_cd_y</code>：用于“指定移动（preset moves）”的参数（如果你想预先给出移动表）。（参考链接WRF版本为v3.7，需要重新确认选项）</li>
 </ul>
 </li>
-<li><strong>限制&#x2F;注意</strong>：<ul>
-<li>自动 vortex-following 假设有明显的中层涡（对弱&#x2F;发展中风暴不稳健）。（参考链接WRF版本为v2，需要重新确认选项）</li>
+<li><strong>限制/注意</strong>：
+<ul>
+<li>自动 vortex-following 假设有明显的中层涡（对弱/发展中风暴不稳健）。（参考链接WRF版本为v2，需要重新确认选项）</li>
 <li>需要在编译时启用并编译对应的选项，不能在已编译的二进制上开关。（参考链接WRF版本为v2，需要重新确认选项）</li>
-<li>移动会带来额外的 I&#x2F;O&#x2F;重插值与边界初始化问题（leading edge 初始化来自父域插值），并非把子域“整个画面”直接移动；可观察到子域内部场随移动被重新插值。（参考链接为2017年的presentation，需要重新确认选项）</li>
+<li>移动会带来额外的 I/O/重插值与边界初始化问题（leading edge 初始化来自父域插值），并非把子域“整个画面”直接移动；可观察到子域内部场随移动被重新插值。（参考链接为2017年的presentation，需要重新确认选项）</li>
 </ul>
 </li>
 </ol>
-<h2 id="详细步骤（从准备到运行）"><a href="#详细步骤（从准备到运行）" class="headerlink" title="详细步骤（从准备到运行）"></a>详细步骤（从准备到运行）</h2><h3 id="A-WPS（namelist-wps）——域定义（静态初始位置）"><a href="#A-WPS（namelist-wps）——域定义（静态初始位置）" class="headerlink" title="A. WPS（namelist.wps）——域定义（静态初始位置）"></a>A. WPS（namelist.wps）——域定义（静态初始位置）</h3><p>在 <code>namelist.wps</code> 的 <code>&amp;geogrid</code> 区给出 d01 与 d02 的网格参数（d02 的 <code>parent_id</code> 指向 d01，<code>parent_grid_ratio</code>、<code>i_parent_start</code>、<code>j_parent_start</code> 指定初始位置）。示例（摘要）：</p>
+<h2 id="详细步骤从准备到运行"><a class="markdownIt-Anchor" href="#详细步骤从准备到运行"></a> 详细步骤（从准备到运行）</h2>
+<h3 id="a-wpsnamelistwps域定义静态初始位置"><a class="markdownIt-Anchor" href="#a-wpsnamelistwps域定义静态初始位置"></a> A. WPS（namelist.wps）——域定义（静态初始位置）</h3>
+<p>在 <code>namelist.wps</code> 的 <code>&amp;geogrid</code> 区给出 d01 与 d02 的网格参数（d02 的 <code>parent_id</code> 指向 d01，<code>parent_grid_ratio</code>、<code>i_parent_start</code>、<code>j_parent_start</code> 指定初始位置）。示例（摘要）：</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&amp;geogrid</span><br><span class="line">  max_dom = <span class="number">2</span>,</span><br><span class="line">  parent_id =   <span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">  parent_grid_ratio = <span class="number">1</span>, <span class="number">3</span>,       ! d02 比 d01 细 <span class="number">3</span> 倍</span><br><span class="line">  i_parent_start = <span class="number">1</span>, <span class="number">50</span>,         ! 你为 d02 在 d01 中指定起点（初始）</span><br><span class="line">  j_parent_start = <span class="number">1</span>, <span class="number">70</span>,</span><br><span class="line">  e_we =  <span class="number">121</span>, <span class="number">121</span>,</span><br><span class="line">  e_sn =  <span class="number">101</span>, <span class="number">101</span>,</span><br><span class="line">  dx = <span class="number">27000</span>, <span class="number">9000</span>,   ! 举例：d01 <span class="number">27</span> km, d02 <span class="number">9</span> km</span><br><span class="line">  dy = <span class="number">27000</span>, <span class="number">9000</span>,</span><br><span class="line">  <span class="built_in">ref</span>_lat = <span class="number">20.0</span>, <span class="built_in">ref</span>_lon = <span class="number">120.0</span>,</span><br><span class="line">  <span class="literal">true</span>lat1 = <span class="number">30.0</span>, <span class="literal">true</span>lat2 = <span class="number">60.0</span>,</span><br><span class="line">  map_proj = <span class="string">&#x27;mercator&#x27;</span>,</span><br><span class="line">  ...</span><br><span class="line">/</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>这里 <code>i_parent_start/j_parent_start</code> 的值要按你希望子域一开始位于父域何处来设置（通常以网格点计）；移动嵌套会在此基础上动态改变位置。</p>
 </blockquote>
-<h3 id="B-编译-WRF（如需移动嵌套）"><a href="#B-编译-WRF（如需移动嵌套）" class="headerlink" title="B. 编译 WRF（如需移动嵌套）"></a>B. 编译 WRF（如需移动嵌套）</h3><ul>
+<h3 id="b-编译-wrf如需移动嵌套"><a class="markdownIt-Anchor" href="#b-编译-wrf如需移动嵌套"></a> B. 编译 WRF（如需移动嵌套）</h3>
+<ul>
 <li>若要使用<strong>指定移动（preset moves）</strong>：在 <code>configure.wrf</code> 或 <code>ARCHFLAGS</code> 添加 <code>-DMOVE_NESTS</code>，然后 <code>./compile em_real</code> 等。</li>
 <li>若要使用<strong>自动涡旋追踪（vortex-following）</strong>：添加 <code>-DMOVE_NESTS -DVORTEX_CENTER</code> 再编译（自动模式会额外追踪 500 hPa 涡心并移动嵌套）。（参考链接WRF版本为v2，需要重新确认选项）</li>
 </ul>
 <blockquote>
-<p>编译后你会得到支持移动嵌套的 <code>real.exe</code> &#x2F; <code>wrf.exe</code>。</p>
+<p>编译后你会得到支持移动嵌套的 <code>real.exe</code> / <code>wrf.exe</code>。</p>
 </blockquote>
-<h3 id="C-namelist-input-——关键域与移动参数"><a href="#C-namelist-input-——关键域与移动参数" class="headerlink" title="C. namelist.input ——关键域与移动参数"></a>C. namelist.input ——关键域与移动参数</h3><p><code>&amp;domains</code>（必须设置 <code>max_dom &gt;= 2</code>），并加入移动相关参数（在 <code>&amp;domains</code> 中或 namelist 规定处，参考你的 WRF 版本 <code>run/README.namelist</code>）示例片段：</p>
+<h3 id="c-namelistinput-关键域与移动参数"><a class="markdownIt-Anchor" href="#c-namelistinput-关键域与移动参数"></a> C. namelist.input ——关键域与移动参数</h3>
+<p><code>&amp;domains</code>（必须设置 <code>max_dom &gt;= 2</code>），并加入移动相关参数（在 <code>&amp;domains</code> 中或 namelist 规定处，参考你的 WRF 版本 <code>run/README.namelist</code>）示例片段：</p>
 <figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&amp;domains</span><br><span class="line"> max_dom = <span class="number">2</span>,</span><br><span class="line"> e_we = <span class="number">121</span>, <span class="number">121</span>,</span><br><span class="line"> e_sn = <span class="number">101</span>, <span class="number">101</span>,</span><br><span class="line"> dx = <span class="number">27000</span>, <span class="number">9000</span>,</span><br><span class="line"> dy = <span class="number">27000</span>, <span class="number">9000</span>,</span><br><span class="line"> parent_id = <span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line"> parent_grid_ratio = <span class="number">1</span>, <span class="number">3</span>,</span><br><span class="line"> i_parent_start = <span class="number">1</span>, <span class="number">50</span>,</span><br><span class="line"> j_parent_start = <span class="number">1</span>, <span class="number">70</span>,</span><br><span class="line"> feedback = <span class="number">1</span>,        ! 两向嵌套（子网向父网回馈）</span><br><span class="line"> ...</span><br><span class="line"></span><br><span class="line"> ! 以下为自动移动（vortex-following）相关（WRF必须以vortex-following编译）</span><br><span class="line"> vortex_interval = <span class="number">15</span>,        ! 每<span class="number">15</span>分钟重新定位</span><br><span class="line"> max_vortex_speed = <span class="number">40</span>,       ! m/s</span><br><span class="line"> corral_dist = <span class="number">8</span>,             ! 离粗网边界最小距离（格点数）</span><br><span class="line"> track_level = <span class="number">50000</span>,         ! 在 <span class="number">500</span> hPa 层追踪</span><br><span class="line"> time_to_move = <span class="number">0</span>,            ! 什么时候开始移动（min from start）</span><br><span class="line">/</span><br></pre></td></tr></table></figure>
-
-<p><strong>如果使用“指定移动（preset moves）”</strong>，需要在 namelist 中给出 <code>num_moves</code>、<code>move_time</code>、<code>move_cd_x</code>、<code>move_cd_y</code>（也可以用 <code>move_interval</code> &#x2F; <code>move_cd_*</code> 指定每次移动方向&#x2F;步长）——这通常在 <code>run/README.namelist</code> 有示例。（参考链接WRF版本为v3.7，需要重新确认选项）</p>
-<h3 id="D-标准运行流程"><a href="#D-标准运行流程" class="headerlink" title="D. 标准运行流程"></a>D. 标准运行流程</h3><ol>
+<p><strong>如果使用“指定移动（preset moves）”</strong>，需要在 namelist 中给出 <code>num_moves</code>、<code>move_time</code>、<code>move_cd_x</code>、<code>move_cd_y</code>（也可以用 <code>move_interval</code> / <code>move_cd_*</code> 指定每次移动方向/步长）——这通常在 <code>run/README.namelist</code> 有示例。（参考链接WRF版本为v3.7，需要重新确认选项）</p>
+<h3 id="d-标准运行流程"><a class="markdownIt-Anchor" href="#d-标准运行流程"></a> D. 标准运行流程</h3>
+<ol>
 <li>在 WPS：<code>geogrid.exe</code>、<code>ungrib.exe</code>、<code>metgrid.exe</code>（生成 <code>met_em.d01</code>、<code>met_em.d02</code> 等）。</li>
 <li>将 <code>met_em*</code> 链接到 WRF 运行目录（<code>ln -sf ../WPS/met_em* .</code>）。</li>
 <li>运行 <code>real.exe</code> 生成 <code>wrfinput_d0*</code>、<code>wrfbdy_d01</code> 等。</li>
 <li>运行 <code>wrf.exe</code>（若编译了移动嵌套，wrf 会在运行时根据参数定期移动 d02）。（参考链接为2017年的presentation，需要重新确认选项）</li>
 </ol>
-<h3 id="E-输出和可视化注意"><a href="#E-输出和可视化注意" class="headerlink" title="E. 输出和可视化注意"></a>E. 输出和可视化注意</h3><ul>
+<h3 id="e-输出和可视化注意"><a class="markdownIt-Anchor" href="#e-输出和可视化注意"></a> E. 输出和可视化注意</h3>
+<ul>
 <li>若移动嵌套，请将输出设置为<strong>每域单独文件</strong>（默认 <code>wrfout_d01_...</code>、<code>wrfout_d02_...</code>），便于后处理。</li>
 <li>日志 (e.g. <code>rsl.out.*</code>) 会输出涡追踪信息，可用 <code>grep ATCF rsl.out.*</code> 得到台风位置与强度信息（自动移动模式下会打印）。（参考链接WRF版本为v3.7，需要重新确认选项）</li>
 </ul>
-<h2 id="推荐的物理与运行建议（针对台风模拟）"><a href="#推荐的物理与运行建议（针对台风模拟）" class="headerlink" title="推荐的物理与运行建议（针对台风模拟）"></a>推荐的物理与运行建议（针对台风模拟）</h2><ul>
-<li><strong>两向嵌套（feedback&#x3D;1）</strong>：通常建议启用（子域能给父域反馈，以得到更真实交互），但若你只做降尺度敏感试验可选择单向。<a target="_blank" rel="noopener" href="https://www2.mmm.ucar.edu/wrf/wrf_tutorial/nested.html?utm_source=chatgpt.com">www2.mmm.ucar.edu</a></li>
-<li><strong>子域尺寸</strong>：d02 大小要足够包住台风中心及其动力&#x2F;对流作用半径，避免频繁接近边界导致移动。</li>
-<li><strong>track_level</strong>：台风强烈时 500 hPa 常用于追踪涡心（WRF 默认做中层追踪），但也可改为 850 hPa&#x2F;700 hPa 看效果。（参考链接WRF版本为v3.7，需要重新确认选项）</li>
+<h2 id="推荐的物理与运行建议针对台风模拟"><a class="markdownIt-Anchor" href="#推荐的物理与运行建议针对台风模拟"></a> 推荐的物理与运行建议（针对台风模拟）</h2>
+<ul>
+<li><strong>两向嵌套（feedback=1）</strong>：通常建议启用（子域能给父域反馈，以得到更真实交互），但若你只做降尺度敏感试验可选择单向。<a target="_blank" rel="noopener" href="https://www2.mmm.ucar.edu/wrf/wrf_tutorial/nested.html?utm_source=chatgpt.com">www2.mmm.ucar.edu</a></li>
+<li><strong>子域尺寸</strong>：d02 大小要足够包住台风中心及其动力/对流作用半径，避免频繁接近边界导致移动。</li>
+<li><strong>track_level</strong>：台风强烈时 500 hPa 常用于追踪涡心（WRF 默认做中层追踪），但也可改为 850 hPa/700 hPa 看效果。（参考链接WRF版本为v3.7，需要重新确认选项）</li>
 <li><strong>vortex_interval</strong>：15 min 是常用值；间隔太短会增加计算开销但响应快，太长可能错过快速移动。</li>
 <li><strong>测试</strong>：先做短时段（12~24 h）测试，观察移动是否按预期，再做长模拟。</li>
 <li><strong>物理选型</strong>：移动嵌套的实现历史上对某些物理方案有限制（部分方案未全面测试），查阅 User Guide 关于兼容方案的说明。（参考链接WRF版本为v2，需要重新确认选项）</li>
 </ul>
-<h2 id="若你不能重编译-WRF（替代方案）"><a href="#若你不能重编译-WRF（替代方案）" class="headerlink" title="若你不能重编译 WRF（替代方案）"></a>若你不能重编译 WRF（替代方案）</h2><ul>
-<li><strong>手动“跟随”法</strong>：用静态 d02，但在模拟中期停止、用当前父域输出重生成 d02 的 <code>wrfinput_d02</code>&#x2F;<code>wrfbdy_d02</code>（重新 center），然后从该时间点继续——即人工“搬移子域并重启”。繁琐但不需重编译。</li>
+<h2 id="若你不能重编译-wrf替代方案"><a class="markdownIt-Anchor" href="#若你不能重编译-wrf替代方案"></a> 若你不能重编译 WRF（替代方案）</h2>
+<ul>
+<li><strong>手动“跟随”法</strong>：用静态 d02，但在模拟中期停止、用当前父域输出重生成 d02 的 <code>wrfinput_d02</code>/<code>wrfbdy_d02</code>（重新 center），然后从该时间点继续——即人工“搬移子域并重启”。繁琐但不需重编译。</li>
 <li><strong>使用外部预处理脚本</strong>：有些小组写脚本根据台风最佳轨迹每隔若干小时重生成嵌套并做连续 runs（也相当常见）。</li>
 </ul>
-<h2 id="关键参考（你可以直接查阅）"><a href="#关键参考（你可以直接查阅）" class="headerlink" title="关键参考（你可以直接查阅）"></a>关键参考（你可以直接查阅）</h2><ul>
+<h2 id="关键参考你可以直接查阅"><a class="markdownIt-Anchor" href="#关键参考你可以直接查阅"></a> 关键参考（你可以直接查阅）</h2>
+<ul>
 <li>WRF 官方“Moving Nest”说明（包含编译与参数说明）。<a target="_blank" rel="noopener" href="https://www2.mmm.ucar.edu/wrf/users/wrf_files/wrfv2/moving_nest.html?utm_source=chatgpt.com">www2.mmm.ucar.edu</a></li>
-<li>WRF Users Guide — nesting &#x2F; moving nest 章节（具体 namelist 变量与解释）。<a target="_blank" rel="noopener" href="https://www2.mmm.ucar.edu/wrf/users/docs/user_guide_V3/user_guide_V3.7/users_guide_chap5.htm?utm_source=chatgpt.com">www2.mmm.ucar.edu</a></li>
+<li>WRF Users Guide — nesting / moving nest 章节（具体 namelist 变量与解释）。<a target="_blank" rel="noopener" href="https://www2.mmm.ucar.edu/wrf/users/docs/user_guide_V3/user_guide_V3.7/users_guide_chap5.htm?utm_source=chatgpt.com">www2.mmm.ucar.edu</a></li>
 <li>WRF Namelist best practices（关于输出、nest 输出格式、restart 等建议）。<a target="_blank" rel="noopener" href="https://www2.mmm.ucar.edu/wrf/users/namelist_best_prac_wrf.html?utm_source=chatgpt.com">www2.mmm.ucar.edu</a></li>
 </ul>
 <!-- flag of hidden posts -->
@@ -291,7 +302,7 @@
         </p>
         
             <strong>
-                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn">Syizeのblog</a>！</p>
 
             </strong>
         

@@ -180,8 +180,10 @@
         PyQt与matplotlib-画图软件(三)：子界面绘图
     </h2>
     
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是本系列第三篇文章，主要涉及如何将 <code>matplotlib</code> 与 <code>PyQt</code> 结合，<code>PyQt</code> 的信号以及 <code>PyQt</code> 中多线程、多进程的使用</p>
-<h2 id="回顾与完善"><a href="#回顾与完善" class="headerlink" title="回顾与完善"></a>回顾与完善</h2><p>上节中我演示了如何创建一个主界面和两个子界面并通过按钮和槽函数将三者联系到一起，以及如何为软件绑定快捷键，监听<strong>关闭事件</strong> (<code>closeEvent</code>)。现在我们想让用户打开子界面时主界面会隐藏起来，在关闭子界面后主界面再次弹出，防止多余的窗口造成不必要的麻烦。</p>
+        <h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>这是本系列第三篇文章，主要涉及如何将 <code>matplotlib</code> 与 <code>PyQt</code> 结合，<code>PyQt</code> 的信号以及 <code>PyQt</code> 中多线程、多进程的使用</p>
+<h2 id="回顾与完善"><a class="markdownIt-Anchor" href="#回顾与完善"></a> 回顾与完善</h2>
+<p>上节中我演示了如何创建一个主界面和两个子界面并通过按钮和槽函数将三者联系到一起，以及如何为软件绑定快捷键，监听<strong>关闭事件</strong> (<code>closeEvent</code>)。现在我们想让用户打开子界面时主界面会隐藏起来，在关闭子界面后主界面再次弹出，防止多余的窗口造成不必要的麻烦。</p>
     
 </div>
 <div class="post-entry__meta">
@@ -202,7 +204,8 @@
         PyQt与matplotlib-画图软件(二)：主界面设计
     </h2>
     
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>昨天终于把软件给写完了，算是我有史以来做过的最大的项目了吧，今天终于能有空闲时间思考一下这个系列的博客该怎么填了。我打算贴出部分代码来展示如何从头写出一个完整的 GUI 程序，但是由于我们需要进行软著和专利的申请，绘图的核心代码就不放出了。但是各位看官放心😋，贴出的代码足够编译出一个完整的 GUI 程序。</p>
+        <h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>昨天终于把软件给写完了，算是我有史以来做过的最大的项目了吧，今天终于能有空闲时间思考一下这个系列的博客该怎么填了。我打算贴出部分代码来展示如何从头写出一个完整的 GUI 程序，但是由于我们需要进行软著和专利的申请，绘图的核心代码就不放出了。但是各位看官放心😋，贴出的代码足够编译出一个完整的 GUI 程序。</p>
 <blockquote>
 <p>温馨提示：文章的最末尾有本节的完整代码</p>
 </blockquote>
@@ -226,8 +229,9 @@
         PyQt与matplotlib-画图软件(一)：前篇
     </h2>
     
-        <h2 id="前前言"><a href="#前前言" class="headerlink" title="前前言"></a>前前言</h2><p>前段时间用 Python 帮某市气象局的工作人员画了一下雷达图。最近他们又来找我，想整合一下之前的画图脚本，看看能不能写出一个带有图形界面的画图程序。一来想我们几个一起申请个软著，二来他们以后画图也方便。我正好会一些 Qt，借此机会再练练手，顺便赚亿点钱花😋。</p>
-<p>今晚研究了一下怎么用 Qt 展示图片，最后做出了不错的成果，单开一贴记录一下。做完了才想起来之前也跟着教程研究过怎么用 C++ 和 Qt 写一个图片展示器，最后没有成功，不了了之，没想到现在在 Python 上竟然成功了，好耶。<del>那我之前挖的坑就不用埋了吧</del></p>
+        <h2 id="前前言"><a class="markdownIt-Anchor" href="#前前言"></a> 前前言</h2>
+<p>前段时间用 Python 帮某市气象局的工作人员画了一下雷达图。最近他们又来找我，想整合一下之前的画图脚本，看看能不能写出一个带有图形界面的画图程序。一来想我们几个一起申请个软著，二来他们以后画图也方便。我正好会一些 Qt，借此机会再练练手，顺便赚亿点钱花😋。</p>
+<p>今晚研究了一下怎么用 Qt 展示图片，最后做出了不错的成果，单开一贴记录一下。做完了才想起来之前也跟着教程研究过怎么用 C++ 和 Qt 写一个图片展示器，最后没有成功，不了了之，没想到现在在 Python 上竟然成功了，好耶。<s>那我之前挖的坑就不用埋了吧</s></p>
     
 </div>
 <div class="post-entry__meta">
@@ -270,7 +274,8 @@
         KDE框架的学习以及CMake的使用
     </h2>
     
-        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>昨天晚上看了一下<code>KDE</code>的框架，想着看一看如何写个桌面小部件玩。跟着官方的教程走先写一个消息框，<code>VS Code</code>没有报错，很高兴，结果编译过不去。研究了一下发现是<code>g++</code>不会递归搜索<code>/usr/include/</code>找不到头文件，只好顺便看一下<code>CMake</code>。<del>但是好难啊，不会。</del></p>
+        <h2 id="写在前面"><a class="markdownIt-Anchor" href="#写在前面"></a> 写在前面</h2>
+<p>昨天晚上看了一下<code>KDE</code>的框架，想着看一看如何写个桌面小部件玩。跟着官方的教程走先写一个消息框，<code>VS Code</code>没有报错，很高兴，结果编译过不去。研究了一下发现是<code>g++</code>不会递归搜索<code>/usr/include/</code>找不到头文件，只好顺便看一下<code>CMake</code>。<s>但是好难啊，不会。</s></p>
 <p>今晚又研究了一下，算是可以成功运行了。开一篇记录写部件的过程。挖的坑<code>+1</code>嗷。</p>
     
 </div>
@@ -292,10 +297,11 @@
         在 VS Code 中学习Qt
     </h2>
     
-        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>寒假在家看完了导师给的文献 (真的水)，重新拾起了自己在上学期上机时玩的 Qt，用的语言是 C++，因为 <code>qt creator</code> 在 Arch 下的界面极其的丑，缩放还有问题，所以转到了 VS Code 上写代码。中间遇到了不少问题，就在这里记录一下解决方法，还有 Qt 的学习所得。</p>
-<p><del>又开了一个新坑</del></p>
+        <h2 id="写在前面"><a class="markdownIt-Anchor" href="#写在前面"></a> 写在前面</h2>
+<p>寒假在家看完了导师给的文献 (真的水)，重新拾起了自己在上学期上机时玩的 Qt，用的语言是 C++，因为 <code>qt creator</code> 在 Arch 下的界面极其的丑，缩放还有问题，所以转到了 VS Code 上写代码。中间遇到了不少问题，就在这里记录一下解决方法，还有 Qt 的学习所得。</p>
+<p><s>又开了一个新坑</s></p>
 <blockquote>
-<p>本文所有配置是在 Arch Linux 上进行的，<del>Qt 版本为 5.15.2</del>现在变成 6.4.0了</p>
+<p>本文所有配置是在 Arch Linux 上进行的，<s>Qt 版本为 5.15.2</s>现在变成 6.4.0了</p>
 </blockquote>
     
 </div>
@@ -317,7 +323,8 @@
         Cpywpa：控制 wpa 的另一个工具
     </h2>
     
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>其实我很久之前就想用 Python 来控制 Linux 的 WiFi 了。由于 Linux 基本都是用 wpa 来连接 WiFi 的 (<del>iwd 也挺好用的</del>)，所以控制了 wpa (以下我就这么简称了) 就能控制 WiFi。</p>
+        <h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>其实我很久之前就想用 Python 来控制 Linux 的 WiFi 了。由于 Linux 基本都是用 wpa 来连接 WiFi 的 (<s>iwd 也挺好用的</s>)，所以控制了 wpa (以下我就这么简称了) 就能控制 WiFi。</p>
 <p>我以前在 Ubuntu 上试过 pywifi，Windows 上是可以正常工作的，但是我的 Ubuntu 就不行。由于是大一时候的事情了，我也就懒得再深究原因。最近几个月断断续续的在 Github 和 Google 上找了好久，都没有搜索到符合我要求的包：</p>
 <ul>
 <li>使用 wpa 的官方接口</li>
@@ -345,8 +352,7 @@
     
         <p>今天在搞 Android12 的升级，结果再刷入 Nikgapps 的 GBoard 和 GoogleClock 时发生了很恼人的事情</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Can<span class="string">&#x27;t dirty flash ** , please clean flash!</span></span><br></pre></td></tr></table></figure>
-
-<p><del>我要刷什么包需要你教我怎么做吗！！！</del></p>
+<p><s>我要刷什么包需要你教我怎么做吗！！！</s></p>
     
 </div>
 <div class="post-entry__meta">

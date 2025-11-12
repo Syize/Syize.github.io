@@ -47,7 +47,7 @@
 <meta property="og:image" content="https://blog.syize.cn/2023/10/20/asymmetrical-colormap/image-20231020110103054.png">
 <meta property="og:image" content="https://blog.syize.cn/2023/10/20/asymmetrical-colormap/image-20231020111926952.png">
 <meta property="article:published_time" content="2023-10-20T11:15:56.000Z">
-<meta property="article:modified_time" content="2025-11-12T03:49:04.844Z">
+<meta property="article:modified_time" content="2025-11-12T04:46:30.817Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
@@ -171,7 +171,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="toc-number">1.</span> <span class="toc-text">解决思路</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="toc-number">1.</span> <span class="toc-text"> 解决思路</span></a></li></ol>
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -181,7 +181,7 @@
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="toc-number">1.</span> <span class="toc-text">解决思路</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="toc-number">1.</span> <span class="toc-text"> 解决思路</span></a></li></ol>
     </div>
 
 
@@ -209,13 +209,11 @@
     <div class="post__content">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>女朋友说想画一个非对称的Colormap的图出来(也即0还是对应于白色，但是两侧的数值范围是不一样的)，于是就研究了一下，最后的效果如下</p>
 <img src="/2023/10/20/asymmetrical-colormap/image-20231020110103054.png" class="" alt="image-20231020110103054">
-
 <span id="more"></span>
-
-<h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><p>matplotlib里面原本的<code>RdBu_r</code>之类的颜色条两侧的颜色是对称的。在<a target="_blank" rel="noopener" href="https://stackoverflow.com/a/59681140/17503014">stack overflow</a>上找到的高赞回答使用的函数<code>DivergingNorm</code>再大于<code>3.2</code>版本的matplotlib中已经无法使用了，重命名后的函数<code>TwoSlopeNorm</code>实测也做不出一样的效果。唯一的解决方法就是自己重新定义一个Colormap。matplotlib里面的Colormap有两类，一类是<code>ListedColormap</code>，画出来是离散的；一类是<code>LinearSegmentedColormap</code>，画出来是连续的。这里创建出来的非对称Colormap使用的是<code>LinearSegmentedColormap</code>。</p>
+<h2 id="解决思路"><a class="markdownIt-Anchor" href="#解决思路"></a> 解决思路</h2>
+<p>matplotlib里面原本的<code>RdBu_r</code>之类的颜色条两侧的颜色是对称的。在<a target="_blank" rel="noopener" href="https://stackoverflow.com/a/59681140/17503014">stack overflow</a>上找到的高赞回答使用的函数<code>DivergingNorm</code>再大于<code>3.2</code>版本的matplotlib中已经无法使用了，重命名后的函数<code>TwoSlopeNorm</code>实测也做不出一样的效果。唯一的解决方法就是自己重新定义一个Colormap。matplotlib里面的Colormap有两类，一类是<code>ListedColormap</code>，画出来是离散的；一类是<code>LinearSegmentedColormap</code>，画出来是连续的。这里创建出来的非对称Colormap使用的是<code>LinearSegmentedColormap</code>。</p>
 <p>为了创建出Colormap我们需要自己定义出所用颜色的RGBA的值，获得的方法就是先将颜色条显示的值映射到索引<code>[0, 1, 2, ..., 255]</code>中，再利用映射后得到的索引取出对应的RGBA的值。由于我们想让0对应的颜色是白色(索引值127)，因此0两侧的值是需要分开进行映射的。代码如下</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib <span class="keyword">as</span> mpl</span><br><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> LinearSegmentedColormap, BoundaryNorm, ListedColormap</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># colorbar&#x27;s value</span></span><br><span class="line">    value_list = np.asarray([-<span class="number">4</span>, -<span class="number">2</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">14</span>])</span><br><span class="line">    <span class="comment"># RdBu_r.N = 256, white(0)&#x27;s index is 127</span></span><br><span class="line">    RdBu_r = mpl.colormaps[<span class="string">&quot;RdBu_r&quot;</span>]</span><br><span class="line">    <span class="comment"># calculate the corresponding index in RGBA value of [2, 4, 6, 8]</span></span><br><span class="line">    <span class="comment"># get 0 index in value_list</span></span><br><span class="line">    index_0 = np.where(value_list == <span class="number">0</span>)[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># take out [0, 2, 4, 6, 8]</span></span><br><span class="line">    value_positive = value_list[index_0:]</span><br><span class="line">    <span class="comment"># scale it to range: [127, 128, 129, ...., 255]</span></span><br><span class="line">    value_positive = (value_positive - value_positive.<span class="built_in">min</span>()) / (value_positive.<span class="built_in">max</span>() - value_positive.<span class="built_in">min</span>()) * (<span class="number">255</span> - <span class="number">127</span>) + <span class="number">127</span></span><br><span class="line">    value_positive = value_positive.astype(<span class="built_in">int</span>)</span><br><span class="line">    <span class="comment"># take out [-4, -2, 0]</span></span><br><span class="line">    value_negative = value_list[:index_0 + <span class="number">1</span>]</span><br><span class="line">    <span class="comment"># scale it to range: [0, 1, ...., 127]</span></span><br><span class="line">    value_negative = (value_negative - value_negative.<span class="built_in">min</span>()) / (value_negative.<span class="built_in">max</span>() - value_negative.<span class="built_in">min</span>()) * <span class="number">127</span></span><br><span class="line">    value_negative = value_negative.astype(<span class="built_in">int</span>)</span><br><span class="line">    <span class="comment"># concat positive and negative index</span></span><br><span class="line">    RGBA_index = np.hstack((value_negative[:-<span class="number">1</span>], value_positive))</span><br><span class="line">    <span class="comment"># get corresponding RGBA value</span></span><br><span class="line">    RGBA_value = RdBu_r(RGBA_index)</span><br><span class="line">    <span class="comment"># create new colormap</span></span><br><span class="line">    new_RdBu_r = LinearSegmentedColormap.from_list(<span class="string">&quot;new_RdBu_r&quot;</span>, RGBA_value, <span class="number">256</span>)</span><br></pre></td></tr></table></figure>
-
 <p>最后使用新创建的<code>new_RdBu_r</code>绘制图像，就能得到想要的效果了。<code>contourf</code>函数也能使用，画出离散的非对称颜色条。</p>
 <img src="/2023/10/20/asymmetrical-colormap/image-20231020111926952.png" class="" alt="image-20231020111926952">
 
@@ -233,7 +231,7 @@
         </p>
         
             <strong>
-                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn">Syizeのblog</a>！</p>
 
             </strong>
         

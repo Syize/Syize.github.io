@@ -206,7 +206,6 @@
         <p>昨天本来打算用 <code>matplotlib</code> 和 <code>Cartopy</code> 画几张海温图的，结果意外发现我的 <code>Arch Linux</code> 更新软件包以后，估计是 <code>libc</code> 版本太新导致 <code>matplotlib</code> break 了，只要一调用 <code>plt.show</code> 或者是 <code>plt.savefig</code> 必崩，给我人整傻了，又是更换内核又是搞虚拟机，今天下午临时装了一个 <code>Ubuntu 22.04</code> 用着，白白折腾了一天的时间 🤡。</p>
 <p>更新：我发现不是 <code>matplotlib</code> break 了，是 <code>Cartopy</code> 和新版的 <code>Shapely</code> 不兼容导致的。执行以下命令从源码重新安装 <code>Shapely</code> 即可恢复正常。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install <span class="string">&quot;shapely&lt;2&quot;</span> --no-binary shapely --force-reinstall</span><br></pre></td></tr></table></figure>
-
 <p>我之前就用过 <code>Cartopy</code>，但是并不是特别熟。今天画海温图的时候顺便探索了一下，发现了几件有趣的事情，所以分享一下。</p>
     
 </div>
@@ -249,13 +248,14 @@
         Cython 学习和使用
     </h2>
     
-        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><blockquote>
+        <h2 id="写在前面"><a class="markdownIt-Anchor" href="#写在前面"></a> 写在前面</h2>
+<blockquote>
 <p><strong>长期更新</strong></p>
 <p>强烈建议亲手编写代码进行操作</p>
 </blockquote>
 <p>最近想写一些用 Python 控制 wpa_supplicant 的程序，然而找到的轮子似乎都是通过 d-Bus 实现的，没有用官方提供的接口的 (也许是因为只提供了 C 的接口吧)。于是想自己通过 Cython 在 Python 中调用这些接口，无奈 Cython 水平太低，只好再学学 Cython。</p>
 <p>通过 Google 搜到了一本英文的手册：《Cython: A Guide for Python Programmers》，在此记录学习过程做备忘。</p>
-<p>这篇文章会一直更新，直到我看完这本书为止，至于什么时候更新嘛，咳咳….应该不会一直拖着不更，考完了研，人就是闲</p>
+<p>这篇文章会一直更新，直到我看完这本书为止，至于什么时候更新嘛，咳咳…应该不会一直拖着不更，考完了研，人就是闲</p>
     
 </div>
 <div class="post-entry__meta">
@@ -276,7 +276,8 @@
         使用 pyart 绘制多雷达拼图
     </h2>
     
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制单个雷达图以及多雷达拼图的教程。</p>
+        <h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制单个雷达图以及多雷达拼图的教程。</p>
 <p>这篇文章是我在去年暑假–也就是 2020年8月–做大创项目的时候写的，想着既然要写自己的博客了那就一块搬过来吧，当然原博客的地址还是要加的</p>
 <p>由于中间修改过代码，并不确定代码 100% 正确</p>
 <p>原地址：<a target="_blank" rel="noopener" href="https://syize.gitee.io/">Py-ART 简易中文教程</a></p>
@@ -300,7 +301,8 @@
         用 pyart 绘制雷达图像并进行反射率修正
     </h2>
     
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制雷达图并进行反射率修正的教程。</p>
+        <h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制雷达图并进行反射率修正的教程。</p>
 <p>这篇文章是我在去年暑假–也就是 2020年8月–做大创项目的时候写的，想着既然要写自己的博客了那就一块搬过来吧，当然原博客的地址还是要加的</p>
 <p>由于中间修改过代码，并不确定代码 100% 正确</p>
 <p>原地址：<a target="_blank" rel="noopener" href="https://syize.gitee.io/">Py-ART 简易中文教程</a></p>
@@ -324,7 +326,8 @@
         用 pyart 绘制简单的雷达图像
     </h2>
     
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制简单雷达图的教程。</p>
+        <h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>这是一篇关于使用 Pthon 库 Py-ART 读取雷达数据文件、绘制简单雷达图的教程。</p>
 <p>这篇文章是我在去年暑假–也就是 2020年8月–做大创项目的时候写的，想着既然要写自己的博客了那就一块搬过来吧，当然原博客的地址还是要加的</p>
 <p>由于中间修改过代码，并不确定代码 100% 正确</p>
 <p>原地址：<a target="_blank" rel="noopener" href="https://syize.gitee.io/">Py-ART 简易中文教程</a></p>

@@ -48,7 +48,7 @@
 <meta property="og:image" content="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133514843.png">
 <meta property="og:image" content="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133536474.png">
 <meta property="article:published_time" content="2023-07-09T13:16:11.000Z">
-<meta property="article:modified_time" content="2025-11-12T03:49:04.910Z">
+<meta property="article:modified_time" content="2025-11-12T04:46:30.883Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
@@ -213,23 +213,18 @@
 <p>水博客+1</p>
 </blockquote>
 <span id="more"></span>
-
 <p>先来看问题，我写了脚本批量下载了很多时次的数据，然后使用<code>open_mfdataset</code>来合并出一个单个数据文件用来进行下一步的操作，却发现在合并出的数据中出现了本不存在的<code>nan</code>。经过搜索后发现是由于nc文件存在<code>scale</code>和<code>offset</code>导致的 (<a target="_blank" rel="noopener" href="https://github.com/pydata/xarray/issues/5490">相关issue</a>)。</p>
 <p>为了节省空间有些nc文件会将原始的浮点型数据经过变换变成<code>short</code>型数据，并在数据文件中记录<code>scale_factor</code>和<code>add_offset</code>来在读取数据时进行还原，具体的还原公式如下</p>
 <img src="/2023/07/09/xarray-open-mfdataset-value-change/1.svg" class="" alt="公式">
-
 <p>而在合并数据的过程中，会先读取数据进行还原，然后再把数据重新变换会<code>short</code>型。这个过程中有可能会出现类型转换的错误，最终导致数据改变或者出现<code>nan</code>。</p>
 <p>简单解决的办法就是在使用<code>open_mfdataset</code>的时候传入<code>mask_and_scale=False</code>参数关闭还原数据的过程，<strong>但是这样又会导致一个问题，每个文件的<code>scale_factor</code>和<code>add_offset</code>是不一样的</strong>，最后保存单个文件的时候只保存了一个<code>scale_factor</code>和<code>add_offset</code>，还原出来的数据肯定不对啊。</p>
 <img src="/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133514843.png" class="" alt="合并后的数据">
-
 <img src="/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133536474.png" class="" alt="合并前的数据">
-
 <blockquote>
 <p>合并后的数据(上)和合并前的数据(下)</p>
 </blockquote>
 <p>最好的解决办法就是使用<code>open_mfdataset</code>合并时，在保存到新的nc文件之前手动删掉每个变量中保存的<code>encoding</code>信息，这样保存时<code>xarray</code>不会重新对数据编码，而是以<code>float32</code>的类型保存变量，就可以防止数据发生变化了。不过这个方法也有一个缺点，就是保存出来的数据会更大。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># concat file</span></span><br><span class="line">dataset = open_mfdataset(data_path)</span><br><span class="line"><span class="comment"># remove encoding in variables to avoid value change</span></span><br><span class="line"><span class="keyword">for</span> variables <span class="keyword">in</span> dataset.keys():</span><br><span class="line">	dataset[variables].encoding.pop(<span class="string">&quot;scale_factor&quot;</span>)</span><br><span class="line">	dataset[variables].encoding.pop(<span class="string">&quot;add_offset&quot;</span>)</span><br><span class="line">	dataset[variables].encoding.pop(<span class="string">&quot;dtype&quot;</span>)</span><br><span class="line">dataset.to_netcdf(integrated_file_path)</span><br></pre></td></tr></table></figure>
-
 
     </div>
     
@@ -245,7 +240,7 @@
         </p>
         
             <strong>
-                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn">Syizeのblog</a>！</p>
 
             </strong>
         

@@ -37,12 +37,12 @@
 
     <!-- OpenGraph -->
  
-    <meta name="description" content="写在前面 长期更新 强烈建议亲手编写代码进行操作  最近想写一些用 Python 控制 wpa_supplicant 的程序，然而找到的轮子似乎都是通过 d-Bus 实现的，没有用官方提供的接口的 (也许是因为只提供了 C 的接口吧)。于是想自己通过 Cython 在 Python 中调用这些接口，无奈 Cython 水平太低，只好再学学 Cython。 通过 Google 搜到了一本英文的手册：">
+    <meta name="description" content="写在前面  长期更新 强烈建议亲手编写代码进行操作  最近想写一些用 Python 控制 wpa_supplicant 的程序，然而找到的轮子似乎都是通过 d-Bus 实现的，没有用官方提供的接口的 (也许是因为只提供了 C 的接口吧)。于是想自己通过 Cython 在 Python 中调用这些接口，无奈 Cython 水平太低，只好再学学 Cython。 通过 Google 搜到了一本英文的手">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cython 学习和使用">
 <meta property="og:url" content="https://blog.syize.cn/2021/12/26/read-cython-and-learn/index.html">
 <meta property="og:site_name" content="Syize の blog">
-<meta property="og:description" content="写在前面 长期更新 强烈建议亲手编写代码进行操作  最近想写一些用 Python 控制 wpa_supplicant 的程序，然而找到的轮子似乎都是通过 d-Bus 实现的，没有用官方提供的接口的 (也许是因为只提供了 C 的接口吧)。于是想自己通过 Cython 在 Python 中调用这些接口，无奈 Cython 水平太低，只好再学学 Cython。 通过 Google 搜到了一本英文的手册：">
+<meta property="og:description" content="写在前面  长期更新 强烈建议亲手编写代码进行操作  最近想写一些用 Python 控制 wpa_supplicant 的程序，然而找到的轮子似乎都是通过 d-Bus 实现的，没有用官方提供的接口的 (也许是因为只提供了 C 的接口吧)。于是想自己通过 Cython 在 Python 中调用这些接口，无奈 Cython 水平太低，只好再学学 Cython。 通过 Google 搜到了一本英文的手">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://blog.syize.cn/2021/12/26/read-cython-and-learn/simple-cython.png">
 <meta property="og:image" content="https://blog.syize.cn/2021/12/26/read-cython-and-learn/simple-fib.png">
@@ -57,7 +57,7 @@
 <meta property="og:image" content="https://blog.syize.cn/2021/12/26/read-cython-and-learn/uname-print-error.png">
 <meta property="og:image" content="https://blog.syize.cn/2021/12/26/read-cython-and-learn/readonly-access.png">
 <meta property="article:published_time" content="2021-12-26T20:20:20.000Z">
-<meta property="article:modified_time" content="2025-11-12T03:49:04.901Z">
+<meta property="article:modified_time" content="2025-11-12T04:46:30.874Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="Cython">
@@ -183,7 +183,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-Cython"><span class="toc-number">2.</span> <span class="toc-text">为什么使用 Cython</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%8B%E6%9C%AC%E6%95%99%E7%A8%8B%E5%89%8D%E8%A6%81%E5%81%9A%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">3.</span> <span class="toc-text">看本教程前要做的准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">简单的示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E7%A4%BA%E4%BE%8B%E4%BA%8C%EF%BC%9A%E5%8C%85%E8%A3%85-C-%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">简单的示例二：包装 C 函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E4%BA%A4%E4%BA%92%E7%AA%97%E5%8F%A3%E4%B8%AD%E4%BD%BF%E7%94%A8-Cython"><span class="toc-number">6.</span> <span class="toc-text">在交互窗口中使用 Cython</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-IPython"><span class="toc-number">6.1.</span> <span class="toc-text">使用 IPython</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-pyximport"><span class="toc-number">6.2.</span> <span class="toc-text">使用 pyximport</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%85%B6%E4%BB%96%E7%BC%96%E8%AF%91%E6%96%B9%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91"><span class="toc-number">7.</span> <span class="toc-text">使用其他编译方式进行编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cython-%E6%94%AF%E6%8C%81%E7%9A%84-C-%E8%AF%AD%E8%A8%80%E7%B1%BB%E5%9E%8B"><span class="toc-number">8.</span> <span class="toc-text">Cython 支持的 C 语言类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cython-%E4%B8%AD%E7%9A%84%E6%8C%87%E9%92%88"><span class="toc-number">9.</span> <span class="toc-text">Cython 中的指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9E%8B%E5%92%8C%E9%9D%99%E6%80%81%E7%B1%BB%E5%9E%8B%E5%8F%98%E9%87%8F%E7%9A%84%E6%B7%B7%E7%94%A8"><span class="toc-number">10.</span> <span class="toc-text">动态类型和静态类型变量的混用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bint-%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.1.</span> <span class="toc-text">bint 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BD%AC%E6%8D%A2%E5%92%8C%E6%BA%A2%E5%87%BA"><span class="toc-number">10.2.</span> <span class="toc-text">整型数据的转换和溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">10.3.</span> <span class="toc-text">浮点型数据的转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.4.</span> <span class="toc-text">复数类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bytes-%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.5.</span> <span class="toc-text">bytes 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C-unicode-%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.6.</span> <span class="toc-text">字符串和 unicode 类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA-Python-%E7%9A%84%E5%8F%98%E9%87%8F%E9%9D%99%E6%80%81%E7%9A%84%E6%8C%87%E5%AE%9A%E7%B1%BB%E5%9E%8B"><span class="toc-number">11.</span> <span class="toc-text">为 Python 的变量静态的指定类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%BA-Python-%E7%9A%84%E5%8F%98%E9%87%8F%E9%9D%99%E6%80%81%E7%9A%84%E6%8C%87%E5%AE%9A%E7%B1%BB%E5%9E%8B"><span class="toc-number">12.</span> <span class="toc-text">为什么为 Python 的变量静态的指定类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%BC%95%E7%94%A8"><span class="toc-number">13.</span> <span class="toc-text">字符串的引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cython-%E7%9A%84%E4%B8%89%E7%A7%8D%E5%87%BD%E6%95%B0%E5%BD%A2%E5%BC%8F"><span class="toc-number">14.</span> <span class="toc-text">Cython 的三种函数形式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-def-%E5%AE%9A%E4%B9%89-Python-%E5%87%BD%E6%95%B0"><span class="toc-number">14.1.</span> <span class="toc-text">通过 def 定义 Python 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-cdef-%E5%AE%9A%E4%B9%89-C-%E5%87%BD%E6%95%B0"><span class="toc-number">14.2.</span> <span class="toc-text">通过 cdef 定义 C 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-cpdef-%E5%B0%86-cdef-%E5%92%8C-def-%E5%87%BD%E6%95%B0%E7%BB%93%E5%90%88%E8%B5%B7%E6%9D%A5"><span class="toc-number">14.3.</span> <span class="toc-text">通过 cpdef 将 cdef 和 def 函数结合起来</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%B8%8E%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7"><span class="toc-number">15.</span> <span class="toc-text">函数与异常捕获</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%B8%8E%E5%86%85%E5%B5%8C%E7%AD%BE%E5%90%8D"><span class="toc-number">16.</span> <span class="toc-text">函数与内嵌签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="toc-number">17.</span> <span class="toc-text">类型强制转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%92%8C%E4%BD%BF%E7%94%A8%E7%BB%93%E6%9E%84%E4%BD%93%E3%80%81%E7%BB%84%E5%90%88%E4%BD%93%E5%92%8C%E6%9E%9A%E4%B8%BE"><span class="toc-number">18.</span> <span class="toc-text">声明和使用结构体、组合体和枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#for-%E5%BE%AA%E7%8E%AF%E5%92%8C-while-%E5%BE%AA%E7%8E%AF"><span class="toc-number">19.</span> <span class="toc-text">for 循环和 while 循环</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-C-%E6%95%B4%E5%9E%8B%E4%BD%9C%E4%B8%BA-range-%E5%8F%82%E6%95%B0"><span class="toc-number">19.1.</span> <span class="toc-text">使用 C 整型作为 range 参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8F%E5%AE%9A%E4%B9%89"><span class="toc-number">20.</span> <span class="toc-text">宏定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cython-%E4%B8%AD%E7%9A%84-Python2-%E4%B8%8E-Python3"><span class="toc-number">21.</span> <span class="toc-text">Cython 中的 Python2 与 Python3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cython-%E4%B8%AD%E7%9A%84%E6%89%A9%E5%B1%95%E7%B1%BB"><span class="toc-number">22.</span> <span class="toc-text">Cython 中的扩展类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E5%92%8C%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6"><span class="toc-number">23.</span> <span class="toc-text">类的属性和权限控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8-C-%E7%9A%84%E5%B1%82%E9%9D%A2%E8%BF%9B%E8%A1%8C%E7%B1%BB%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E5%92%8C%E7%BB%88%E6%AD%A2%E5%8C%96"><span class="toc-number">24.</span> <span class="toc-text">在 C 的层面进行类的初始化和终止化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cdef-%E5%92%8C-cpdef-%E5%87%BD%E6%95%B0"><span class="toc-number">25.</span> <span class="toc-text">cdef 和 cpdef 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BA%8B%E6%83%85"><span class="toc-number">25.1.</span> <span class="toc-text">一个有趣的事情</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E5%92%8C%E5%AD%90%E7%B1%BB"><span class="toc-number">26.</span> <span class="toc-text">继承和子类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E4%B8%BA%E9%9D%99%E6%80%81"><span class="toc-number">27.</span> <span class="toc-text">动态类型转换为静态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cython-%E8%BD%AC%E6%8D%A2%E5%B7%A5%E5%85%B7"><span class="toc-number">27.1.</span> <span class="toc-text">Cython 转换工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E5%BC%8F%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">27.2.</span> <span class="toc-text">显式的转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E7%B1%BB%E4%B8%8E-None"><span class="toc-number">28.</span> <span class="toc-text">扩展类与 None</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E5%85%B3-setup-py-%E4%B8%AD-Cython-%E7%BC%96%E8%AF%91%E7%9A%84%E6%89%A9%E5%B1%95%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE%E4%B8%8D%E5%AF%B9%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">29.</span> <span class="toc-text">有关 setup.py 中 Cython 编译的扩展存放位置不对的问题</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text"> 写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-cython"><span class="toc-number">2.</span> <span class="toc-text"> 为什么使用 Cython</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%8B%E6%9C%AC%E6%95%99%E7%A8%8B%E5%89%8D%E8%A6%81%E5%81%9A%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">3.</span> <span class="toc-text"> 看本教程前要做的准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text"> 简单的示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E7%A4%BA%E4%BE%8B%E4%BA%8C%E5%8C%85%E8%A3%85-c-%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text"> 简单的示例二：包装 C 函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E4%BA%A4%E4%BA%92%E7%AA%97%E5%8F%A3%E4%B8%AD%E4%BD%BF%E7%94%A8-cython"><span class="toc-number">6.</span> <span class="toc-text"> 在交互窗口中使用 Cython</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-ipython"><span class="toc-number">6.1.</span> <span class="toc-text"> 使用 IPython</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-pyximport"><span class="toc-number">6.2.</span> <span class="toc-text"> 使用 pyximport</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%85%B6%E4%BB%96%E7%BC%96%E8%AF%91%E6%96%B9%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91"><span class="toc-number">7.</span> <span class="toc-text"> 使用其他编译方式进行编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cython-%E6%94%AF%E6%8C%81%E7%9A%84-c-%E8%AF%AD%E8%A8%80%E7%B1%BB%E5%9E%8B"><span class="toc-number">8.</span> <span class="toc-text"> Cython 支持的 C 语言类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cython-%E4%B8%AD%E7%9A%84%E6%8C%87%E9%92%88"><span class="toc-number">9.</span> <span class="toc-text"> Cython 中的指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9E%8B%E5%92%8C%E9%9D%99%E6%80%81%E7%B1%BB%E5%9E%8B%E5%8F%98%E9%87%8F%E7%9A%84%E6%B7%B7%E7%94%A8"><span class="toc-number">10.</span> <span class="toc-text"> 动态类型和静态类型变量的混用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bint-%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.1.</span> <span class="toc-text"> bint 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BD%AC%E6%8D%A2%E5%92%8C%E6%BA%A2%E5%87%BA"><span class="toc-number">10.2.</span> <span class="toc-text"> 整型数据的转换和溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">10.3.</span> <span class="toc-text"> 浮点型数据的转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.4.</span> <span class="toc-text"> 复数类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bytes-%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.5.</span> <span class="toc-text"> bytes 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C-unicode-%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.6.</span> <span class="toc-text"> 字符串和 unicode 类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA-python-%E7%9A%84%E5%8F%98%E9%87%8F%E9%9D%99%E6%80%81%E7%9A%84%E6%8C%87%E5%AE%9A%E7%B1%BB%E5%9E%8B"><span class="toc-number">11.</span> <span class="toc-text"> 为 Python 的变量静态的指定类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%BA-python-%E7%9A%84%E5%8F%98%E9%87%8F%E9%9D%99%E6%80%81%E7%9A%84%E6%8C%87%E5%AE%9A%E7%B1%BB%E5%9E%8B"><span class="toc-number">12.</span> <span class="toc-text"> 为什么为 Python 的变量静态的指定类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%BC%95%E7%94%A8"><span class="toc-number">13.</span> <span class="toc-text"> 字符串的引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cython-%E7%9A%84%E4%B8%89%E7%A7%8D%E5%87%BD%E6%95%B0%E5%BD%A2%E5%BC%8F"><span class="toc-number">14.</span> <span class="toc-text"> Cython 的三种函数形式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-def-%E5%AE%9A%E4%B9%89-python-%E5%87%BD%E6%95%B0"><span class="toc-number">14.1.</span> <span class="toc-text"> 通过 def 定义 Python 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-cdef-%E5%AE%9A%E4%B9%89-c-%E5%87%BD%E6%95%B0"><span class="toc-number">14.2.</span> <span class="toc-text"> 通过 cdef 定义 C 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-cpdef-%E5%B0%86-cdef-%E5%92%8C-def-%E5%87%BD%E6%95%B0%E7%BB%93%E5%90%88%E8%B5%B7%E6%9D%A5"><span class="toc-number">14.3.</span> <span class="toc-text"> 通过 cpdef 将 cdef 和 def 函数结合起来</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%B8%8E%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7"><span class="toc-number">15.</span> <span class="toc-text"> 函数与异常捕获</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%B8%8E%E5%86%85%E5%B5%8C%E7%AD%BE%E5%90%8D"><span class="toc-number">16.</span> <span class="toc-text"> 函数与内嵌签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="toc-number">17.</span> <span class="toc-text"> 类型强制转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%92%8C%E4%BD%BF%E7%94%A8%E7%BB%93%E6%9E%84%E4%BD%93-%E7%BB%84%E5%90%88%E4%BD%93%E5%92%8C%E6%9E%9A%E4%B8%BE"><span class="toc-number">18.</span> <span class="toc-text"> 声明和使用结构体、组合体和枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#for-%E5%BE%AA%E7%8E%AF%E5%92%8C-while-%E5%BE%AA%E7%8E%AF"><span class="toc-number">19.</span> <span class="toc-text"> for 循环和 while 循环</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-c-%E6%95%B4%E5%9E%8B%E4%BD%9C%E4%B8%BA-range-%E5%8F%82%E6%95%B0"><span class="toc-number">19.1.</span> <span class="toc-text"> 使用 C 整型作为 range 参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8F%E5%AE%9A%E4%B9%89"><span class="toc-number">20.</span> <span class="toc-text"> 宏定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cython-%E4%B8%AD%E7%9A%84-python2-%E4%B8%8E-python3"><span class="toc-number">21.</span> <span class="toc-text"> Cython 中的 Python2 与 Python3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cython-%E4%B8%AD%E7%9A%84%E6%89%A9%E5%B1%95%E7%B1%BB"><span class="toc-number">22.</span> <span class="toc-text"> Cython 中的扩展类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E5%92%8C%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6"><span class="toc-number">23.</span> <span class="toc-text"> 类的属性和权限控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8-c-%E7%9A%84%E5%B1%82%E9%9D%A2%E8%BF%9B%E8%A1%8C%E7%B1%BB%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E5%92%8C%E7%BB%88%E6%AD%A2%E5%8C%96"><span class="toc-number">24.</span> <span class="toc-text"> 在 C 的层面进行类的初始化和终止化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cdef-%E5%92%8C-cpdef-%E5%87%BD%E6%95%B0"><span class="toc-number">25.</span> <span class="toc-text"> cdef 和 cpdef 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BA%8B%E6%83%85"><span class="toc-number">25.1.</span> <span class="toc-text"> 一个有趣的事情</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E5%92%8C%E5%AD%90%E7%B1%BB"><span class="toc-number">26.</span> <span class="toc-text"> 继承和子类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E4%B8%BA%E9%9D%99%E6%80%81"><span class="toc-number">27.</span> <span class="toc-text"> 动态类型转换为静态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cython-%E8%BD%AC%E6%8D%A2%E5%B7%A5%E5%85%B7"><span class="toc-number">27.1.</span> <span class="toc-text"> Cython 转换工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E5%BC%8F%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">27.2.</span> <span class="toc-text"> 显式的转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E7%B1%BB%E4%B8%8E-none"><span class="toc-number">28.</span> <span class="toc-text"> 扩展类与 None</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E5%85%B3-setuppy-%E4%B8%AD-cython-%E7%BC%96%E8%AF%91%E7%9A%84%E6%89%A9%E5%B1%95%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE%E4%B8%8D%E5%AF%B9%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">29.</span> <span class="toc-text"> 有关 setup.py 中 Cython 编译的扩展存放位置不对的问题</span></a></li></ol>
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -193,7 +193,7 @@
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-Cython"><span class="toc-number">2.</span> <span class="toc-text">为什么使用 Cython</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%8B%E6%9C%AC%E6%95%99%E7%A8%8B%E5%89%8D%E8%A6%81%E5%81%9A%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">3.</span> <span class="toc-text">看本教程前要做的准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">简单的示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E7%A4%BA%E4%BE%8B%E4%BA%8C%EF%BC%9A%E5%8C%85%E8%A3%85-C-%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">简单的示例二：包装 C 函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E4%BA%A4%E4%BA%92%E7%AA%97%E5%8F%A3%E4%B8%AD%E4%BD%BF%E7%94%A8-Cython"><span class="toc-number">6.</span> <span class="toc-text">在交互窗口中使用 Cython</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-IPython"><span class="toc-number">6.1.</span> <span class="toc-text">使用 IPython</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-pyximport"><span class="toc-number">6.2.</span> <span class="toc-text">使用 pyximport</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%85%B6%E4%BB%96%E7%BC%96%E8%AF%91%E6%96%B9%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91"><span class="toc-number">7.</span> <span class="toc-text">使用其他编译方式进行编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cython-%E6%94%AF%E6%8C%81%E7%9A%84-C-%E8%AF%AD%E8%A8%80%E7%B1%BB%E5%9E%8B"><span class="toc-number">8.</span> <span class="toc-text">Cython 支持的 C 语言类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cython-%E4%B8%AD%E7%9A%84%E6%8C%87%E9%92%88"><span class="toc-number">9.</span> <span class="toc-text">Cython 中的指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9E%8B%E5%92%8C%E9%9D%99%E6%80%81%E7%B1%BB%E5%9E%8B%E5%8F%98%E9%87%8F%E7%9A%84%E6%B7%B7%E7%94%A8"><span class="toc-number">10.</span> <span class="toc-text">动态类型和静态类型变量的混用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bint-%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.1.</span> <span class="toc-text">bint 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BD%AC%E6%8D%A2%E5%92%8C%E6%BA%A2%E5%87%BA"><span class="toc-number">10.2.</span> <span class="toc-text">整型数据的转换和溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">10.3.</span> <span class="toc-text">浮点型数据的转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.4.</span> <span class="toc-text">复数类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bytes-%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.5.</span> <span class="toc-text">bytes 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C-unicode-%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.6.</span> <span class="toc-text">字符串和 unicode 类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA-Python-%E7%9A%84%E5%8F%98%E9%87%8F%E9%9D%99%E6%80%81%E7%9A%84%E6%8C%87%E5%AE%9A%E7%B1%BB%E5%9E%8B"><span class="toc-number">11.</span> <span class="toc-text">为 Python 的变量静态的指定类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%BA-Python-%E7%9A%84%E5%8F%98%E9%87%8F%E9%9D%99%E6%80%81%E7%9A%84%E6%8C%87%E5%AE%9A%E7%B1%BB%E5%9E%8B"><span class="toc-number">12.</span> <span class="toc-text">为什么为 Python 的变量静态的指定类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%BC%95%E7%94%A8"><span class="toc-number">13.</span> <span class="toc-text">字符串的引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cython-%E7%9A%84%E4%B8%89%E7%A7%8D%E5%87%BD%E6%95%B0%E5%BD%A2%E5%BC%8F"><span class="toc-number">14.</span> <span class="toc-text">Cython 的三种函数形式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-def-%E5%AE%9A%E4%B9%89-Python-%E5%87%BD%E6%95%B0"><span class="toc-number">14.1.</span> <span class="toc-text">通过 def 定义 Python 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-cdef-%E5%AE%9A%E4%B9%89-C-%E5%87%BD%E6%95%B0"><span class="toc-number">14.2.</span> <span class="toc-text">通过 cdef 定义 C 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-cpdef-%E5%B0%86-cdef-%E5%92%8C-def-%E5%87%BD%E6%95%B0%E7%BB%93%E5%90%88%E8%B5%B7%E6%9D%A5"><span class="toc-number">14.3.</span> <span class="toc-text">通过 cpdef 将 cdef 和 def 函数结合起来</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%B8%8E%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7"><span class="toc-number">15.</span> <span class="toc-text">函数与异常捕获</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%B8%8E%E5%86%85%E5%B5%8C%E7%AD%BE%E5%90%8D"><span class="toc-number">16.</span> <span class="toc-text">函数与内嵌签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="toc-number">17.</span> <span class="toc-text">类型强制转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%92%8C%E4%BD%BF%E7%94%A8%E7%BB%93%E6%9E%84%E4%BD%93%E3%80%81%E7%BB%84%E5%90%88%E4%BD%93%E5%92%8C%E6%9E%9A%E4%B8%BE"><span class="toc-number">18.</span> <span class="toc-text">声明和使用结构体、组合体和枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#for-%E5%BE%AA%E7%8E%AF%E5%92%8C-while-%E5%BE%AA%E7%8E%AF"><span class="toc-number">19.</span> <span class="toc-text">for 循环和 while 循环</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-C-%E6%95%B4%E5%9E%8B%E4%BD%9C%E4%B8%BA-range-%E5%8F%82%E6%95%B0"><span class="toc-number">19.1.</span> <span class="toc-text">使用 C 整型作为 range 参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8F%E5%AE%9A%E4%B9%89"><span class="toc-number">20.</span> <span class="toc-text">宏定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cython-%E4%B8%AD%E7%9A%84-Python2-%E4%B8%8E-Python3"><span class="toc-number">21.</span> <span class="toc-text">Cython 中的 Python2 与 Python3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cython-%E4%B8%AD%E7%9A%84%E6%89%A9%E5%B1%95%E7%B1%BB"><span class="toc-number">22.</span> <span class="toc-text">Cython 中的扩展类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E5%92%8C%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6"><span class="toc-number">23.</span> <span class="toc-text">类的属性和权限控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8-C-%E7%9A%84%E5%B1%82%E9%9D%A2%E8%BF%9B%E8%A1%8C%E7%B1%BB%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E5%92%8C%E7%BB%88%E6%AD%A2%E5%8C%96"><span class="toc-number">24.</span> <span class="toc-text">在 C 的层面进行类的初始化和终止化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cdef-%E5%92%8C-cpdef-%E5%87%BD%E6%95%B0"><span class="toc-number">25.</span> <span class="toc-text">cdef 和 cpdef 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BA%8B%E6%83%85"><span class="toc-number">25.1.</span> <span class="toc-text">一个有趣的事情</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E5%92%8C%E5%AD%90%E7%B1%BB"><span class="toc-number">26.</span> <span class="toc-text">继承和子类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E4%B8%BA%E9%9D%99%E6%80%81"><span class="toc-number">27.</span> <span class="toc-text">动态类型转换为静态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cython-%E8%BD%AC%E6%8D%A2%E5%B7%A5%E5%85%B7"><span class="toc-number">27.1.</span> <span class="toc-text">Cython 转换工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E5%BC%8F%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">27.2.</span> <span class="toc-text">显式的转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E7%B1%BB%E4%B8%8E-None"><span class="toc-number">28.</span> <span class="toc-text">扩展类与 None</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E5%85%B3-setup-py-%E4%B8%AD-Cython-%E7%BC%96%E8%AF%91%E7%9A%84%E6%89%A9%E5%B1%95%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE%E4%B8%8D%E5%AF%B9%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">29.</span> <span class="toc-text">有关 setup.py 中 Cython 编译的扩展存放位置不对的问题</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text"> 写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-cython"><span class="toc-number">2.</span> <span class="toc-text"> 为什么使用 Cython</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%8B%E6%9C%AC%E6%95%99%E7%A8%8B%E5%89%8D%E8%A6%81%E5%81%9A%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">3.</span> <span class="toc-text"> 看本教程前要做的准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text"> 简单的示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E7%A4%BA%E4%BE%8B%E4%BA%8C%E5%8C%85%E8%A3%85-c-%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text"> 简单的示例二：包装 C 函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E4%BA%A4%E4%BA%92%E7%AA%97%E5%8F%A3%E4%B8%AD%E4%BD%BF%E7%94%A8-cython"><span class="toc-number">6.</span> <span class="toc-text"> 在交互窗口中使用 Cython</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-ipython"><span class="toc-number">6.1.</span> <span class="toc-text"> 使用 IPython</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-pyximport"><span class="toc-number">6.2.</span> <span class="toc-text"> 使用 pyximport</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%85%B6%E4%BB%96%E7%BC%96%E8%AF%91%E6%96%B9%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91"><span class="toc-number">7.</span> <span class="toc-text"> 使用其他编译方式进行编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cython-%E6%94%AF%E6%8C%81%E7%9A%84-c-%E8%AF%AD%E8%A8%80%E7%B1%BB%E5%9E%8B"><span class="toc-number">8.</span> <span class="toc-text"> Cython 支持的 C 语言类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cython-%E4%B8%AD%E7%9A%84%E6%8C%87%E9%92%88"><span class="toc-number">9.</span> <span class="toc-text"> Cython 中的指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9E%8B%E5%92%8C%E9%9D%99%E6%80%81%E7%B1%BB%E5%9E%8B%E5%8F%98%E9%87%8F%E7%9A%84%E6%B7%B7%E7%94%A8"><span class="toc-number">10.</span> <span class="toc-text"> 动态类型和静态类型变量的混用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bint-%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.1.</span> <span class="toc-text"> bint 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BD%AC%E6%8D%A2%E5%92%8C%E6%BA%A2%E5%87%BA"><span class="toc-number">10.2.</span> <span class="toc-text"> 整型数据的转换和溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">10.3.</span> <span class="toc-text"> 浮点型数据的转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.4.</span> <span class="toc-text"> 复数类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bytes-%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.5.</span> <span class="toc-text"> bytes 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C-unicode-%E7%B1%BB%E5%9E%8B"><span class="toc-number">10.6.</span> <span class="toc-text"> 字符串和 unicode 类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA-python-%E7%9A%84%E5%8F%98%E9%87%8F%E9%9D%99%E6%80%81%E7%9A%84%E6%8C%87%E5%AE%9A%E7%B1%BB%E5%9E%8B"><span class="toc-number">11.</span> <span class="toc-text"> 为 Python 的变量静态的指定类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%BA-python-%E7%9A%84%E5%8F%98%E9%87%8F%E9%9D%99%E6%80%81%E7%9A%84%E6%8C%87%E5%AE%9A%E7%B1%BB%E5%9E%8B"><span class="toc-number">12.</span> <span class="toc-text"> 为什么为 Python 的变量静态的指定类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%BC%95%E7%94%A8"><span class="toc-number">13.</span> <span class="toc-text"> 字符串的引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cython-%E7%9A%84%E4%B8%89%E7%A7%8D%E5%87%BD%E6%95%B0%E5%BD%A2%E5%BC%8F"><span class="toc-number">14.</span> <span class="toc-text"> Cython 的三种函数形式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-def-%E5%AE%9A%E4%B9%89-python-%E5%87%BD%E6%95%B0"><span class="toc-number">14.1.</span> <span class="toc-text"> 通过 def 定义 Python 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-cdef-%E5%AE%9A%E4%B9%89-c-%E5%87%BD%E6%95%B0"><span class="toc-number">14.2.</span> <span class="toc-text"> 通过 cdef 定义 C 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-cpdef-%E5%B0%86-cdef-%E5%92%8C-def-%E5%87%BD%E6%95%B0%E7%BB%93%E5%90%88%E8%B5%B7%E6%9D%A5"><span class="toc-number">14.3.</span> <span class="toc-text"> 通过 cpdef 将 cdef 和 def 函数结合起来</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%B8%8E%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7"><span class="toc-number">15.</span> <span class="toc-text"> 函数与异常捕获</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%B8%8E%E5%86%85%E5%B5%8C%E7%AD%BE%E5%90%8D"><span class="toc-number">16.</span> <span class="toc-text"> 函数与内嵌签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="toc-number">17.</span> <span class="toc-text"> 类型强制转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%92%8C%E4%BD%BF%E7%94%A8%E7%BB%93%E6%9E%84%E4%BD%93-%E7%BB%84%E5%90%88%E4%BD%93%E5%92%8C%E6%9E%9A%E4%B8%BE"><span class="toc-number">18.</span> <span class="toc-text"> 声明和使用结构体、组合体和枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#for-%E5%BE%AA%E7%8E%AF%E5%92%8C-while-%E5%BE%AA%E7%8E%AF"><span class="toc-number">19.</span> <span class="toc-text"> for 循环和 while 循环</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-c-%E6%95%B4%E5%9E%8B%E4%BD%9C%E4%B8%BA-range-%E5%8F%82%E6%95%B0"><span class="toc-number">19.1.</span> <span class="toc-text"> 使用 C 整型作为 range 参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8F%E5%AE%9A%E4%B9%89"><span class="toc-number">20.</span> <span class="toc-text"> 宏定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cython-%E4%B8%AD%E7%9A%84-python2-%E4%B8%8E-python3"><span class="toc-number">21.</span> <span class="toc-text"> Cython 中的 Python2 与 Python3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cython-%E4%B8%AD%E7%9A%84%E6%89%A9%E5%B1%95%E7%B1%BB"><span class="toc-number">22.</span> <span class="toc-text"> Cython 中的扩展类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E5%92%8C%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6"><span class="toc-number">23.</span> <span class="toc-text"> 类的属性和权限控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8-c-%E7%9A%84%E5%B1%82%E9%9D%A2%E8%BF%9B%E8%A1%8C%E7%B1%BB%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E5%92%8C%E7%BB%88%E6%AD%A2%E5%8C%96"><span class="toc-number">24.</span> <span class="toc-text"> 在 C 的层面进行类的初始化和终止化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cdef-%E5%92%8C-cpdef-%E5%87%BD%E6%95%B0"><span class="toc-number">25.</span> <span class="toc-text"> cdef 和 cpdef 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E6%9C%89%E8%B6%A3%E7%9A%84%E4%BA%8B%E6%83%85"><span class="toc-number">25.1.</span> <span class="toc-text"> 一个有趣的事情</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E5%92%8C%E5%AD%90%E7%B1%BB"><span class="toc-number">26.</span> <span class="toc-text"> 继承和子类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E4%B8%BA%E9%9D%99%E6%80%81"><span class="toc-number">27.</span> <span class="toc-text"> 动态类型转换为静态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cython-%E8%BD%AC%E6%8D%A2%E5%B7%A5%E5%85%B7"><span class="toc-number">27.1.</span> <span class="toc-text"> Cython 转换工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E5%BC%8F%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">27.2.</span> <span class="toc-text"> 显式的转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E7%B1%BB%E4%B8%8E-none"><span class="toc-number">28.</span> <span class="toc-text"> 扩展类与 None</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E5%85%B3-setuppy-%E4%B8%AD-cython-%E7%BC%96%E8%AF%91%E7%9A%84%E6%89%A9%E5%B1%95%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE%E4%B8%8D%E5%AF%B9%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">29.</span> <span class="toc-text"> 有关 setup.py 中 Cython 编译的扩展存放位置不对的问题</span></a></li></ol>
     </div>
 
 
@@ -219,207 +219,203 @@
     </script>
 </div>
     <div class="post__content">
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><blockquote>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="写在前面"><a class="markdownIt-Anchor" href="#写在前面"></a> 写在前面</h2>
+<blockquote>
 <p><strong>长期更新</strong></p>
 <p>强烈建议亲手编写代码进行操作</p>
 </blockquote>
 <p>最近想写一些用 Python 控制 wpa_supplicant 的程序，然而找到的轮子似乎都是通过 d-Bus 实现的，没有用官方提供的接口的 (也许是因为只提供了 C 的接口吧)。于是想自己通过 Cython 在 Python 中调用这些接口，无奈 Cython 水平太低，只好再学学 Cython。</p>
 <p>通过 Google 搜到了一本英文的手册：《Cython: A Guide for Python Programmers》，在此记录学习过程做备忘。</p>
-<p>这篇文章会一直更新，直到我看完这本书为止，至于什么时候更新嘛，咳咳….应该不会一直拖着不更，考完了研，人就是闲</p>
+<p>这篇文章会一直更新，直到我看完这本书为止，至于什么时候更新嘛，咳咳…应该不会一直拖着不更，考完了研，人就是闲</p>
 <span id="more"></span>
-
-<h2 id="为什么使用-Cython"><a href="#为什么使用-Cython" class="headerlink" title="为什么使用 Cython"></a>为什么使用 Cython</h2><p>虽然这个问题被回答了很多遍，但我还是提一嘴，以免读者不了解。</p>
+<h2 id="为什么使用-cython"><a class="markdownIt-Anchor" href="#为什么使用-cython"></a> 为什么使用 Cython</h2>
+<p>虽然这个问题被回答了很多遍，但我还是提一嘴，以免读者不了解。</p>
 <p>Cython 有两种使用方式：</p>
 <ol>
 <li>将 Python 代码转换为 C 代码，并编译成 Python 可以调用的链接库 (在 Windows 上为 .pyd 文件，Linux 与 MacOS 上则是 .so 文件)，通过这种方式加速代码的运行效率</li>
 <li>包装 C 代码，为 Python 提供调用 C 函数的接口。</li>
 </ol>
-<h2 id="看本教程前要做的准备"><a href="#看本教程前要做的准备" class="headerlink" title="看本教程前要做的准备"></a>看本教程前要做的准备</h2><ol>
+<h2 id="看本教程前要做的准备"><a class="markdownIt-Anchor" href="#看本教程前要做的准备"></a> 看本教程前要做的准备</h2>
+<ol>
 <li>会 Python</li>
 <li>安装好 Cython</li>
 <li>安装好 C++ 编译器</li>
 </ol>
-<h2 id="简单的示例"><a href="#简单的示例" class="headerlink" title="简单的示例"></a>简单的示例</h2><p>Cython 的语法尽量保留了 Python 的风格，同时又兼顾了 C 的形式。在需要准确定义类型的变量面前，只需加上 “cdef 类型” 即可。</p>
+<h2 id="简单的示例"><a class="markdownIt-Anchor" href="#简单的示例"></a> 简单的示例</h2>
+<p>Cython 的语法尽量保留了 Python 的风格，同时又兼顾了 C 的形式。在需要准确定义类型的变量面前，只需加上 “cdef 类型” 即可。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cdef int a</span><br></pre></td></tr></table></figure>
-
 <p>考虑一个可以返回斐波那契数列中第 n 个数字的函数。</p>
 <p>在 Python 中可以写作这样</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">fib</span>(<span class="params">n</span>):</span><br><span class="line">	a, b = <span class="number">0.0</span>, <span class="number">1.0</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">		a, b = a + b, a</span><br><span class="line">	<span class="keyword">return</span> a</span><br></pre></td></tr></table></figure>
-
 <p>保存在 .py 文件中即可运行。</p>
 <p>而在 Cython 中，则写作这样，并保存在 .pyx 文件中。例如保存在 fib.pyx 中：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def fib(int n):</span><br><span class="line">	cdef int i</span><br><span class="line">	cdef double a=0.0, b=1.0</span><br><span class="line">	for i in range(n):</span><br><span class="line">		a, b = a + b, a</span><br><span class="line">	return a</span><br></pre></td></tr></table></figure>
-
-<p>然后还要写一个编译的脚本：setup.py</p>
+<p>然后还要写一个编译的脚本：<a target="_blank" rel="noopener" href="http://setup.py">setup.py</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"><span class="keyword">from</span> Cython.Build <span class="keyword">import</span> cythonize</span><br><span class="line"></span><br><span class="line">setup(ext_modules=cythonize(<span class="string">&#x27;fib.pyx&#x27;</span>))</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>这里 cythonize 会将 fib.pyx 转换成 C，然后再由 setup 编译链接。执行完脚本后在目录下看到的 C 文件就是 cythonize 转换的结果</p>
 </blockquote>
 <p>最后执行命令和结果如图</p>
 <img src="/2021/12/26/read-cython-and-learn/simple-cython.png" class="">
-
 <p>然后就可以在 Python 里使用编译好的函数了</p>
 <img src="/2021/12/26/read-cython-and-learn/simple-fib.png" class="">
-
-<h2 id="简单的示例二：包装-C-函数"><a href="#简单的示例二：包装-C-函数" class="headerlink" title="简单的示例二：包装 C 函数"></a>简单的示例二：包装 C 函数</h2><p>考虑有如下 C 代码实现与上面的函数一样的功能</p>
+<h2 id="简单的示例二包装-c-函数"><a class="markdownIt-Anchor" href="#简单的示例二包装-c-函数"></a> 简单的示例二：包装 C 函数</h2>
+<p>考虑有如下 C 代码实现与上面的函数一样的功能</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="title function_">cfib</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">	<span class="type">double</span> a=<span class="number">0.0</span>, b=<span class="number">1.0</span>, tmp;</span><br><span class="line">	<span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;n; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		tmp = a;</span><br><span class="line">		a = a + b;</span><br><span class="line">		b = tmp;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>我们需要为其写一个包装函数，c_fib.pyx</p>
 <blockquote>
-<p><strong>注意！！！</strong>包装函数不能与 C 文件同名，避免 Cython 生成的 C 代码由于同名而覆盖掉文件。<del>血的教训</del></p>
+<p>**注意！！！**包装函数不能与 C 文件同名，避免 Cython 生成的 C 代码由于同名而覆盖掉文件。<s>血的教训</s></p>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cdef extern from &quot;cfib.c&quot;:</span><br><span class="line">	double cfib(int n)</span><br><span class="line">	</span><br><span class="line">def fib(n):</span><br><span class="line">	return cfib(n)</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>第一行的 extern 声明了函数来自文件 cfib.c，并为需要用到的函数做了声明</p>
 </blockquote>
-<p>我们的 setup.py 如下</p>
+<p>我们的 <a target="_blank" rel="noopener" href="http://setup.py">setup.py</a> 如下</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup, Extension</span><br><span class="line"><span class="keyword">from</span> Cython.Build <span class="keyword">import</span> cythonize</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 Extension 对象，包含链接库名称以及源文件</span></span><br><span class="line"><span class="comment"># 这样写的好处是，当有多个源文件时可以一并添加，你也可以继续使用之前的写法</span></span><br><span class="line">ext_module = Extension(name=<span class="string">&quot;c_fib&quot;</span>, sources=[<span class="string">&quot;c_fib.pyx&quot;</span>])</span><br><span class="line">setup(ext_modules=cythonize(ext_module))</span><br></pre></td></tr></table></figure>
-
 <p>最后编译运行即可</p>
 <img src="/2021/12/26/read-cython-and-learn/simple-cfib.png" class="">
-
-<h2 id="在交互窗口中使用-Cython"><a href="#在交互窗口中使用-Cython" class="headerlink" title="在交互窗口中使用 Cython"></a>在交互窗口中使用 Cython</h2><p><strong>我对这个没有兴趣，所以简略说一下</strong></p>
-<h3 id="使用-IPython"><a href="#使用-IPython" class="headerlink" title="使用 IPython"></a>使用 IPython</h3><p>在窗口中输入下面的命令</p>
+<h2 id="在交互窗口中使用-cython"><a class="markdownIt-Anchor" href="#在交互窗口中使用-cython"></a> 在交互窗口中使用 Cython</h2>
+<p><strong>我对这个没有兴趣，所以简略说一下</strong></p>
+<h3 id="使用-ipython"><a class="markdownIt-Anchor" href="#使用-ipython"></a> 使用 IPython</h3>
+<p>在窗口中输入下面的命令</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%load_ext cythonmagic</span><br></pre></td></tr></table></figure>
-
 <p>现在你应该可以通过 %%cython 命令来定义一个 cython 的函数了</p>
 <p>放个 PDF 上的截图</p>
 <img src="/2021/12/26/read-cython-and-learn/ipython.png" class="">
-
-<h3 id="使用-pyximport"><a href="#使用-pyximport" class="headerlink" title="使用 pyximport"></a>使用 pyximport</h3><blockquote>
+<h3 id="使用-pyximport"><a class="markdownIt-Anchor" href="#使用-pyximport"></a> 使用 pyximport</h3>
+<blockquote>
 <p>pyximport 既可以在 IPython 中用，也可以在普通的交互窗口中用</p>
 </blockquote>
 <p>首先执行以下两行命令，然后你就可以直接 import 相应的 .pyx 文件了</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyximport</span><br><span class="line">pyximport.install()</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用其他编译方式进行编译"><a href="#使用其他编译方式进行编译" class="headerlink" title="使用其他编译方式进行编译"></a>使用其他编译方式进行编译</h2><p>除了上面编译的方法之外，还可以使用 CMake, SCons 和 Make 进行编译，然而我并不考虑用其他方式编译，所以略过这里的内容</p>
-<h2 id="Cython-支持的-C-语言类型"><a href="#Cython-支持的-C-语言类型" class="headerlink" title="Cython 支持的 C 语言类型"></a>Cython 支持的 C 语言类型</h2><table>
+<h2 id="使用其他编译方式进行编译"><a class="markdownIt-Anchor" href="#使用其他编译方式进行编译"></a> 使用其他编译方式进行编译</h2>
+<p>除了上面编译的方法之外，还可以使用 CMake, SCons 和 Make 进行编译，然而我并不考虑用其他方式编译，所以略过这里的内容</p>
+<h2 id="cython-支持的-c-语言类型"><a class="markdownIt-Anchor" href="#cython-支持的-c-语言类型"></a> Cython 支持的 C 语言类型</h2>
+<table>
 <thead>
 <tr>
-<th align="center">C 语言</th>
-<th align="center">Cython</th>
+<th style="text-align:center">C 语言</th>
+<th style="text-align:center">Cython</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">指针</td>
-<td align="center">cdef int *p <br>cdef void **buf</td>
+<tbody>
+<tr>
+<td style="text-align:center">指针</td>
+<td style="text-align:center">cdef int *p <br>cdef void **buf</td>
 </tr>
 <tr>
-<td align="center">数组</td>
-<td align="center">cdef int arr[10]<br>cdef double pointers[20][30]</td>
+<td style="text-align:center">数组</td>
+<td style="text-align:center">cdef int arr[10]<br>cdef double pointers[20][30]</td>
 </tr>
 <tr>
-<td align="center">使用 typedef 重命名过的类型</td>
-<td align="center">cdef size_t len</td>
+<td style="text-align:center">使用 typedef 重命名过的类型</td>
+<td style="text-align:center">cdef size_t len</td>
 </tr>
 <tr>
-<td align="center">复杂的类型 (如结构体和共用体)</td>
-<td align="center">cdef tm time_struct<br>cdef int_short_union_t hi_lo_bytes</td>
+<td style="text-align:center">复杂的类型 (如结构体和共用体)</td>
+<td style="text-align:center">cdef tm time_struct<br>cdef int_short_union_t hi_lo_bytes</td>
 </tr>
 <tr>
-<td align="center">函数指针</td>
-<td align="center">cdef void (*f)(int, duoble)</td>
+<td style="text-align:center">函数指针</td>
+<td style="text-align:center">cdef void (*f)(int, duoble)</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>Cython 也可以自动判断变量类型，在不影响程序运行前提下将某些变量的类型静态化。当然我还是偏向于手动指定</p>
-<h2 id="Cython-中的指针"><a href="#Cython-中的指针" class="headerlink" title="Cython 中的指针"></a>Cython 中的指针</h2><p>在 C 中可以使用如下形式定义一次性多个指针</p>
+<h2 id="cython-中的指针"><a class="markdownIt-Anchor" href="#cython-中的指针"></a> Cython 中的指针</h2>
+<p>在 C 中可以使用如下形式定义一次性多个指针</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>* a, b</span><br></pre></td></tr></table></figure>
-
 <p>但是在 Cython 中，<strong>每个指针前都要加 * 号</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cdef int *a, *b</span><br><span class="line">cdef double **a, **b</span><br></pre></td></tr></table></figure>
-
 <p>在 Cython 中引用函数指针时，不能使用 *a 的形式，因为在 Python 中 *a 的形式代表可变参数。只能使用数组的形式来引用指针指向的变量</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cdef double golden_ratio</span><br><span class="line">cdef double *p_double</span><br><span class="line">p_double = &amp;golden_ratio</span><br><span class="line">p_double[0] = 1.618		# 不能使用 *p_double = 1.618 形式的语句</span><br><span class="line"></span><br><span class="line">print golden_ratio</span><br><span class="line">print p_double[0]</span><br></pre></td></tr></table></figure>
-
 <p>Cython 中另一个与 C 有差异的地方在于结构体中变量的使用，C 可以通过箭头语法 “-&gt;” 或者点语法 “.” 来引用，<strong>在 Cython 中你只能使用 点语法 “.”</strong></p>
 <p>C 语言</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">st_t</span> *p_st = make_struct()</span><br><span class="line"><span class="type">int</span> a_doubled = p_st-&gt;a + p_st-&gt;a</span><br></pre></td></tr></table></figure>
-
 <p>Cython</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cdef st_t *p_st = make_struct()</span><br><span class="line">cdef int a_doubled = p_st.a + p_st.a</span><br></pre></td></tr></table></figure>
-
-<h2 id="动态类型和静态类型变量的混用"><a href="#动态类型和静态类型变量的混用" class="headerlink" title="动态类型和静态类型变量的混用"></a>动态类型和静态类型变量的混用</h2><p>对于可以互相转换的数据类型例如 整型，浮点型，Cython 可以自动的进行转换。例如</p>
+<h2 id="动态类型和静态类型变量的混用"><a class="markdownIt-Anchor" href="#动态类型和静态类型变量的混用"></a> 动态类型和静态类型变量的混用</h2>
+<p>对于可以互相转换的数据类型例如 整型，浮点型，Cython 可以自动的进行转换。例如</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cdef int a, b, c</span><br><span class="line"># ... 对 a，b，c 进行的运算 ...</span><br><span class="line">tuple_of_ints = (a，b，c)</span><br></pre></td></tr></table></figure>
-
 <p>对于 C 独有的例如 指针 则不能这样使用</p>
 <p>下表给出了 C 与 Python 之间可以互相进行转换的数据类型</p>
 <table>
 <thead>
 <tr>
-<th align="center">Python</th>
-<th align="center">C</th>
+<th style="text-align:center">Python</th>
+<th style="text-align:center">C</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">bool</td>
-<td align="center">bint</td>
+<tbody>
+<tr>
+<td style="text-align:center">bool</td>
+<td style="text-align:center">bint</td>
 </tr>
 <tr>
-<td align="center">int<br>long</td>
-<td align="center">[unsigned] char<br>[unsigned] short<br>[unsigned] int<br>[unsigned] int<br>[unsigned] long<br>[unsigned] long long</td>
+<td style="text-align:center">int<br>long</td>
+<td style="text-align:center">[unsigned] char<br>[unsigned] short<br>[unsigned] int<br>[unsigned] int<br>[unsigned] long<br>[unsigned] long long</td>
 </tr>
 <tr>
-<td align="center">float</td>
-<td align="center">float<br>double<br>long double</td>
+<td style="text-align:center">float</td>
+<td style="text-align:center">float<br>double<br>long double</td>
 </tr>
 <tr>
-<td align="center">complex</td>
-<td align="center">float complex<br>double complex</td>
+<td style="text-align:center">complex</td>
+<td style="text-align:center">float complex<br>double complex</td>
 </tr>
 <tr>
-<td align="center">bytes<br>str<br>unicode<br></td>
-<td align="center">char *<br>std::string (C++)</td>
+<td style="text-align:center">bytes<br>str<br>unicode<br></td>
+<td style="text-align:center">char *<br>std::string (C++)</td>
 </tr>
 <tr>
-<td align="center">dict</td>
-<td align="center">struct</td>
+<td style="text-align:center">dict</td>
+<td style="text-align:center">struct</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>表中有几个值得注意的地方</p>
-<h3 id="bint-类型"><a href="#bint-类型" class="headerlink" title="bint 类型"></a>bint 类型</h3><p>bint (Boolean integer) 型在 C 中其实为 int 型，并且可以由 Python 的 bool 型转换过来或转换为 Python 的bool 型。0 为 False，1 为 True</p>
-<h3 id="整型数据的转换和溢出"><a href="#整型数据的转换和溢出" class="headerlink" title="整型数据的转换和溢出"></a>整型数据的转换和溢出</h3><p>在 Python2 中，Python 的 int 实际上是 C 的 long，Python 的 long 没有精度限制。<strong>而在 Python3 中，所有的 int 类都没有精度限制。</strong>在将 Python 的 int 类转换为 C 的类型时，Cython 会对代码进行溢出检查。如果有溢出则会报错。</p>
-<h3 id="浮点型数据的转换"><a href="#浮点型数据的转换" class="headerlink" title="浮点型数据的转换"></a>浮点型数据的转换</h3><p>Python 的 float 对应 C 的 double，<strong>将 Python 的 float 转换为 C 的 float 可能会导致数据被截短为 0.0 或者变为 无穷大</strong></p>
-<h3 id="复数类型"><a href="#复数类型" class="headerlink" title="复数类型"></a>复数类型</h3><p>Python 的复数对应 C 中有着两个 double 变量的结构体。Cython 有 float complex 和 double complex 两种 C 语言的类型，对应 Python 的复数。</p>
+<h3 id="bint-类型"><a class="markdownIt-Anchor" href="#bint-类型"></a> bint 类型</h3>
+<p>bint (Boolean integer) 型在 C 中其实为 int 型，并且可以由 Python 的 bool 型转换过来或转换为 Python 的bool 型。0 为 False，1 为 True</p>
+<h3 id="整型数据的转换和溢出"><a class="markdownIt-Anchor" href="#整型数据的转换和溢出"></a> 整型数据的转换和溢出</h3>
+<p>在 Python2 中，Python 的 int 实际上是 C 的 long，Python 的 long 没有精度限制。**而在 Python3 中，所有的 int 类都没有精度限制。**在将 Python 的 int 类转换为 C 的类型时，Cython 会对代码进行溢出检查。如果有溢出则会报错。</p>
+<h3 id="浮点型数据的转换"><a class="markdownIt-Anchor" href="#浮点型数据的转换"></a> 浮点型数据的转换</h3>
+<p>Python 的 float 对应 C 的 double，<strong>将 Python 的 float 转换为 C 的 float 可能会导致数据被截短为 0.0 或者变为 无穷大</strong></p>
+<h3 id="复数类型"><a class="markdownIt-Anchor" href="#复数类型"></a> 复数类型</h3>
+<p>Python 的复数对应 C 中有着两个 double 变量的结构体。Cython 有 float complex 和 double complex 两种 C 语言的类型，对应 Python 的复数。</p>
 <p><strong>Cython 中 C 的复数类型使用起来和 Python 的完全相同，但是方法都是用 C 实现的。包括 real 和 imag 属性来访问实部和虚部，conjugate 方法来获取共轭复数，以及加减乘除算法</strong></p>
 <p>什么意思呢？</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 在 Cython 中，你可以这样创建一个 Python 的复数变量</span><br><span class="line">a = 1+2j</span><br><span class="line"># 也可以这样创建一个 C 的复数变量</span><br><span class="line">cdef double complex b = 1+2j</span><br><span class="line"></span><br><span class="line"># 而这两个变量的访问方式却是一样的</span><br><span class="line">print a.real</span><br><span class="line">print b.real</span><br></pre></td></tr></table></figure>
-
 <p>下面的代码更详细的展示了 Cython 中复数的使用，你可以试着自己编译运行</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def complext():</span><br><span class="line">    py_a = 1+2j</span><br><span class="line">    cdef double complex a=1+2j, b=3+4j</span><br><span class="line">    # Python 与 C 复数比较</span><br><span class="line">    print &#x27;complex in python:&#x27;, py_a</span><br><span class="line">    print &#x27;complex in c:&#x27;, a</span><br><span class="line">    # 加减乘除、共轭复数以及虚部、实部</span><br><span class="line">    print &#x27;+:&#x27;, a + b </span><br><span class="line">    print &#x27;-:&#x27;, a - b </span><br><span class="line">    print &#x27;*:&#x27;, a * b </span><br><span class="line">    print &#x27;/:&#x27;, a / b </span><br><span class="line">    print &#x27;real:&#x27;, a.real</span><br><span class="line">    print &#x27;imag:&#x27;, a.imag</span><br><span class="line">    cdef double complex c = 1+1j</span><br><span class="line">    print &#x27;c.conjugate:&#x27;, c.conjugate()</span><br><span class="line">    print &#x27;c:&#x27;, c</span><br></pre></td></tr></table></figure>
-
 <p>另外，Cython 中 C 的复数类型与 C99 标准中的 _Complex 类型还有 C++ 中的 std::complex 类兼容</p>
-<h3 id="bytes-类型"><a href="#bytes-类型" class="headerlink" title="bytes 类型"></a>bytes 类型</h3><p>Python 的 bytes 类会自动与 C 中的字符指针 (char *) 还有 std::string 相互转换</p>
-<h3 id="字符串和-unicode-类型"><a href="#字符串和-unicode-类型" class="headerlink" title="字符串和 unicode 类型"></a>字符串和 unicode 类型</h3><p>需要设置 c_string_type 和 c_string_encoding 编译器指令才能使 Python 的字符串或者 unicode 类型与字符指针或者 std::string 相互转换</p>
-<h2 id="为-Python-的变量静态的指定类型"><a href="#为-Python-的变量静态的指定类型" class="headerlink" title="为 Python 的变量静态的指定类型"></a>为 Python 的变量静态的指定类型</h2><p>cdef 除了可以为变量指定 C 的数据类型，还可以指定 Python 的数据类型。这些类型包括：list，tuple，dict，NumPy 数组以及其他很多类型。</p>
+<h3 id="bytes-类型"><a class="markdownIt-Anchor" href="#bytes-类型"></a> bytes 类型</h3>
+<p>Python 的 bytes 类会自动与 C 中的字符指针 (char *) 还有 std::string 相互转换</p>
+<h3 id="字符串和-unicode-类型"><a class="markdownIt-Anchor" href="#字符串和-unicode-类型"></a> 字符串和 unicode 类型</h3>
+<p>需要设置 c_string_type 和 c_string_encoding 编译器指令才能使 Python 的字符串或者 unicode 类型与字符指针或者 std::string 相互转换</p>
+<h2 id="为-python-的变量静态的指定类型"><a class="markdownIt-Anchor" href="#为-python-的变量静态的指定类型"></a> 为 Python 的变量静态的指定类型</h2>
+<p>cdef 除了可以为变量指定 C 的数据类型，还可以指定 Python 的数据类型。这些类型包括：list，tuple，dict，NumPy 数组以及其他很多类型。</p>
 <p><strong>并不是所有的 Python 类型都可以用 cdef，但 Python 所有的内建类型是可以使用的</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 以下声明是合法的</span><br><span class="line">cdef list particles, modified_particles</span><br><span class="line">cdef dict names_from_particles</span><br><span class="line">cdef str pname</span><br><span class="line">cdef set unique_particles</span><br></pre></td></tr></table></figure>
-
 <p>在这种情况下，Cython 会把这些变量声明为指向 <strong>其类型的结构体的指针</strong>。这些变量用起来就像正常的 Python 变量一样，只不过都有着特定的声明好的类型，不能再随意更改了。</p>
 <blockquote>
 <p>我们知道，Python 中的 list、tuple 等在底层其实对应的是定义好的 C 的结构体</p>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 你可以这样用 particles</span></span><br><span class="line">particles = <span class="built_in">list</span>(names_from_particles.key())	<span class="comment"># 程序运行正确</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 但是给它赋值其他的变量类型是不允许的</span></span><br><span class="line">particles = <span class="number">1</span>	<span class="comment"># 程序报错</span></span><br></pre></td></tr></table></figure>
-
 <p>动态变量也可以从静态变量出生成，还是以 particles 为例</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">other_particles = particles</span><br><span class="line"><span class="comment"># 这样删除第 0 号元素也会删除 particles 中的第 0 号元素，因为 particles 和 other_particles 实际上指向同一个列表</span></span><br><span class="line"><span class="keyword">del</span> other_particles[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
-
 <p>other_particles 与 particles 之间唯一的区别就是 other_particles 可以被赋值为其他类型的数据 (例如整型)，而 particles 只能被赋值 list 型数据</p>
 <blockquote>
 <p><strong>注意：由于 Python 中也有 int 和 float 关键字，在这种情况下，C 中的 int 和 float 总是优先的。例如 cdef int 指的是 C 中的 int 而非 Python 中的 int</strong></p>
 </blockquote>
 <p>做加减乘运算时，得到的结果如果赋给静态变量，则是 C 类型 (这种情况下你需要注意是否会导致溢出)；如果赋给动态变量，则是 Python 类型。但是在除法和取余运算中需要特别注意。<strong>在取余运算中，C 是以 0 为标准，而 Python 以无穷为标准</strong></p>
 <figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr"># Python</span></span><br><span class="line"><span class="attr">-1</span> <span class="meta">%</span> <span class="number">5</span> = <span class="number">4</span></span><br><span class="line"><span class="attr"># C</span></span><br><span class="line"><span class="attr">-1</span> <span class="meta">%</span> <span class="number">5</span> = <span class="number">-1</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>在除法中，Python 会检查 0 &#x2F; 0 的情况并报错 (ZeroDivisionError)，而 C 却不会检查。</strong>因此在进行除法和取余运算时，<strong>Cython 会采用 Python 的方式进行运算</strong>，即使你要把结果赋给一个静态的 C 变量。如果你想使用 C 的方法做除法和取余运算，可以使用指令 cdivision。</p>
+<p>**在除法中，Python 会检查 0 / 0 的情况并报错 (ZeroDivisionError)，而 C 却不会检查。**因此在进行除法和取余运算时，<strong>Cython 会采用 Python 的方式进行运算</strong>，即使你要把结果赋给一个静态的 C 变量。如果你想使用 C 的方法做除法和取余运算，可以使用指令 cdivision。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 可以在开头加上下面这一句注释来全局启用 (带 # 号)</span><br><span class="line"># cython: cdivision=True</span><br><span class="line"></span><br><span class="line"># 或者以装饰器的方式来在一个函数中使用</span><br><span class="line">cimport cython	# 首先需要引入 cython 包</span><br><span class="line">@cython.cdivision(True)</span><br><span class="line">def divides(int a, int b):</span><br><span class="line">	return a / b</span><br><span class="line">	</span><br><span class="line"># 或者使用上下文管理器</span><br><span class="line">cimport cython</span><br><span class="line">def remainder(int a, int b):</span><br><span class="line">	with cython.cdivision(True):</span><br><span class="line">		return a % b</span><br></pre></td></tr></table></figure>
-
 <p>但是你需要注意，这样做可能会导致程序出现意外的行为。</p>
 <p>Cython 也有一条 cdivision_warnings 指令，这条指令默认为 False。当启用时 (True)，如果除法或者取余运算中有对负数进行操作 Cython 便会发出运行时警告</p>
-<h2 id="为什么为-Python-的变量静态的指定类型"><a href="#为什么为-Python-的变量静态的指定类型" class="headerlink" title="为什么为 Python 的变量静态的指定类型"></a>为什么为 Python 的变量静态的指定类型</h2><p>很简单，为了速度。举个例子。下面的代码将定义相关的变量并将一个 Particle 添加到 dynamic_particles 中。</p>
+<h2 id="为什么为-python-的变量静态的指定类型"><a class="markdownIt-Anchor" href="#为什么为-python-的变量静态的指定类型"></a> 为什么为 Python 的变量静态的指定类型</h2>
+<p>很简单，为了速度。举个例子。下面的代码将定义相关的变量并将一个 Particle 添加到 dynamic_particles 中。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cdef list particles</span><br><span class="line">cdef list make_particles(...):</span><br><span class="line">	# 返回一个 particles 的函数</span><br><span class="line">	...</span><br><span class="line">	return particles</span><br><span class="line">cdef int Particle():</span><br><span class="line">	return 1</span><br><span class="line">dynamic_particles = make_particles()</span><br><span class="line">dynamic_particles.append(Particle())</span><br></pre></td></tr></table></figure>
-
 <p>在这个过程中，Cython 在运行时首先会测试 dynamic_particles 是否是一个 list。就算不是 list，只要有 append 这个方法并且能接受一个参数，代码就会继续向下运行。代码首先调用 PyObject_GetAttr 来获得 append 方法，然后才再通过 PyObject_Call API 来调用 append 方法。<strong>这就是在运行 Python 字节码时发生的事情。</strong></p>
 <p>而如果我们直接将 dynamic_particles 定义为一个静态类型的变量，Cython 生成的程序就能直接调用 append 方法，这样就节省了一些时间</p>
 <p>Cython 目前支持的 Python 内置类型 (不包括 int，long，float) 包括</p>
@@ -434,14 +430,14 @@
 <li>date，time，datetime，timedelta，tzinfo</li>
 </ul>
 <p>未来 (现在是 2022年 01月 07日 星期五 11:04:07 CST) 将支持更多的类型</p>
-<h2 id="字符串的引用"><a href="#字符串的引用" class="headerlink" title="字符串的引用"></a>字符串的引用</h2><p>Python 有着自动的垃圾回收机制，但是这个机制可能会造成某些问题</p>
+<h2 id="字符串的引用"><a class="markdownIt-Anchor" href="#字符串的引用"></a> 字符串的引用</h2>
+<p>Python 有着自动的垃圾回收机制，但是这个机制可能会造成某些问题</p>
 <p>考虑下面的例子</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">b1 = b&quot;All men are mortal&quot;</span><br><span class="line">b2 = b&quot;Socrates is a man&quot;</span><br><span class="line">cdef char *buf = b1 + b2</span><br></pre></td></tr></table></figure>
-
 <p>这个例子中我们尝试获得字符串 b1 + b2 的地址，以方便通过指针引用。但是由于 Python 有自动垃圾回收，在 buf 获得 b1 + b2 的地址之后，<strong>b1 + b2 会立即被销毁并回收内存</strong>，这会导致指针引用错误。想要避免这种问题，需要事先将 b1 + b2 赋给一个中间变量以保证它不会被回收</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">b1 = b&quot;All men are mortal&quot;</span><br><span class="line">b2 = b&quot;Socrates is a man&quot;</span><br><span class="line">temp = b1 + b2</span><br><span class="line"># 或者是 cdef bytes temp = b1 + b2</span><br><span class="line">cdef char *buf = temp</span><br></pre></td></tr></table></figure>
-
-<h2 id="Cython-的三种函数形式"><a href="#Cython-的三种函数形式" class="headerlink" title="Cython 的三种函数形式"></a>Cython 的三种函数形式</h2><p>许多前面讲到的关于动态变量和静态变量的概念都可以用到函数方面。C 的函数和 Python 有一些共同的特点 (这里就不详细说了)，不过 Python 的函数更灵活强大。</p>
+<h2 id="cython-的三种函数形式"><a class="markdownIt-Anchor" href="#cython-的三种函数形式"></a> Cython 的三种函数形式</h2>
+<p>许多前面讲到的关于动态变量和静态变量的概念都可以用到函数方面。C 的函数和 Python 有一些共同的特点 (这里就不详细说了)，不过 Python 的函数更灵活强大。</p>
 <p>Python 的函数有以下独有的特点：</p>
 <ul>
 <li>能够在被引入时就生成或者在运行时动态的生成</li>
@@ -453,133 +449,111 @@
 <li>可以给函数参数设置默认值</li>
 </ul>
 <p>以上大部分特性是 C 中的函数所不具有的，但是由于 C 函数简单，其运行速度比 Python 的函数快几个量级。而 Cython 将两者结合了起来，使其可以相互调用，就像使用一种语言一样</p>
-<h3 id="通过-def-定义-Python-函数"><a href="#通过-def-定义-Python-函数" class="headerlink" title="通过 def 定义 Python 函数"></a>通过 def 定义 Python 函数</h3><p>这一部分就基本跳过了。因为前面的代码已经举过了不少例子，我们很容易就能看出，在 Cython 中使用 def 定义函数时与在 Python 中定义时没什么不同。<strong>除此之外，你还可以使用 cdef 部分的将函数内的变量定义为 C 形式的来加快函数运行速度。</strong></p>
-<h3 id="通过-cdef-定义-C-函数"><a href="#通过-cdef-定义-C-函数" class="headerlink" title="通过 cdef 定义 C 函数"></a>通过 cdef 定义 C 函数</h3><p>使用 cdef 关键字你就可以定义一个完全的静态的 C 类型的函数了，<strong>当然，你也可以在 cdef 的函数中使用 Python 的动态变量，但是一般使用 cdef 都是为了使函数运行速度更加接近纯 C 函数，就没必要使用 Python 的变量了吧。</strong></p>
+<h3 id="通过-def-定义-python-函数"><a class="markdownIt-Anchor" href="#通过-def-定义-python-函数"></a> 通过 def 定义 Python 函数</h3>
+<p>这一部分就基本跳过了。因为前面的代码已经举过了不少例子，我们很容易就能看出，在 Cython 中使用 def 定义函数时与在 Python 中定义时没什么不同。<strong>除此之外，你还可以使用 cdef 部分的将函数内的变量定义为 C 形式的来加快函数运行速度。</strong></p>
+<h3 id="通过-cdef-定义-c-函数"><a class="markdownIt-Anchor" href="#通过-cdef-定义-c-函数"></a> 通过 cdef 定义 C 函数</h3>
+<p>使用 cdef 关键字你就可以定义一个完全的静态的 C 类型的函数了，<strong>当然，你也可以在 cdef 的函数中使用 Python 的动态变量，但是一般使用 cdef 都是为了使函数运行速度更加接近纯 C 函数，就没必要使用 Python 的变量了吧。</strong></p>
 <p>另外，在 Cython 中，你要通过 Cython 的类 Python 语法来定义 C 函数。</p>
 <p>考虑一个返回 n! 的函数。其在 Cython 中的 Python 形式写成下面这样</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 纯 Python 函数</span><br><span class="line">def py_fact(n):</span><br><span class="line">	if n &lt;= 1:</span><br><span class="line">		return 1</span><br><span class="line">	return n * py_fact(n - 1)</span><br><span class="line"></span><br><span class="line"># Python 和 C 混合函数</span><br><span class="line">def typed_fact(long n):</span><br><span class="line">    if n &lt;= 1:</span><br><span class="line">        return 1</span><br><span class="line">    return n * typed_fact(n - 1)</span><br></pre></td></tr></table></figure>
-
 <p>而 C 函数则写成下面这样</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cdef long c_fact(long n):</span><br><span class="line">	if n &lt;= 1:</span><br><span class="line">		return 1</span><br><span class="line">	return n * c_fact(n - 1)</span><br></pre></td></tr></table></figure>
-
 <p>它和上面的 Python 和 C 混合的函数十分类似，极少的不同的地方就是关键字不同和返回值类型是确定的 long。</p>
 <p>由 cdef 定义的函数最终生成的 C 函数与我们想象中的形式还是有些区别的，因为 Cython 要对其进行进一步的加工。但是通过对比由 def 定义并生成的 C 函数，我们还是可以看到，cdef 定义的函数还是要简洁不少</p>
 <blockquote>
 <p>图为 Cython 生成的 test.c 文件 (假设我们的函数写在 test.pyx 中)。左边是 Python 形式的 py_fact，右边是 C 形式的 c_fact。通过注释可以看出 c_fact 很快就进入了下一条语句，而 Python 却还要进行很多处理。</p>
 </blockquote>
 <img src="/2021/12/26/read-cython-and-learn/def-vs-cdef.png" class="">
-
-<p><strong>cdef 函数支持返回的类型包括前面所提到的，任何能够被静态声名的类型，还有 void 类型。</strong>但是如果你把类型省略的话，则默认返回 Python 的一个对象。cdef 定义的函数可以被一个源文件中的 def 或 cdef 定义的函数调用，<strong>但是不能被外部的 Python 代码调用。</strong>所以你是不能直接通过 import 来引入一个 cdef 定义的函数的，你只能用一个 def 函数包装一下，或者用 cpdef 代替 cdef 定义函数。</p>
-<h3 id="通过-cpdef-将-cdef-和-def-函数结合起来"><a href="#通过-cpdef-将-cdef-和-def-函数结合起来" class="headerlink" title="通过 cpdef 将 cdef 和 def 函数结合起来"></a>通过 cpdef 将 cdef 和 def 函数结合起来</h3><p>cpdef 声明的函数会将 cdef 和 def 二者结合起来，提供 C 的函数和一个 Python 包装器，这个包装器包装 C 的部分使得我们可以在外部调用。当我们在 Cython 内调用函数时，会直接调用 C 的部分，而在外部 import 使用时，则会调用包装器。</p>
+<p>**cdef 函数支持返回的类型包括前面所提到的，任何能够被静态声名的类型，还有 void 类型。**但是如果你把类型省略的话，则默认返回 Python 的一个对象。cdef 定义的函数可以被一个源文件中的 def 或 cdef 定义的函数调用，**但是不能被外部的 Python 代码调用。**所以你是不能直接通过 import 来引入一个 cdef 定义的函数的，你只能用一个 def 函数包装一下，或者用 cpdef 代替 cdef 定义函数。</p>
+<h3 id="通过-cpdef-将-cdef-和-def-函数结合起来"><a class="markdownIt-Anchor" href="#通过-cpdef-将-cdef-和-def-函数结合起来"></a> 通过 cpdef 将 cdef 和 def 函数结合起来</h3>
+<p>cpdef 声明的函数会将 cdef 和 def 二者结合起来，提供 C 的函数和一个 Python 包装器，这个包装器包装 C 的部分使得我们可以在外部调用。当我们在 Cython 内调用函数时，会直接调用 C 的部分，而在外部 import 使用时，则会调用包装器。</p>
 <p>继续考虑一个返回 n! 的函数，其 cpdef 的形式为</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cpdef long cp_fact(long n):</span><br><span class="line">    if n &lt;= 1:</span><br><span class="line">        return 1</span><br><span class="line">    return n * cp_fact(n - 1)</span><br></pre></td></tr></table></figure>
-
 <p>在 Cython 内部调用的时候，它的运行速度将和 cdef 定义的函数一样快，而且你还可以直接通过 import 来在外部引用。</p>
-<hr>
+<hr />
 <p>另外，Cython 还支持 C 和 C++ 的 inline 关键字，直接将 inline 放在函数的定义里即可</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cdef inline long c_fact(long a):</span><br><span class="line">    # ...</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p><strong>cpdef 也有一些缺点</strong>，因为它要同时兼顾 Python 和 C，同时能够返回 Python 和 C 类型的变量。对于 Python 来讲，Python 的任何类型都能够用 C 的类型表示，但是<strong>某些 C 的类型却不能用 Python 的类型表示，</strong>例如 void，指针，C 的数组。所以<strong>cpdef 是不能定义这些类型的返回值的函数的。</strong>你可以参考之前给出的 C 与 Python 之间能够互相转换的变量的表格，表格中的类型都能够用于 cpdef。</p>
-<h2 id="函数与异常捕获"><a href="#函数与异常捕获" class="headerlink" title="函数与异常捕获"></a>函数与异常捕获</h2><p>由于 def 始终返回 Python 类型的指针，对于 def 的错误捕获和处理是比较简单的。你可以直接在外部使用 except 进行处理。但是对于 cdef 和 cpdef，情况却有些不同</p>
+<hr />
+<p><strong>cpdef 也有一些缺点</strong>，因为它要同时兼顾 Python 和 C，同时能够返回 Python 和 C 类型的变量。对于 Python 来讲，Python 的任何类型都能够用 C 的类型表示，但是**某些 C 的类型却不能用 Python 的类型表示，<strong>例如 void，指针，C 的数组。所以</strong>cpdef 是不能定义这些类型的返回值的函数的。**你可以参考之前给出的 C 与 Python 之间能够互相转换的变量的表格，表格中的类型都能够用于 cpdef。</p>
+<h2 id="函数与异常捕获"><a class="markdownIt-Anchor" href="#函数与异常捕获"></a> 函数与异常捕获</h2>
+<p>由于 def 始终返回 Python 类型的指针，对于 def 的错误捕获和处理是比较简单的。你可以直接在外部使用 except 进行处理。但是对于 cdef 和 cpdef，情况却有些不同</p>
 <p>考虑下面的除法函数</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cpdef int cp_divide(int i, int j):</span><br><span class="line">    return i / j</span><br></pre></td></tr></table></figure>
-
 <p>当给 j 传 0 时，必然会有错误发生。但是实际情况却是这个错误会被 ignore，并返回一个错误的值，如下图所示。</p>
 <img src="/2021/12/26/read-cython-and-learn/cpdef-error.png" class="">
-
 <p>这样我们就无法在外部设置 except 来捕获错误了。幸好，Cython 为我们提供了 except 子句</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cpdef int cp_divide(int i, int j) except? -1:</span><br><span class="line">    return i / j</span><br></pre></td></tr></table></figure>
-
 <p>设置了 except 之后，就可以正常的抛出错误而不被忽略了。这里的 -1 并没有什么特殊的含义 (这也是有点让人迷惑的地方)，写成 -2 或者 1 或者其他任意数字都可以。(至少笔者目前的测试是这样的)</p>
-<h2 id="函数与内嵌签名"><a href="#函数与内嵌签名" class="headerlink" title="函数与内嵌签名"></a>函数与内嵌签名</h2><p>现在感觉用处不是特别大，就先跳过了</p>
-<h2 id="类型强制转换"><a href="#类型强制转换" class="headerlink" title="类型强制转换"></a>类型强制转换</h2><p>由于 Cython 中的静态类型是 C 类型，所以 C 的强制转换法则在 Cython 中是适用的。只不过在 C 中进行强制转换时使用的是 “()”，而 Cython 中用的是 “&lt;&gt;”。</p>
+<h2 id="函数与内嵌签名"><a class="markdownIt-Anchor" href="#函数与内嵌签名"></a> 函数与内嵌签名</h2>
+<p>现在感觉用处不是特别大，就先跳过了</p>
+<h2 id="类型强制转换"><a class="markdownIt-Anchor" href="#类型强制转换"></a> 类型强制转换</h2>
+<p>由于 Cython 中的静态类型是 C 类型，所以 C 的强制转换法则在 Cython 中是适用的。只不过在 C 中进行强制转换时使用的是 “()”，而 Cython 中用的是 “&lt;&gt;”。</p>
 <p>以转换一个指针为例</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cdef void *v</span><br><span class="line">cdef int *ptr_i = &lt;int*&gt;v</span><br></pre></td></tr></table></figure>
-
 <p>由于 C 是不对强制转换进行检查的，而在 Cython 中 Python 的变量实际上是指向一个结构体的指针，所以我们有可能通过对 Python 变量进行强制转换来打印出 Python 变量的地址 (与 Python 中的 id 函数的功能类似)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def print_address(a):</span><br><span class="line">    cdef void *v = &lt;void*&gt;a</span><br><span class="line">    cdef long addr = &lt;long&gt;v</span><br><span class="line">    # 两个 print 结果一样</span><br><span class="line">    print &quot;Cython address:&quot;, addr</span><br><span class="line">    print &quot;Python id     :&quot;, id(a)</span><br></pre></td></tr></table></figure>
-
 <img src="/2021/12/26/read-cython-and-learn/print-address.png" class="">
-
 <p>不仅如此，强制转换还能用在 Python 的类型中，包括内置类型还有我们自己定义的 (详情后面会继续提到)。下面的例子接受一个 Python 的对象，将其指针类型强制转换并赋给一个静态类型变量。</p>
 <blockquote>
-<p><strong>请注意！！！</strong>由于 Python 的对象 a 在 C 的层面是一个指针，这样的代码实际上是将该指针的类型强制转换为 list，<strong>并非将 Python 对象 a 转换为一个 list。</strong></p>
+<p>**请注意！！！**由于 Python 的对象 a 在 C 的层面是一个指针，这样的代码实际上是将该指针的类型强制转换为 list，<strong>并非将 Python 对象 a 转换为一个 list。</strong></p>
 <p>读者可以实践一下，实际上两个 print 打印出来的类型仍然为 a 的最初的类型。</p>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def cast_to_list(a):</span><br><span class="line">    cdef list cast_list = &lt;list&gt;a</span><br><span class="line">    print type(a)</span><br><span class="line">    print type(cast_list)</span><br><span class="line">    cast_list.append(1)</span><br></pre></td></tr></table></figure>
-
-<p>这样的写法在进行到 append 这一步之前是不会抛出任何错误的，因为前面讲过 <strong>C 不会对强制转换做检查。</strong>因此如果你带入一个<strong>整型数字 a，</strong>那么最终得到的 a 和 cast_list 仍为整型变量，使用 append 方法是就会报错 (SystemError)。</p>
+<p>这样的写法在进行到 append 这一步之前是不会抛出任何错误的，因为前面讲过 **C 不会对强制转换做检查。<strong>因此如果你带入一个</strong>整型数字 a，**那么最终得到的 a 和 cast_list 仍为整型变量，使用 append 方法是就会报错 (SystemError)。</p>
 <img src="/2021/12/26/read-cython-and-learn/cast-error.png" class="">
-
 <p>想要在进行类型转换时就提前抛出错误，需要加一个 “?”</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def cast_to_list(a):</span><br><span class="line">    cdef list cast_list = &lt;list?&gt;a</span><br><span class="line">    print type(a)</span><br><span class="line">    print type(cast_list)</span><br><span class="line">    cast_list.append(1)</span><br></pre></td></tr></table></figure>
-
 <img src="/2021/12/26/read-cython-and-learn/cast-type-error.png" class="">
-
 <p>这样我们就可以在变量的类型不符合时就抛出错误，并且能正确的捕捉错误了</p>
-<h2 id="声明和使用结构体、组合体和枚举"><a href="#声明和使用结构体、组合体和枚举" class="headerlink" title="声明和使用结构体、组合体和枚举"></a>声明和使用结构体、组合体和枚举</h2><p>在 Cython 中你也可以使用 C 中的结构体、组合体和枚举。</p>
+<h2 id="声明和使用结构体-组合体和枚举"><a class="markdownIt-Anchor" href="#声明和使用结构体-组合体和枚举"></a> 声明和使用结构体、组合体和枚举</h2>
+<p>在 Cython 中你也可以使用 C 中的结构体、组合体和枚举。</p>
 <p>对于没有用 typedef 修饰的结构体、组合体，在 C 中写法如下</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">mycpx</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    <span class="type">float</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">uu</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    <span class="type">short</span> b, c;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>在 Cython 中则写作下面的形式</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cdef struct mycpx:</span><br><span class="line">    float real</span><br><span class="line">    float imag</span><br><span class="line">    </span><br><span class="line">cdef union uu:</span><br><span class="line">    int a</span><br><span class="line">    short b, c</span><br></pre></td></tr></table></figure>
-
 <p>我们还可以使用 ctypedef 关键字来实现与 C 中 typedef 一样的功能</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ctypedef struct mycpx:</span><br><span class="line">    float real</span><br><span class="line">    float imag</span><br><span class="line">    </span><br><span class="line">ctypedef union uu:</span><br><span class="line">    int a</span><br><span class="line">    short b, c</span><br><span class="line">    </span><br><span class="line"># 声明一个 mycpx 对象</span><br><span class="line">cdef mycpx zz</span><br></pre></td></tr></table></figure>
-
 <p>我们有以下三种方法来初始化一个结构体</p>
 <ul>
 <li>声明时即初始化。(十分的具有 Python 的风格)</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cdef mycpx a = mycpx(3.1415, -1.0)</span><br><span class="line">cdef mycpx b = mycpx(real=2.718, imag=1.618034)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>通过点运算符赋值进行初始化</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cdef mycpx zz</span><br><span class="line">zz.real = 3.1415</span><br><span class="line">zz.imag = -1.0</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>通过 Python 的字典进行赋值</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cdef mycpx zz = &#123;&#x27;real&#x27;: 3.1415, &#x27;imag&#x27;: -1.0&#125;</span><br></pre></td></tr></table></figure>
-
 <p>嵌套和匿名内联的结构体还有组合体的声明是不支持的</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 C 中我们可以这样写，但是 Cython 并不支持这样的声明</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">nested</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> outer_a;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> _<span class="title">inner</span> &#123;</span></span><br><span class="line">        <span class="type">int</span> inner_a;</span><br><span class="line">    &#125; inner;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
 <p>想要在一个结构体里嵌套另一个结构体，只能先把里面的结构体声明。(组合体也一样)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cdef struct _inner:</span><br><span class="line">    int inner_a</span><br><span class="line">    </span><br><span class="line">cdef struct nested:</span><br><span class="line">    int outer_a</span><br><span class="line">    _inner inner</span><br></pre></td></tr></table></figure>
-
 <p>类型声明好了以后就可以通过字典的形式进行初始化 (这样方便一些)。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cdef nested n = &#123;&#x27;outer_a&#x27;: 1, &#x27;inner&#x27;: &#123;&#x27;inner_a&#x27;: 2&#125;&#125;</span><br></pre></td></tr></table></figure>
-
 <p>对于枚举的声明，有以下两种方式</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 数字分行声明</span><br><span class="line">cdef enum PRIMARIES:</span><br><span class="line">    RED = 1</span><br><span class="line">    YELLOW = 3</span><br><span class="line">    BLUE = 5</span><br><span class="line">    </span><br><span class="line"># 或者在一行内声明</span><br><span class="line">cdef enum SECONDARIES:</span><br><span class="line">    ORANGE, GREEN=2, PURPLE</span><br></pre></td></tr></table></figure>
-
 <p>枚举也可以使用 ctypedef，如同前面的结构体和组合体一样，这里就不再赘述了。</p>
 <p>匿名的枚举是一种不错的声明全局整型常量的方式</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cdef enum:</span><br><span class="line">    GLOBAL_SEED = 37</span><br></pre></td></tr></table></figure>
-
 <img src="/2021/12/26/read-cython-and-learn/cdef-enum.png" class="">
-
 <blockquote>
 <p>Cython 中还有融合类型 (fused types)，类似于 Java 中的泛型。由于此功能仍处于试验阶段，在此不做介绍。</p>
 </blockquote>
-<h2 id="for-循环和-while-循环"><a href="#for-循环和-while-循环" class="headerlink" title="for 循环和 while 循环"></a>for 循环和 while 循环</h2><p>Cython 可以帮助我们把 Python 中的循环优化成 C 中的循环。但是我们得注意<strong>把循环中的变量尽量都写成静态的类型</strong>，否则循环可能无法得到优化。</p>
+<h2 id="for-循环和-while-循环"><a class="markdownIt-Anchor" href="#for-循环和-while-循环"></a> for 循环和 while 循环</h2>
+<p>Cython 可以帮助我们把 Python 中的循环优化成 C 中的循环。但是我们得注意<strong>把循环中的变量尽量都写成静态的类型</strong>，否则循环可能无法得到优化。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Python 式的循环有可能不会被优化</span></span><br><span class="line">n = <span class="number">100</span></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">    <span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
-
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 将变量定义为静态的，Cython 就可以将其优化成 C 的循环</span><br><span class="line">cdef <span class="type">unsigned</span> <span class="type">int</span> i, n = <span class="number">100</span></span><br><span class="line"><span class="keyword">for</span> i in range(n):</span><br><span class="line">    # ...</span><br><span class="line">↓</span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;n; ++i)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* ... */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>Cython 通常情况下都能够自动对循环进行加速优化，但并不总是成功的。以下的建议可以帮助更好的优化。</p>
-<h3 id="使用-C-整型作为-range-参数"><a href="#使用-C-整型作为-range-参数" class="headerlink" title="使用 C 整型作为 range 参数"></a>使用 C 整型作为 range 参数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cdef int N</span><br><span class="line">for i in range(N):</span><br><span class="line">    # ...</span><br></pre></td></tr></table></figure>
-
+<h3 id="使用-c-整型作为-range-参数"><a class="markdownIt-Anchor" href="#使用-c-整型作为-range-参数"></a> 使用 C 整型作为 range 参数</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cdef int N</span><br><span class="line">for i in range(N):</span><br><span class="line">    # ...</span><br></pre></td></tr></table></figure>
 <p>如果 i 在循环中不会被用到，Cython 会将 i 优化成静态类型。但是如果 i 有在循环中有到，Cython 就不会自动对 i 优化了，需要手动声明 i 为静态类型。(因为 Cython 无法判断是否会造成溢出，所以不会对 i 优化)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cdef int i, N</span><br><span class="line">for i in range(N):</span><br><span class="line">    a[i] = i + 1</span><br></pre></td></tr></table></figure>
-
 <p>以上是对 for 的优化。对于 whlie 的话，相对于在 while 关键字后接着进行条件判断，<strong>使用 while true 然后用 break 跳出循环的写法 Cython 能够更好的自动进行优化，因此更推荐 while true 的写法。</strong></p>
-<h2 id="宏定义"><a href="#宏定义" class="headerlink" title="宏定义"></a>宏定义</h2><p>C 中有 #define 来进行宏定义，而 Cython 有 DEF 来实现类似的功能。</p>
+<h2 id="宏定义"><a class="markdownIt-Anchor" href="#宏定义"></a> 宏定义</h2>
+<p>C 中有 #define 来进行宏定义，而 Cython 有 DEF 来实现类似的功能。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DEF E = 2.718281828459045</span><br><span class="line">DEF PI = 3.141592653589793</span><br><span class="line"></span><br><span class="line">def feynmans_jewel():</span><br><span class="line">    &quot;&quot;&quot;Return e ** (i * pi) + 1. Should be ~0.0&quot;&quot;&quot;</span><br><span class="line">    return E ** (1j * PI) + 1.0</span><br></pre></td></tr></table></figure>
-
 <p>DEF 与 C 中的 define 类似，但是并不完全相同。</p>
 <ul>
 <li>DEF 只能用来表示简单的类型。(用 DEF 来写代码模板是不可能的了)</li>
@@ -588,11 +562,9 @@
 </ul>
 <p>最后一条什么意思呢</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 这段代码根据 UNAME_SYSNAME 值的不同来为 flag 设置不同的值</span><br><span class="line"># UNAME_SYSNAME 是与定义好的宏，其他预定义的宏见下表</span><br><span class="line"># 这里的 IF ELSE 块也是类似于 C 的条件编译的语法，下面会讲到</span><br><span class="line">IF UNAME_SYSNAME == &quot;Linux&quot;:</span><br><span class="line">    DEF flag = 1 </span><br><span class="line">ELSE:</span><br><span class="line">    DEF flag = 0 </span><br><span class="line">def test():</span><br><span class="line">    print flag</span><br></pre></td></tr></table></figure>
-
 <p>这在我的电脑上是 1。根据上面的代码可以看出 UNAME_SYSNAME 是一个字符串。那么我们应该可以将其打印出来？</p>
 <p>答案是不行，进行编译时会报错。</p>
 <img src="/2021/12/26/read-cython-and-learn/uname-print-error.png" class="">
-
 <p>DEF 可以用于以下用途</p>
 <ul>
 <li>对整型的宏定义</li>
@@ -607,140 +579,138 @@
 <table>
 <thead>
 <tr>
-<th align="center">DEF 变量</th>
-<th align="center">含义</th>
+<th style="text-align:center">DEF 变量</th>
+<th style="text-align:center">含义</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">UNAME_SYSNAME</td>
-<td align="center">操作系统名称</td>
+<tbody>
+<tr>
+<td style="text-align:center">UNAME_SYSNAME</td>
+<td style="text-align:center">操作系统名称</td>
 </tr>
 <tr>
-<td align="center">UNAME_RELEASE</td>
-<td align="center">操作系统的版本</td>
+<td style="text-align:center">UNAME_RELEASE</td>
+<td style="text-align:center">操作系统的版本</td>
 </tr>
 <tr>
-<td align="center">UNAME_VERSION</td>
-<td align="center">操作系统的版本号</td>
+<td style="text-align:center">UNAME_VERSION</td>
+<td style="text-align:center">操作系统的版本号</td>
 </tr>
 <tr>
-<td align="center">UNAME_MACHINE</td>
-<td align="center">机器硬件名称 (Mac ?)</td>
+<td style="text-align:center">UNAME_MACHINE</td>
+<td style="text-align:center">机器硬件名称 (Mac ?)</td>
 </tr>
 <tr>
-<td align="center">UNAME_NODENAME</td>
-<td align="center">机器在网络上的名称</td>
+<td style="text-align:center">UNAME_NODENAME</td>
+<td style="text-align:center">机器在网络上的名称</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>下表还给出了可以用于 DEF 进行宏定义的常量、内建函数和变量类型。</p>
 <table>
 <thead>
 <tr>
-<th align="center">类型</th>
+<th style="text-align:center">类型</th>
 <th>内容</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">常量</td>
+<tbody>
+<tr>
+<td style="text-align:center">常量</td>
 <td>None, True, False</td>
 </tr>
 <tr>
-<td align="center">内建函数</td>
+<td style="text-align:center">内建函数</td>
 <td>abs, chr, cmp, divmod, enumerate, hash, hex, len, map, max, min, oct, ord, pow, range<br/>reduce, repr, round, sum, xrange, zip</td>
 </tr>
 <tr>
-<td align="center">内建类型</td>
+<td style="text-align:center">内建类型</td>
 <td>bool, complex, dict, float, int, list, long, slice, str, tuple</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p><strong>注意！！！DEF 声明中，被代替的部分必须最终可以得到整型、浮点型或者字符串对象，否则 Cython 会报错。</strong></p>
-<p>就如同前面举的例子一样，Cython 也支持使用 IF…ELIF…ELSE 块进行条件编译。<strong>它可以出现在任何一个能够对 Python 变量进行声明的地方。</strong>假设我们想为不同平台的机器编写不同的代码，那么我们可以这样写</p>
+<p>就如同前面举的例子一样，Cython 也支持使用 IF…ELIF…ELSE 块进行条件编译。**它可以出现在任何一个能够对 Python 变量进行声明的地方。**假设我们想为不同平台的机器编写不同的代码，那么我们可以这样写</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">IF UNAME_SYSNAME == &quot;Windows&quot;:</span><br><span class="line">    # Windows 专属代码</span><br><span class="line">ELIF UNAME_SYSNAME == &quot;Darwin&quot;:</span><br><span class="line">    # Mac 专属代码</span><br><span class="line">ELSE UNAME_SYSNAME == &quot;Linux&quot;:</span><br><span class="line">    # Linux 专属代码</span><br><span class="line">ELSE:</span><br><span class="line">    # 其他平台代码</span><br></pre></td></tr></table></figure>
-
-<h2 id="Cython-中的-Python2-与-Python3"><a href="#Cython-中的-Python2-与-Python3" class="headerlink" title="Cython 中的 Python2 与 Python3"></a>Cython 中的 Python2 与 Python3</h2><p>由于平时基本不用到 Python2，所以这部分就跳过了。</p>
-<h2 id="Cython-中的扩展类"><a href="#Cython-中的扩展类" class="headerlink" title="Cython 中的扩展类"></a>Cython 中的扩展类</h2><p>即自定义的 class，由于这个 class 在 Cython 中定义，因此会比纯 Python 的 class 运行速度更快。</p>
+<h2 id="cython-中的-python2-与-python3"><a class="markdownIt-Anchor" href="#cython-中的-python2-与-python3"></a> Cython 中的 Python2 与 Python3</h2>
+<p>由于平时基本不用到 Python2，所以这部分就跳过了。</p>
+<h2 id="cython-中的扩展类"><a class="markdownIt-Anchor" href="#cython-中的扩展类"></a> Cython 中的扩展类</h2>
+<p>即自定义的 class，由于这个 class 在 Cython 中定义，因此会比纯 Python 的 class 运行速度更快。</p>
 <p>考虑一个用来表示一个粒子的类，在 Python 可以定义如下</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Particle</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, m, p, v</span>):</span><br><span class="line">        <span class="variable language_">self</span>.mass = m</span><br><span class="line">        <span class="variable language_">self</span>.position = p</span><br><span class="line">        <span class="variable language_">self</span>.velocity = v</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_momentum</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.mass * <span class="variable language_">self</span>.velocity</span><br></pre></td></tr></table></figure>
-
 <p>我们也可以在 Cython 中进行一样的定义，然后 Cython 会将其翻译成 C 语言。但是即使是这样，其还是没有经过优化。(我们知道 Python 在底层对应的其实就是 C 的对象，而使用上面的写法的话 Cython 也是单纯将其翻译成了其原本就对应的 C 的代码)</p>
 <p>将上面的类写成 Cython 的扩展类也非常的简单，只需要做两处小改动即可</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cdef class Particle:</span><br><span class="line">    # 首先要声明变量</span><br><span class="line">    cdef double mass, position, velocity</span><br><span class="line">    def __init__(self, m, p, v):</span><br><span class="line">        self.mass = m</span><br><span class="line">        self.position = p</span><br><span class="line">        self.velocity = v</span><br><span class="line">    def get_momentum(self):</span><br><span class="line">        return self.mass * self.velocity</span><br></pre></td></tr></table></figure>
-
 <p>这样一个 Python 的类就变成了 Cython 的扩展类。扩展类与 Python 的类还是有一些小不同，<strong>比如不能随意的访问属性了，当尝试 particle.mass 时会报错，只能通过点运算符访问其拥有的方法。也不能为扩展类的对象添加新的属性，这比较好理解，因为扩展类经过编译已经是一种静态的类型了。</strong></p>
-<h2 id="类的属性和权限控制"><a href="#类的属性和权限控制" class="headerlink" title="类的属性和权限控制"></a>类的属性和权限控制</h2><p>从前面举得例子我们已经可以看出，通过 cdef 定义的 Cython 扩展类，外部只能访问到类的方法，而对类的属性则不能访问，只有类的方法才能完全访问类的属性。如果我们想从外部访问类的属性呢？Cython 有一套较为全面的属性和权限控制来帮助我们。</p>
+<h2 id="类的属性和权限控制"><a class="markdownIt-Anchor" href="#类的属性和权限控制"></a> 类的属性和权限控制</h2>
+<p>从前面举得例子我们已经可以看出，通过 cdef 定义的 Cython 扩展类，外部只能访问到类的方法，而对类的属性则不能访问，只有类的方法才能完全访问类的属性。如果我们想从外部访问类的属性呢？Cython 有一套较为全面的属性和权限控制来帮助我们。</p>
 <p>还是以上面的 Particle 类为例子，我们做一下小修改，为 mass 添加 readonly 关键字。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">cdef class Particle:</span><br><span class="line">    # 首先要声明变量</span><br><span class="line">    cdef double position, velocity</span><br><span class="line">    cdef readonly double mass</span><br><span class="line">    def __init__(self, m, p, v):</span><br><span class="line">        self.mass = m</span><br><span class="line">        self.position = p</span><br><span class="line">        self.velocity = v</span><br><span class="line">    def get_momentum(self):</span><br><span class="line">        return self.mass * self.velocity</span><br></pre></td></tr></table></figure>
-
 <p>编译并运行，我们就可以发现可以访问到 mass 的值了，但是尝试对 mass 赋值的操作将会报错。</p>
 <img src="/2021/12/26/read-cython-and-learn/readonly-access.png" class="">
-
 <p>如果想要可以对 mass 进行写操作，则需要将 readonly 改为 public。</p>
-<h2 id="在-C-的层面进行类的初始化和终止化"><a href="#在-C-的层面进行类的初始化和终止化" class="headerlink" title="在 C 的层面进行类的初始化和终止化"></a>在 C 的层面进行类的初始化和终止化</h2><p>目前对于扩展类的初始化，我们都用的 __init__ 函数，使用 __init__ 的代价就是需要在运行函数时付出额外的代价，因此会拖慢运行时间。想要在 C 的层面快速对扩展类进行初始化，Cython 为我们准备了 __cinit__ 函数。cinit 与 init 的不同之处在于，init 在运行过程中有可能会调用很多次，也有可能会一次都不调用，这样就不能保证要用的变量被完全正确的初始化。cinit 在运行过程中只会被且一定会调用一次，并在将在 __init__ 和 __new__ 之前被调用。所有的初始化参数都将会被传给 __cinit__。</p>
+<h2 id="在-c-的层面进行类的初始化和终止化"><a class="markdownIt-Anchor" href="#在-c-的层面进行类的初始化和终止化"></a> 在 C 的层面进行类的初始化和终止化</h2>
+<p>目前对于扩展类的初始化，我们都用的 __init__ 函数，使用 __init__ 的代价就是需要在运行函数时付出额外的代价，因此会拖慢运行时间。想要在 C 的层面快速对扩展类进行初始化，Cython 为我们准备了 __cinit__ 函数。cinit 与 init 的不同之处在于，init 在运行过程中有可能会调用很多次，也有可能会一次都不调用，这样就不能保证要用的变量被完全正确的初始化。cinit 在运行过程中只会被且一定会调用一次，并在将在 __init__ 和 __new__ 之前被调用。所有的初始化参数都将会被传给 __cinit__。</p>
 <p>以下面的包含数组的扩展类举个例子。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from libc.stdlib cimport malloc, free</span><br><span class="line"># cimport 会导入 C 函数，Cython 有着内置的很多包装好的 C 函数，放在 libc 中</span><br><span class="line">cdef class Matrix:</span><br><span class="line">    cdef:</span><br><span class="line">        unsigned int nrows, ncols</span><br><span class="line">        double *_matrix</span><br><span class="line">    def __cinit__(self, nr, nc):</span><br><span class="line">        self.nrows = nr</span><br><span class="line">        self.ncols = nc</span><br><span class="line">        self._matrix = &lt;double*&gt;malloc(nr * nc * sizeof(double))</span><br><span class="line">        if self._matrix == NULL:</span><br><span class="line">            raise MemoryError()</span><br><span class="line">    def __dealloc__(self):</span><br><span class="line">        if self._matrix != NULL:</span><br><span class="line">            free(self._matrix)</span><br></pre></td></tr></table></figure>
-
 <p>如果 self._matrix 的划分放在 __init__ 函数中的话：</p>
 <ul>
 <li>若 init 没有被运行，那么在尝试使用 self._matrix 时将会报错</li>
 <li>若 init 被运行多次，那么将会造成内存泄漏</li>
 </ul>
 <p>对于类的终止化，Cython 也提供了 __dealloc__ 函数，并且此函数也只会运行一次。</p>
-<h2 id="cdef-和-cpdef-函数"><a href="#cdef-和-cpdef-函数" class="headerlink" title="cdef 和 cpdef 函数"></a>cdef 和 cpdef 函数</h2><p>cdef，cpdef 也可用于扩展类方法的定义。<strong>需要注意的是，这两个函数不能用于非 cdef 的扩展类。即用 def 定义的类中无法使用 cdef 和 cpdef 来定义函数。</strong></p>
+<h2 id="cdef-和-cpdef-函数"><a class="markdownIt-Anchor" href="#cdef-和-cpdef-函数"></a> cdef 和 cpdef 函数</h2>
+<p>cdef，cpdef 也可用于扩展类方法的定义。<strong>需要注意的是，这两个函数不能用于非 cdef 的扩展类。即用 def 定义的类中无法使用 cdef 和 cpdef 来定义函数。</strong></p>
 <p>容易想到，cdef 定义的函数只能在内部访问，而 cpdef 则可以在外部访问。使用 cpdef 定义方法的限制与前面提到的一致，不能传入例如 指针 等参数。</p>
 <p>对于前面的 Particle 扩展类，我们就可以改写成使用 cpdef 来定义方法。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cdef class Particle:</span><br><span class="line">    # 首先要声明变量</span><br><span class="line">    cdef double position, velocity, mass</span><br><span class="line">    def __init__(self, m, p, v):</span><br><span class="line">        self.mass = m</span><br><span class="line">        self.position = p</span><br><span class="line">        self.velocity = v</span><br><span class="line">    cpdef get_momentum(self):</span><br><span class="line">        return self.mass * self.velocity</span><br></pre></td></tr></table></figure>
-
 <p>下面我们再定义一个函数 add_momentums，用来计算粒子的动量和。这个函数接受一个列表，并计算列表中所有粒子的动量和。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def add_momentums(particles):</span><br><span class="line">    total_mom = 0.0</span><br><span class="line">    for particle in particles:</span><br><span class="line">        total_mom += particle.get_momentum()</span><br><span class="line">    return total_mom</span><br></pre></td></tr></table></figure>
-
 <p>这个函数在外部定义或者是在 Cython 内部定义都可以，因为它完完全全是纯 Python 的函数，由于 Cython 并不知道 particles 是一个列表，所以无法对它加速。如果我们添加类型的描述，Cython 就可以生成更快速的代码了。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def add_momentums(list particles):</span><br><span class="line">    cdef:</span><br><span class="line">    	double total_mom = 0.0</span><br><span class="line">        Particle particle</span><br><span class="line">    for particle in particles:</span><br><span class="line">        total_mom += particle.get_momentum()</span><br><span class="line">    return total_mom</span><br></pre></td></tr></table></figure>
-
 <p>注意到我们对循环过程中用到的 particle 的类型也进行了声明，这样在调用 particle 的 get_momentum 函数时调用的是 C 的部分，Python 的包装没有调用，所以循环将更快速。</p>
-<h3 id="一个有趣的事情"><a href="#一个有趣的事情" class="headerlink" title="一个有趣的事情"></a>一个有趣的事情</h3><p>如果我们将 Particle 的 get_momentum 函数用 <strong>cdef</strong> 定义会怎么样？由于 add_momentums 写在 Cython 内，改为 cdef 其也可以调用 get_momentum 函数。在更改前，运行一次 add_momentums 大概需要 7 毫秒 (什么？你说我没说清楚 list 里面有几个元素？手册也没手清楚呀🐶)，而更改为 cdef 以后，时间缩短到 4.6 毫秒。要理解为什么速度会进一步加快，就需要说一说扩展类的继承、子类和多态。</p>
-<h2 id="继承和子类"><a href="#继承和子类" class="headerlink" title="继承和子类"></a>继承和子类</h2><p>Cython 中的扩展类既可以从是一个单一基类的子类 (这个基类必须在 C 中声明)，也可以是内建的类型或者是其他的扩展类的子类。<strong>基类不能是常规的 Python 类，子类也不能从多个类继承，否则会报错。</strong></p>
+<h3 id="一个有趣的事情"><a class="markdownIt-Anchor" href="#一个有趣的事情"></a> 一个有趣的事情</h3>
+<p>如果我们将 Particle 的 get_momentum 函数用 <strong>cdef</strong> 定义会怎么样？由于 add_momentums 写在 Cython 内，改为 cdef 其也可以调用 get_momentum 函数。在更改前，运行一次 add_momentums 大概需要 7 毫秒 (什么？你说我没说清楚 list 里面有几个元素？手册也没手清楚呀🐶)，而更改为 cdef 以后，时间缩短到 4.6 毫秒。要理解为什么速度会进一步加快，就需要说一说扩展类的继承、子类和多态。</p>
+<h2 id="继承和子类"><a class="markdownIt-Anchor" href="#继承和子类"></a> 继承和子类</h2>
+<p>Cython 中的扩展类既可以从是一个单一基类的子类 (这个基类必须在 C 中声明)，也可以是内建的类型或者是其他的扩展类的子类。<strong>基类不能是常规的 Python 类，子类也不能从多个类继承，否则会报错。</strong></p>
 <p>下面举个例子。</p>
 <p>考虑 Particle 的一个子类 CParticle，该子类仅存储粒子的动量，而不是计算粒子的动量。由于我们不想再重复进行已经在 Particle 中做好的工作，因此直接使用继承的方式将 Particle 的属性和方法继承过来</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cdef class CParticle(Particle):</span><br><span class="line">    cdef double momentum</span><br><span class="line">    def __init__(self, m, p, v):</span><br><span class="line">        super(CParticle, self).__init__(m, p, v)</span><br><span class="line">        self.momentum = self.mass * self.velocity</span><br><span class="line">    cpdef double get_momentum(self):</span><br><span class="line">        return self.momentum</span><br></pre></td></tr></table></figure>
-
 <p>由于 CParticle 具有 Particle 所有的属性，于是所有用到 Particle 的地方都可以替换成 CParticle。</p>
 <p>对于前面提到的，声明了变量类型的函数 add_momentums，虽然其函数中静态定义了变量 particle 的类型为 Particle，<strong>但是仍然可以将 CParticle 类的列表传入，不会影响函数的运行。</strong></p>
 <p>Python 中的类也可以继承 Cython 的扩展类，但是不能访问私有的 C 变量或者 cdef 函数，def 和 cpdef 的函数可以访问及重写。例如下面的 PyParticle 类以 Particle 为父类。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">PyParticle</span>(<span class="title class_ inherited__">Particle</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, m, p, v</span>):</span><br><span class="line">        <span class="built_in">super</span>(PyParticle, <span class="variable language_">self</span>).__init__(m, p, v)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_momentum</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>(PyParticle, <span class="variable language_">self</span>).get_momentum()</span><br></pre></td></tr></table></figure>
-
 <p>由于 cdef 函数不能被 Python 访问，它只在 Cython 的内部调用，也就是一直保持 C 的形式，相比 cpdef 函数，它的调用开销会小一些。(这很好理解，由于 cpdef 需要保证能被 Python 访问，它需要做额外的处理。) 因此当函数运行时间的数量级和调用开销的数量级差不多时，这样的差距会比较明显。这也就是为什么前面会出现 7 毫秒 和 4.6 毫秒的原因。</p>
-<h2 id="动态类型转换为静态"><a href="#动态类型转换为静态" class="headerlink" title="动态类型转换为静态"></a>动态类型转换为静态</h2><p>当我们使用一个动态对象时 (例如普通的 Python 对象)，Cython 无法访问这个对象 C 层面的数据或者方法，只能通过速度较慢的 Python&#x2F;C API 来访问。但是如果我们知道一个动态对象可能是一个扩展类或者内建的 Python 类型时，我们可以通过将其<strong>转换为</strong>静态类型来提升运行速度。</p>
+<h2 id="动态类型转换为静态"><a class="markdownIt-Anchor" href="#动态类型转换为静态"></a> 动态类型转换为静态</h2>
+<p>当我们使用一个动态对象时 (例如普通的 Python 对象)，Cython 无法访问这个对象 C 层面的数据或者方法，只能通过速度较慢的 Python/C API 来访问。但是如果我们知道一个动态对象可能是一个扩展类或者内建的 Python 类型时，我们可以通过将其<strong>转换为</strong>静态类型来提升运行速度。</p>
 <p>实现这个目的方法有两个：根据目标类型创建一个对应的静态类型，并将其显式的转换，或者使用 Cython 提供的转换工具。</p>
-<h3 id="Cython-转换工具"><a href="#Cython-转换工具" class="headerlink" title="Cython 转换工具"></a>Cython 转换工具</h3><p>首先来看看 Cython 提供的转换工具，这个用起来方便一些。</p>
+<h3 id="cython-转换工具"><a class="markdownIt-Anchor" href="#cython-转换工具"></a> Cython 转换工具</h3>
+<p>首先来看看 Cython 提供的转换工具，这个用起来方便一些。</p>
 <p>考虑下列的函数</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">automatic_inference</span>():</span><br><span class="line">    i = <span class="number">1</span></span><br><span class="line">    d = <span class="number">2.0</span></span><br><span class="line">    c = <span class="number">3</span>+<span class="number">4j</span></span><br><span class="line">    r = i * d + c</span><br><span class="line">    <span class="keyword">return</span> r</span><br></pre></td></tr></table></figure>
-
 <p>在不执行任何额外操作的时候，若我们将这个函数放到 <code>.pyx</code> 文件中并进行编译，Cython 只会对变量<code>d</code>做处理，将其视为<code>C</code>中的<code>double</code>变量，并不会将整型变量<code>i</code>视为<code>C</code>中的长整型，<code>c</code>视为<code>C</code>中的复数。因为 Cython 会尽量保守的进行优化。但是我们可以通过装饰器<code>@cython.infer_types()</code>来让 Cython 做更进一步的优化。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cimport cython</span><br><span class="line"></span><br><span class="line">@cython.infer_types(True)</span><br><span class="line">def automatic_inference():</span><br><span class="line">    .....</span><br></pre></td></tr></table></figure>
-
-<h3 id="显式的转换"><a href="#显式的转换" class="headerlink" title="显式的转换"></a>显式的转换</h3><p>假设现在我们有一个对象<code>p</code>，这个<code>p</code>是我们之前定义的<code>Particle</code>或者是其子类型的一个实例，但此时 Cython 只知道<code>p</code>是一个 Python 对象。当我们尝试调用<code>p</code>的一个方法<code>get_momentum</code>时，Cython 会在 Python 的字典中寻找这个方法，如果找到了，就会通过 API <code>PyObject_Call</code> 来执行这个方法。但是如果我们显式的将其转换成 <code>Particle</code> 对象，调用方法 <code>get_momentum</code> 的速度将会更快。</p>
+<h3 id="显式的转换"><a class="markdownIt-Anchor" href="#显式的转换"></a> 显式的转换</h3>
+<p>假设现在我们有一个对象<code>p</code>，这个<code>p</code>是我们之前定义的<code>Particle</code>或者是其子类型的一个实例，但此时 Cython 只知道<code>p</code>是一个 Python 对象。当我们尝试调用<code>p</code>的一个方法<code>get_momentum</code>时，Cython 会在 Python 的字典中寻找这个方法，如果找到了，就会通过 API <code>PyObject_Call</code> 来执行这个方法。但是如果我们显式的将其转换成 <code>Particle</code> 对象，调用方法 <code>get_momentum</code> 的速度将会更快。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cdef Particle static_p = p</span><br><span class="line">print static_p.get_momentum()</span><br><span class="line">print static_p.velocity</span><br></pre></td></tr></table></figure>
-
 <p>如果<code>p</code>不是<code>Particle</code>的实例，或者它是<code>Particle</code>子类的实例，上面的转换过程就会报<code>TypeError</code>，所以不用担心，一切都很安全。转换成<code>static_p</code>以后对方法和属性的访问都是直接访问的，所以此时就算是私有属性<code>velocity</code>也可以直接访问，而这在<code>p</code>中是做不到的。</p>
 <p>除了上面的写法，还有强制转换的写法</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print (&lt;Particle&gt;p).get_momentum()</span><br><span class="line">print (&lt;Particle&gt;p).velocity</span><br></pre></td></tr></table></figure>
-
 <p>这种写法其实不太安全，因为不会对<code>p</code>进行类型检查，若<code>p</code>不能转换有可能会引发段错误。更安全的写法是加一个<code>?</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print (&lt;Particle?&gt;p).get_momentum()</span><br><span class="line">print (&lt;Particle?&gt;p).velocity</span><br></pre></td></tr></table></figure>
-
 <p>这样如果不能转换则会触发<code>TypeError</code>。</p>
-<h2 id="扩展类与-None"><a href="#扩展类与-None" class="headerlink" title="扩展类与 None"></a>扩展类与 None</h2><p>考虑下面的函数，他接受扩展类<code>Particle</code>的实例作为参数</p>
+<h2 id="扩展类与-none"><a class="markdownIt-Anchor" href="#扩展类与-none"></a> 扩展类与 None</h2>
+<p>考虑下面的函数，他接受扩展类<code>Particle</code>的实例作为参数</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def dispatch(Particle p):</span><br><span class="line">    print p.get_momentum()</span><br><span class="line">    print p.velocity</span><br></pre></td></tr></table></figure>
-
 <p>如果我们将一个非<code>Particle</code>对象传给函数，那么就会引发<code>TypeError</code>。但是如果我们将<code>None</code>传给函数，则会引发<code>AttributeError</code>。</p>
 <blockquote>
 <p>这里原书写的是会引发<code>段错误</code>，但是经测试，实际会引发<code>AttributeError</code>，应该是在某一个版本进行了修改。</p>
 </blockquote>
-<h2 id="有关-setup-py-中-Cython-编译的扩展存放位置不对的问题"><a href="#有关-setup-py-中-Cython-编译的扩展存放位置不对的问题" class="headerlink" title="有关 setup.py 中 Cython 编译的扩展存放位置不对的问题"></a>有关 setup.py 中 Cython 编译的扩展存放位置不对的问题</h2><p>打包 Python 包时，setup.py 中的 Cython 的编译块有一个地方需要注意。</p>
-<p>以我写的一个项目 Cpywpa 的 setup.py 为例。其 setup.py 中，ext_modules 是这样写的</p>
+<h2 id="有关-setuppy-中-cython-编译的扩展存放位置不对的问题"><a class="markdownIt-Anchor" href="#有关-setuppy-中-cython-编译的扩展存放位置不对的问题"></a> 有关 <a target="_blank" rel="noopener" href="http://setup.py">setup.py</a> 中 Cython 编译的扩展存放位置不对的问题</h2>
+<p>打包 Python 包时，<a target="_blank" rel="noopener" href="http://setup.py">setup.py</a> 中的 Cython 的编译块有一个地方需要注意。</p>
+<p>以我写的一个项目 Cpywpa 的 <a target="_blank" rel="noopener" href="http://setup.py">setup.py</a> 为例。其 <a target="_blank" rel="noopener" href="http://setup.py">setup.py</a> 中，ext_modules 是这样写的</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ext_modules = [ </span><br><span class="line">    Extension(</span><br><span class="line">        name=<span class="string">&quot;Cpywpa.ccore._cpywpa_core&quot;</span>,</span><br><span class="line">        sources=[<span class="string">&quot;./Cpywpa/ccore/_cpywpa_core.pyx&quot;</span>],</span><br><span class="line">        extra_compile_args=extra_compile_args</span><br><span class="line">    )   </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<p><strong>这里请注意 Extension 中 name 的写法</strong>。因为在绝大多数搜索引擎搜索到的结果中，setup.py 里 name 的写法就是单纯写成编译后的扩展的名字。但是这样写的坏处是，**生成的扩展存放的位置是 build 文件夹中，或者是 setup.py 的同级目录 (如果你用了 –inplace 参数)**。</p>
+<p><strong>这里请注意 Extension 中 name 的写法</strong>。因为在绝大多数搜索引擎搜索到的结果中，<a target="_blank" rel="noopener" href="http://setup.py">setup.py</a> 里 name 的写法就是单纯写成编译后的扩展的名字。但是这样写的坏处是，<strong>生成的扩展存放的位置是 build 文件夹中，或者是 <a target="_blank" rel="noopener" href="http://setup.py">setup.py</a> 的同级目录 (如果你用了 --inplace 参数)</strong>。</p>
 <p>如果你想将自己的源码上传到 pypi，方便别人使用自己写好的 Python 包，只给 name 赋值扩展的名字的写法是不对的。你可以使用 <code>python setup.py install</code> 将这个包安装到自己的本地，然后去包的安装目录看一下。<strong>你就会发现生成的扩展存放位置是错误的</strong>。</p>
 <p>想要避免出现这种问题，你就要在 name 中同时写出 <strong>扩展在整个包中所属的位置</strong>。在上面的 sources 中给出了 pyx 文件所在的位置，我想让编译后的扩展所在的目录和 pyx 文件相同，那么 name 就要根据 sources 写成相应的包的结构 (这个其实很好理解，在 Python 中，一个文件夹其实就是一个包)。</p>
 <p>将 name 修改成上述代码所示后，再执行 <code>python setup.py install</code> 检验一下，你就会发现这一次在对应位置出现了想要的扩展。</p>
@@ -759,7 +729,7 @@
         </p>
         
             <strong>
-                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn/">Syizeのblog</a>！</p>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn">Syizeのblog</a>！</p>
 
             </strong>
         
