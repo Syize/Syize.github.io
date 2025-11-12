@@ -43,7 +43,7 @@
 <meta property="og:description" content="以下解读几乎全部来自 ChatGPT  物理空间与谱空间假设我们有一个函数（比如速度场）：$$u(x)$$它在空间中随位置变化。我们可以在物理空间（physical space）表示它，也可以在谱空间（spectral space）表示它。 物理空间在物理空间中，我们直接用速度在各个位置上的值来描述它：$$u(x_1), u(x_2), u(x_3), \cdots$$ 谱空间在谱空间中，我">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-11-07T14:06:36.000Z">
-<meta property="article:modified_time" content="2025-11-12T03:32:24.047Z">
+<meta property="article:modified_time" content="2025-11-12T03:49:04.905Z">
 <meta property="article:author" content="Syize">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -222,7 +222,7 @@
 </ul>
 <h3 id="为什么使用谱空间？"><a href="#为什么使用谱空间？" class="headerlink" title="为什么使用谱空间？"></a>为什么使用谱空间？</h3><p>因为导数在谱空间中是乘法运算。</p>
 <p>若<br>$$<br>u(x)&#x3D;e^{ikx}<br>$$<br>它的导数为<br>$$<br>\frac{du}{dx}&#x3D;ikxe^{ikx}<br>$$<br>推广到一般的傅里叶展开里，则为<br>$$<br>\frac{du}{dx}&#x3D;\sum_k(ik)\hat{u}_ke^{ikx}<br>$$<br>求导变成了$\times ik$。</p>
-<h3 id="什么时候使用谱空间？"><a href="#什么时候使用谱空间？" class="headerlink" title="什么时候使用谱空间？"></a>什么时候使用谱空间？</h3><p>如上面所说，对于含有导数的项，通过傅里叶变换可以将物理空间中的求微分变换成谱空间中的求乘积，从而简化运算。但是对于物理空间中的乘积项，例如<br>$$<br>w(x)&#x3D;u(x)v(x)<br>$$<br>它在谱空间中的形式对应为<br>$$<br>\hat{w}(k)&#x3D;\sum_p \hat{u}<em>p\hat{u}</em>{k-p}<br>$$<br>可以看到普通的乘积项变成了卷积项。因此普通的乘积还是在物理空间中计算更简单，另一方面，如果谱空间中出现了卷积项，也可以将其逆变换到物理空间以简化运算。</p>
+<h3 id="什么时候使用谱空间？"><a href="#什么时候使用谱空间？" class="headerlink" title="什么时候使用谱空间？"></a>什么时候使用谱空间？</h3><p>如上面所说，对于含有导数的项，通过傅里叶变换可以将物理空间中的求微分变换成谱空间中的求乘积，从而简化运算。但是对于物理空间中的乘积项，例如<br>$$<br>w(x)&#x3D;u(x)v(x)<br>$$<br>它在谱空间中的形式对应为<br>$$<br>\hat{w}(k)&#x3D;\sum_p \hat{u}<em>p \hat{u}</em>{k-p}<br>$$<br>可以看到普通的乘积项变成了卷积项。因此普通的乘积还是在物理空间中计算更简单，另一方面，如果谱空间中出现了卷积项，也可以将其逆变换到物理空间以简化运算。</p>
 <h2 id="伪谱法"><a href="#伪谱法" class="headerlink" title="伪谱法"></a>伪谱法</h2><p>伪谱法本质就是利用傅里叶变换来求解偏微分方程。大致过程就是通过将含有导数的项转换到谱空间中，计算乘积后再转换回来。</p>
 <!-- flag of hidden posts -->
     </div>
