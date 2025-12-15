@@ -27,32 +27,25 @@
     <!-- meta -->
 
 
-<title>xarray中合并nc文件导致数据的数值改变/出现nan | Syize の blog</title>
+<title>12-15日讲座 | Syize の blog</title><meta name="robots" content="noindex">
 
-
-    <meta name="keywords" content="Python">
 
 
 
 
     <!-- OpenGraph -->
  
-    <meta name="description" content="今天下了ERA5的再分析数据准备做REOF，结果却发现报错说我的数据有缺测值。搜索了一番发现原来是ERA5的scale和offset导致的。  水博客+1">
+    <meta name="description" content="基于降水垂直变化特征构建雷达(QPE)垂直廓线订正模型 - 戚友存">
 <meta property="og:type" content="article">
-<meta property="og:title" content="xarray中合并nc文件导致数据的数值改变&#x2F;出现nan">
-<meta property="og:url" content="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/index.html">
+<meta property="og:title" content="12-15日讲座">
+<meta property="og:url" content="https://blog.syize.cn/2025/12/15/note-2025-12-15-lecture/index.html">
 <meta property="og:site_name" content="Syize の blog">
-<meta property="og:description" content="今天下了ERA5的再分析数据准备做REOF，结果却发现报错说我的数据有缺测值。搜索了一番发现原来是ERA5的scale和offset导致的。  水博客+1">
+<meta property="og:description" content="基于降水垂直变化特征构建雷达(QPE)垂直廓线订正模型 - 戚友存">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/1.svg">
-<meta property="og:image" content="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133514843.png">
-<meta property="og:image" content="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133536474.png">
-<meta property="article:published_time" content="2023-07-09T13:16:11.000Z">
-<meta property="article:modified_time" content="2025-12-15T03:14:24.144Z">
+<meta property="article:published_time" content="2025-12-15T10:14:36.000Z">
+<meta property="article:modified_time" content="2025-12-15T03:14:24.117Z">
 <meta property="article:author" content="Syize">
-<meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/1.svg">
 
 
     
@@ -150,12 +143,12 @@
 
 <div class="post-title">
     <h1 class="post-title__text">
-        xarray中合并nc文件导致数据的数值改变/出现nan
+        12-15日讲座
     </h1>
     <div class="post-title__meta">
-        <a href="/archives/2023/07/" class="post-meta__date button">2023-07-09</a>
+        <a href="/archives/2025/12/" class="post-meta__date button">2025-12-15</a>
         
-    <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a>
+    <span class="separate-dot"></span><a href="/categories/notes/" class="button">notes</a>
 
  
         
@@ -172,7 +165,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E9%99%8D%E6%B0%B4%E5%9E%82%E7%9B%B4%E5%8F%98%E5%8C%96%E7%89%B9%E5%BE%81%E6%9E%84%E5%BB%BA%E9%9B%B7%E8%BE%BEqpe%E5%9E%82%E7%9B%B4%E5%BB%93%E7%BA%BF%E8%AE%A2%E6%AD%A3%E6%A8%A1%E5%9E%8B-%E6%88%9A%E5%8F%8B%E5%AD%98"><span class="toc-number">1.</span> <span class="toc-text"> 基于降水垂直变化特征构建雷达(QPE)垂直廓线订正模型 - 戚友存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%82%E7%8A%B6%E4%BA%91"><span class="toc-number">1.1.</span> <span class="toc-text"> 层状云</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%B5%81%E6%80%A7"><span class="toc-number">1.2.</span> <span class="toc-text"> 对流性</span></a></li></ol></li></ol>
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -182,7 +175,7 @@
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E9%99%8D%E6%B0%B4%E5%9E%82%E7%9B%B4%E5%8F%98%E5%8C%96%E7%89%B9%E5%BE%81%E6%9E%84%E5%BB%BA%E9%9B%B7%E8%BE%BEqpe%E5%9E%82%E7%9B%B4%E5%BB%93%E7%BA%BF%E8%AE%A2%E6%AD%A3%E6%A8%A1%E5%9E%8B-%E6%88%9A%E5%8F%8B%E5%AD%98"><span class="toc-number">1.</span> <span class="toc-text"> 基于降水垂直变化特征构建雷达(QPE)垂直廓线订正模型 - 戚友存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%82%E7%8A%B6%E4%BA%91"><span class="toc-number">1.1.</span> <span class="toc-text"> 层状云</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%B5%81%E6%80%A7"><span class="toc-number">1.2.</span> <span class="toc-text"> 对流性</span></a></li></ol></li></ol>
     </div>
 
 
@@ -208,24 +201,44 @@
     </script>
 </div>
     <div class="post__content">
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>今天下了ERA5的再分析数据准备做REOF，结果却发现报错说我的数据有缺测值。搜索了一番发现原来是ERA5的<code>scale</code>和<code>offset</code>导致的。</p>
-<blockquote>
-<p>水博客+1</p>
-</blockquote>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><ul>
+<li>基于降水垂直变化特征构建雷达(QPE)垂直廓线订正模型 - 戚友存</li>
+</ul>
 <span id="more"></span>
-<p>先来看问题，我写了脚本批量下载了很多时次的数据，然后使用<code>open_mfdataset</code>来合并出一个单个数据文件用来进行下一步的操作，却发现在合并出的数据中出现了本不存在的<code>nan</code>。经过搜索后发现是由于nc文件存在<code>scale</code>和<code>offset</code>导致的 (<a target="_blank" rel="noopener" href="https://github.com/pydata/xarray/issues/5490">相关issue</a>)。</p>
-<p>为了节省空间有些nc文件会将原始的浮点型数据经过变换变成<code>short</code>型数据，并在数据文件中记录<code>scale_factor</code>和<code>add_offset</code>来在读取数据时进行还原，具体的还原公式如下</p>
-<img src="/2023/07/09/xarray-open-mfdataset-value-change/1.svg" class="" alt="公式">
-<p>而在合并数据的过程中，会先读取数据进行还原，然后再把数据重新变换会<code>short</code>型。这个过程中有可能会出现类型转换的错误，最终导致数据改变或者出现<code>nan</code>。</p>
-<p>简单解决的办法就是在使用<code>open_mfdataset</code>的时候传入<code>mask_and_scale=False</code>参数关闭还原数据的过程，<strong>但是这样又会导致一个问题，每个文件的<code>scale_factor</code>和<code>add_offset</code>是不一样的</strong>，最后保存单个文件的时候只保存了一个<code>scale_factor</code>和<code>add_offset</code>，还原出来的数据肯定不对啊。</p>
-<img src="/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133514843.png" class="" alt="合并后的数据">
-<img src="/2023/07/09/xarray-open-mfdataset-value-change/image-20230709133536474.png" class="" alt="合并前的数据">
-<blockquote>
-<p>合并后的数据(上)和合并前的数据(下)</p>
-</blockquote>
-<p>最好的解决办法就是使用<code>open_mfdataset</code>合并时，在保存到新的nc文件之前手动删掉每个变量中保存的<code>encoding</code>信息，这样保存时<code>xarray</code>不会重新对数据编码，而是以<code>float32</code>的类型保存变量，就可以防止数据发生变化了。不过这个方法也有一个缺点，就是保存出来的数据会更大。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># concat file</span></span><br><span class="line">dataset = open_mfdataset(data_path)</span><br><span class="line"><span class="comment"># remove encoding in variables to avoid value change</span></span><br><span class="line"><span class="keyword">for</span> variables <span class="keyword">in</span> dataset.keys():</span><br><span class="line">	dataset[variables].encoding.pop(<span class="string">&quot;scale_factor&quot;</span>)</span><br><span class="line">	dataset[variables].encoding.pop(<span class="string">&quot;add_offset&quot;</span>)</span><br><span class="line">	dataset[variables].encoding.pop(<span class="string">&quot;dtype&quot;</span>)</span><br><span class="line">dataset.to_netcdf(integrated_file_path)</span><br></pre></td></tr></table></figure>
-
+<h2 id="基于降水垂直变化特征构建雷达qpe垂直廓线订正模型-戚友存"><a class="markdownIt-Anchor" href="#基于降水垂直变化特征构建雷达qpe垂直廓线订正模型-戚友存"></a> 基于降水垂直变化特征构建雷达(QPE)垂直廓线订正模型 - 戚友存</h2>
+<ul>
+<li>降水粒子垂直变化导致雷达高估或低估降水
+<ul>
+<li>层状云高估</li>
+<li>对流性低估</li>
+</ul>
+</li>
+</ul>
+<h3 id="层状云"><a class="markdownIt-Anchor" href="#层状云"></a> 层状云</h3>
+<ul>
+<li>AVPR亮带订正方法</li>
+<li>AVPR订正效果依赖对亮带底部的识别，原方法中亮带底部主要通过设定28dBZ反射率因子阈值识别</li>
+<li>双偏振雷达相关系数可以有效识别亮带底部</li>
+<li>MCS中，层状云降水范围较小或距离雷达较远，无法观测到真实的亮带结构</li>
+<li>卫星雷达可以观测到完整的降水垂直结构（波段不同，构建模型将卫星雷达VPR转换为等效的天气雷达VPR）</li>
+<li>冷季降水融化层较低，亮带结构观测不完整。</li>
+<li>利用风廓线雷达长期观测数据，统计亮带峰值和亮带底部的反射率强度关系，弥补观测不足。</li>
+<li>进一步改进
+<ul>
+<li>地面雷达多仰角观测</li>
+<li>卫星雷达亮带垂直结构特征</li>
+</ul>
+</li>
+</ul>
+<h3 id="对流性"><a class="markdownIt-Anchor" href="#对流性"></a> 对流性</h3>
+<ul>
+<li>垂直变化特征与降水强度正相关</li>
+<li>存在区域差异</li>
+<li>与0度层高度负相关</li>
+<li>存在长期稳定性</li>
+<li></li>
+</ul>
+<!-- flag of hidden posts -->
     </div>
     
     <div class="post__license">
@@ -236,7 +249,7 @@
             <strong>
                 Permalink: 
             </strong>
-            <a href="https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/">https://blog.syize.cn/2023/07/09/xarray-open-mfdataset-value-change/</a>
+            <a href="https://blog.syize.cn/2025/12/15/note-2025-12-15-lecture/">https://blog.syize.cn/2025/12/15/note-2025-12-15-lecture/</a>
         </p>
         
             <strong>
@@ -247,46 +260,9 @@
     </div>
  
     <div class="post-footer__meta"><p>updated at 2025-12-15</p></div> 
-    <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a></div> 
+    <div class="post-entry__tags"></div> 
 </article>
 
-
-    <div class="nav">
-        <div class="nav__prev">
-            
-                <a href="/2023/07/22/matplotlib-cartopy-on-click-event/" class="nav__link">
-                    <div>
-                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
-                    </div>
-                    <div>
-                        <div class="nav__label">
-                            Previous Post
-                        </div>
-                        <div class="nav__title">
-                            matplotlib和Cartopy的点击取值
-                        </div>
-                    </div>
-                </a>
-            
-        </div>
-        <div class="nav__next">
-            
-                <a href="/2023/07/07/virtualbox-static-ip/" class="nav__link">
-                    <div>
-                        <div class="nav__label">
-                            Next Post
-                        </div>
-                        <div class="nav__title">
-                            VirtualBox虚拟机安装aTrust并设置静态IP
-                        </div>
-                    </div>
-                    <div>
-                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
-                    </div>
-                </a>
-            
-        </div>
-    </div>
 
 
 
@@ -407,6 +383,9 @@
 
  
 
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" crossorigin="anonymous"></script>
  
 
 
@@ -441,7 +420,7 @@
                     repo: 'blog-comment',
                     owner: 'Syize',
                     admin: 'Syize',
-                    id: '2023/07/09/xarray-open-mfdataset-value-change/',
+                    id: '2025/12/15/note-2025-12-15-lecture/',
                     distractionFreeMode: false
                 });
                 gitalk.render('gitalk-container');
