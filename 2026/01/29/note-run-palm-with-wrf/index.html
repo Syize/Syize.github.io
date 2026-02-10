@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>使用WRF的模拟结果驱动PALM | Syize の blog</title><meta name="robots" content="noindex">
+
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="数据的准备 如果要使用 WRF 的模拟结果驱动 PALM，需要将 WRF 的结果处理成 PALM 可以读取的 dynamic driver，而要生成 dynamic driver 的话，还需要使用静态地理数据先生成 static driver 才可以。  static driver 的生成 static driver 的生成需要使用 PALM 仓库内附带的工具 palm_csd (PALM 团">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用WRF的模拟结果驱动PALM">
+<meta property="og:url" content="https://blog.syize.cn/2026/01/29/note-run-palm-with-wrf/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="数据的准备 如果要使用 WRF 的模拟结果驱动 PALM，需要将 WRF 的结果处理成 PALM 可以读取的 dynamic driver，而要生成 dynamic driver 的话，还需要使用静态地理数据先生成 static driver 才可以。  static driver 的生成 static driver 的生成需要使用 PALM 仓库内附带的工具 palm_csd (PALM 团">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-29T10:37:17.000Z">
+<meta property="article:modified_time" content="2026-02-10T01:53:26.931Z">
+<meta property="article:author" content="Syize">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">Home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">Tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">Archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">Categories</a>
+                
+                    <a href="/categories/notes/" class="navbar-menu button">Notes</a>
+                
+                    <a href="/about/" class="navbar-menu button">About</a>
+                
+                    <a href="/friend/" class="navbar-menu button">Links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">Home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">Tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">Archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">Categories</a>
+                
+                    <a href="/categories/notes/" class="dropdown-menu button">Notes</a>
+                
+                    <a href="/about/" class="dropdown-menu button">About</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">Links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        使用WRF的模拟结果驱动PALM
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2026/01/" class="post-meta__date button">2026-01-29</a>
+        
+    <span class="separate-dot"></span><a href="/categories/notes/" class="button">notes</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">1.</span> <span class="toc-text"> 数据的准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#static-driver-%E7%9A%84%E7%94%9F%E6%88%90"><span class="toc-number">1.1.</span> <span class="toc-text"> static driver 的生成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dynamic-driver-%E7%9A%84%E7%94%9F%E6%88%90"><span class="toc-number">1.2.</span> <span class="toc-text"> dynamic driver 的生成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C"><span class="toc-number">2.</span> <span class="toc-text"> 运行</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">1.</span> <span class="toc-text"> 数据的准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#static-driver-%E7%9A%84%E7%94%9F%E6%88%90"><span class="toc-number">1.1.</span> <span class="toc-text"> static driver 的生成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dynamic-driver-%E7%9A%84%E7%94%9F%E6%88%90"><span class="toc-number">1.2.</span> <span class="toc-text"> dynamic driver 的生成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C"><span class="toc-number">2.</span> <span class="toc-text"> 运行</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2026-02-10"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><span id="more"></span>
+<h2 id="数据的准备"><a class="markdownIt-Anchor" href="#数据的准备"></a> 数据的准备</h2>
+<p>如果要使用 WRF 的模拟结果驱动 PALM，需要将 WRF 的结果处理成 PALM 可以读取的 <code>dynamic driver</code>，而要生成 <code>dynamic driver</code> 的话，还需要使用静态地理数据先生成 <code>static driver</code> 才可以。</p>
+<h3 id="static-driver-的生成"><a class="markdownIt-Anchor" href="#static-driver-的生成"></a> static driver 的生成</h3>
+<p><code>static driver</code> 的生成需要使用 PALM 仓库内附带的工具 <a target="_blank" rel="noopener" href="https://gitlab.palm-model.org/releases/palm_model_system/-/tree/master/packages/static_driver/palm_csd?ref_type=heads">palm_csd</a> (PALM 团队还有一个新的工具 <a target="_blank" rel="noopener" href="https://github.com/PALM-tools/palmgem">palmgem</a> 也可使用)。其中的手册写的不是特别完善，总结下来就是需要以下几类数据：</p>
+<ul>
+<li>地形高度</li>
+<li>建筑物高度 (以及用于区分不同建筑物的建筑物 id)</li>
+<li>道路分布和类型</li>
+<li>地表分布和类型</li>
+<li>植被分布和类型</li>
+<li>水体分布和类型</li>
+</ul>
+<p>但这些数据不是必须要有的，不提供的话 PALM 会使用内部设定好的默认值。大陆想要拿到比较高精度的数据很难，可以使用 <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/">OpenStreetMap</a> 提供的数据，但是需要自己做转换，生成 Shape 文件 (所有的几何分布都要放到一个 Shape 文件中，并且以额外的数据标记出类型) 或 TIFF 文件。并且某些数据类型还需要自己做一下映射，因为 PALM 内部支持的类型没有 OpenStreetMap 支持的那么丰富。</p>
+<p><code>palm_csd</code> 的运行需要提供一个 YAML 配置文件，具体的 key 以及其含义可以看 <code>palm_csd</code> 的文档，下面是我用于生成 <code>static driver</code> 的配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">input_root:</span></span><br><span class="line">  <span class="attr">columns:</span></span><br><span class="line">  	<span class="comment"># columns 用于告诉 PALM Shape 文件中哪一个数据 (key) 是哪种数据的 type (value)</span></span><br><span class="line">    <span class="attr">pvmt_type:</span> <span class="string">pavement_type</span></span><br><span class="line">    <span class="attr">st_type:</span> <span class="string">street_type</span></span><br><span class="line">    <span class="attr">vgta_type:</span> <span class="string">vegetation_type</span></span><br><span class="line">    <span class="attr">wtr_type:</span> <span class="string">water_type</span></span><br><span class="line">  <span class="attr">files:</span></span><br><span class="line">    <span class="attr">building_id:</span> <span class="string">data/outputs/static_driver/buildings_id.tiff</span></span><br><span class="line">    <span class="attr">buildings_2d:</span> <span class="string">data/outputs/static_driver/buildings_height.tiff</span></span><br><span class="line">    <span class="attr">zt:</span> <span class="string">data/inputs/dem_32650_new.tiff</span></span><br><span class="line">    <span class="attr">surfaces:</span> <span class="string">data/outputs/static_driver/shape_file/data.shp</span></span><br><span class="line"></span><br><span class="line"><span class="attr">settings:</span></span><br><span class="line">  <span class="attr">epsg:</span> <span class="number">32650</span></span><br><span class="line">  <span class="attr">downscaling_method:</span> </span><br><span class="line">    <span class="attr">categorical:</span> <span class="string">nearest</span></span><br><span class="line">    <span class="attr">continuous:</span> <span class="string">cubic</span></span><br><span class="line">    <span class="attr">discontinuous:</span> <span class="string">cubic</span></span><br><span class="line">    <span class="attr">discrete:</span> <span class="string">cubic</span></span><br><span class="line">  <span class="attr">upscaling_method:</span></span><br><span class="line">    <span class="attr">categorical:</span> <span class="string">nearest</span></span><br><span class="line">    <span class="attr">continuous:</span> <span class="string">cubic</span></span><br><span class="line">    <span class="attr">discontinuous:</span> <span class="string">cubic</span></span><br><span class="line">    <span class="attr">discrete:</span> <span class="string">cubic</span></span><br><span class="line">  <span class="attr">season:</span> <span class="string">summer</span></span><br><span class="line"></span><br><span class="line"><span class="attr">domain_root:</span></span><br><span class="line">  <span class="attr">input:</span> <span class="string">root</span></span><br><span class="line">  <span class="attr">pixel_size:</span> <span class="number">6</span></span><br><span class="line">  <span class="attr">dz:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">nx:</span> <span class="number">451</span></span><br><span class="line">  <span class="attr">ny:</span> <span class="number">541</span></span><br><span class="line">  <span class="attr">origin_x:</span> <span class="number">683414.4903300125</span></span><br><span class="line">  <span class="attr">origin_y:</span> <span class="number">3554370.79593777</span></span><br><span class="line">  <span class="attr">water_temperature:</span></span><br><span class="line">    <span class="attr">river:</span> <span class="number">283.15</span></span><br><span class="line"></span><br><span class="line"><span class="attr">attributes:</span></span><br><span class="line">  <span class="attr">author:</span> <span class="string">Syize</span></span><br><span class="line">  <span class="attr">contact_person:</span> <span class="string">Syize,</span> <span class="string">syizeliu@gmail.com</span></span><br><span class="line">  <span class="attr">acronym:</span> <span class="string">NJU</span></span><br><span class="line">  <span class="attr">comment:</span> <span class="string">Created</span> <span class="string">by</span> <span class="string">Syize</span> <span class="string">with</span> <span class="string">palm_csd</span></span><br><span class="line">  <span class="attr">location:</span> <span class="string">CN</span></span><br><span class="line">  <span class="attr">site:</span> <span class="string">xxx</span></span><br><span class="line">  <span class="attr">institution:</span> <span class="string">xxx</span></span><br><span class="line">  <span class="comment"># palm_version: 25.04</span></span><br><span class="line"></span><br><span class="line"><span class="attr">output:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">./data/outputs</span></span><br><span class="line">  <span class="attr">file_out:</span> <span class="string">filename</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>需要注意的地方有：</p>
+<ul>
+<li>TIFF 文件和 Shape 文件的投影系与 settings 中设置的 <code>epsg</code> 必须一致。</li>
+<li><code>origin_x</code> 和 <code>origin_y</code> 是模拟区域的起点 (左下角) 在相应投影系中的坐标 (当然你也可以设置 <code>origin_lon</code> 和 <code>origin_lat</code>)</li>
+<li>水平分辨率由 <code>pixel_size</code> 决定，单位是米</li>
+</ul>
+<p>此外，还应该详细的检查输出的 <code>static driver</code>：</p>
+<ul>
+<li><code>vegetation_type</code>，<code>pavement_type</code> 以及 <code>water_type</code> 中的无效值应被替换为 <code>int8</code> 类型的整型值，并且在属性 <code>_FillValue</code> 中记录该填充值</li>
+<li><code>vegetation_type</code> 或 <code>pavement_type</code> 不为无效值的格点必须具有有效的 <code>soil_type</code>。</li>
+<li>在 <code>vegetation_type</code>，<code>pavement_type</code> 或 <code>water_type</code> 有值的格点上，<code>surface_fraction</code> 的总和必须为 <code>1</code>。</li>
+</ul>
+<h3 id="dynamic-driver-的生成"><a class="markdownIt-Anchor" href="#dynamic-driver-的生成"></a> dynamic driver 的生成</h3>
+<p>有了 <code>static driver</code> 后，就可以进一步生成 <code>dynamic driver</code> 了。需要使用的工具是 <a target="_blank" rel="noopener" href="https://github.com/PALM-tools/palmmeteo">palm-meteo</a>。</p>
+<p>目前 <code>palm-meteo</code> 不支持单个包含多个时间的 wrfout 数据，需要手动切分文件，或者在 WRF 的 namelist 中设置 <code>frames_per_outfile = 1</code> 让 WRF 每个输出时刻单独一个文件。</p>
+<p><code>palm-meteo</code> 的运行也需要 YAML 配置文件，下面是我用于生成 <code>dynamic driver</code> 的配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">case:</span> <span class="string">nju</span> <span class="comment">#case name (required)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># One or more tasks selected by the user will add required plugins and set</span></span><br><span class="line"><span class="comment"># necessary options. Tasks typically select input meteo and/or chemistry data</span></span><br><span class="line"><span class="comment"># sources.</span></span><br><span class="line"><span class="attr">tasks:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">wrf</span>         <span class="comment"># WRF meteo inputs</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># All paths are either absolute or relative to paths.base. They may contain</span></span><br><span class="line"><span class="comment"># references to entries in path_strings</span></span><br><span class="line"><span class="attr">paths:</span></span><br><span class="line">    <span class="attr">base:</span> <span class="string">&#x27;data&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="attr">palm_input:</span></span><br><span class="line">        <span class="attr">static_driver:</span>  <span class="string">&#x27;temp/nju_static_driver_root.h5&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="attr">wrf:</span></span><br><span class="line">        <span class="attr">file_mask:</span>      <span class="string">&#x27;/home/syize/Documents/docker-share/ubuntu/WRFOutputs/2025-12-01_00_to_24/wrf/wrfout_d02_*&#x27;</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">intermediate_files:</span></span><br><span class="line">    <span class="comment">#after a successful stage, delete the intermediate file from the previous stage</span></span><br><span class="line">    <span class="attr">delete_after_success:</span> <span class="literal">false</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">domain:</span></span><br><span class="line">    <span class="attr">dz:</span> <span class="number">3</span> <span class="comment">#default=dx</span></span><br><span class="line">    <span class="attr">nz:</span> <span class="number">60</span> <span class="comment">#required</span></span><br><span class="line">    <span class="attr">proj_palm:</span> <span class="string">&#x27;EPSG:32650&#x27;</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">simulation:</span></span><br><span class="line">    <span class="attr">origin_time:</span> <span class="number">2025-12-01 00:00:00.00 +0</span> <span class="comment">#default: read from static driver</span></span><br><span class="line">    <span class="attr">timestep:</span> <span class="number">20</span> <span class="string">m</span></span><br><span class="line">    <span class="attr">length:</span> <span class="number">1</span> <span class="string">d</span></span><br></pre></td></tr></table></figure>
+<p>有个需要注意的地方是，一定要将 <code>proj_palm</code> 设置成生成 <code>static driver</code> 时使用的数据的投影系，否则 <code>palm-meteo</code> 会报错无法执行。</p>
+<h2 id="运行"><a class="markdownIt-Anchor" href="#运行"></a> 运行</h2>
+<p>PALM 的手册目前写的还不是很完整，有一些地方是我摸索出来的，所以做法不一定是完全准确的。</p>
+<p>要让 PALM 使用生成的两个 driver 的话，需要在 namelist 中设置 <code>initializing_actions = 'read_from_file'</code>，同时关闭所有关于边界条件的手动设置的参数，例如 <code>ug_surface</code>，<code>pt_surface</code> 之类的。我不是很清楚需要设置 <code>topography</code> 以及如果设置了 <code>topography = 'read_from_file'</code> 但是不提供 <code>_topo</code> 文件的话 PALM 会不会使用 <code>static driver</code> 中的高度，不过我设置了<code>topography = 'read_from_file'</code> 并且没有提供 <code>_topo</code> 文件。</p>
+<p>还有一个需要注意的地方是，PALM 的 namelist 中，<code>urban_surface_parameters</code> 的 <code>switch_off_module</code> 默认值是 <code>.false.</code>，但是如果不在 namelist 中设置这个参数，PALM 会认为找不到 <code>urban_surface_parameters</code> 的设置，然后报错。所以必须要在 namelist 中添加 <code>urban_surface_parameters</code> 的设置 (即使是空的) 来启用 urban surface model。</p>
+<!-- flag of hidden posts -->
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2026/01/29/note-run-palm-with-wrf/">https://blog.syize.cn/2026/01/29/note-run-palm-with-wrf/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2026-02-10</p></div> 
+    <div class="post-entry__tags"></div> 
+</article>
+
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2026 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF6Y5KEM39"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-VF6Y5KEM39');
+    </script>
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" crossorigin="anonymous"></script>
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: '2026/01/29/note-run-palm-with-wrf/',
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
