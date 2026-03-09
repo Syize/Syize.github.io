@@ -36,7 +36,8 @@
 
 
     <!-- OpenGraph -->
- 
+
+    
     <meta name="description" content="最近在重构组里的代码上遇到一件稍微棘手的事情。导师的旧代码是使用Fortran编写的，其对一些Python无法方便读取的二进制数据做了非常精细的操作，导致将代码完全Python化的难度直线上升。折衷的方案是通过使用numpy.f2py工具，将Fortran代码转换成Python扩展，这样就引入了新的问题，如何将扩展的编译融合进Python包的打包和安装过程中。 meson构建系统是我在几个月前无意">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用meson构建打包Python包">
@@ -47,12 +48,13 @@
 <meta property="og:image" content="https://blog.syize.cn/2024/10/03/build-python-package-with-meson/image-20241002151555900.png">
 <meta property="og:image" content="https://blog.syize.cn/2024/10/03/build-python-package-with-meson/image-20241003152907462.png">
 <meta property="article:published_time" content="2024-10-03T15:53:35.000Z">
-<meta property="article:modified_time" content="2026-02-10T01:53:26.892Z">
+<meta property="article:modified_time" content="2026-03-09T08:13:25.787Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="meson">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://blog.syize.cn/2024/10/03/build-python-package-with-meson/image-20241002151555900.png">
+
 
 
     
@@ -197,7 +199,7 @@
     </div>
     <script>
         (() => {
-            var update = Date.parse("2026-02-10"),
+            var update = Date.parse("2026-03-09"),
                 date = new Date(),
                 now = date.getTime(),
                 expire = now - update,
@@ -290,7 +292,7 @@
         
     </div>
  
-    <div class="post-footer__meta"><p>updated at 2026-02-10</p></div> 
+    <div class="post-footer__meta"><p>updated at 2026-03-09</p></div> 
     <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/meson/" class="post-tags__link button"># meson</a></div> 
 </article>
 
@@ -527,6 +529,7 @@
     
     
     
+
 
 
 

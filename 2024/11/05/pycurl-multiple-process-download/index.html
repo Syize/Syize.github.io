@@ -36,7 +36,8 @@
 
 
     <!-- OpenGraph -->
- 
+
+    
     <meta name="description" content="在我为组里写的海雾反演工具包中，有一个葵花卫星数据下载的函数。因为葵花卫星数据是通过FTP方式下载的，而Python的requests库又不支持FTP协议，所以只好借助了pycurl来下载数据。 最近葵花数据的下载异常的慢，而pycurl似乎没有多线程下载的功能(我在撰写这篇发现pycurl中有一个CurlMulti对象，似乎可以通过该对象实现在一个Python进程中同时下载多个数据片段)，pyc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pycurl多进程下载数据">
@@ -46,12 +47,13 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://blog.syize.cn/2024/11/05/pycurl-multiple-process-download/compare.png">
 <meta property="article:published_time" content="2024-11-05T14:14:30.000Z">
-<meta property="article:modified_time" content="2026-02-10T01:53:26.944Z">
+<meta property="article:modified_time" content="2026-03-09T08:13:25.839Z">
 <meta property="article:author" content="Syize">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="pycurl">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://blog.syize.cn/2024/11/05/pycurl-multiple-process-download/compare.png">
+
 
 
     
@@ -194,7 +196,7 @@
     </div>
     <script>
         (() => {
-            var update = Date.parse("2026-02-10"),
+            var update = Date.parse("2026-03-09"),
                 date = new Date(),
                 now = date.getTime(),
                 expire = now - update,
@@ -251,7 +253,7 @@
         
     </div>
  
-    <div class="post-footer__meta"><p>updated at 2026-02-10</p></div> 
+    <div class="post-footer__meta"><p>updated at 2026-03-09</p></div> 
     <div class="post-entry__tags"><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/pycurl/" class="post-tags__link button"># pycurl</a></div> 
 </article>
 
@@ -488,6 +490,7 @@
     
     
     
+
 
 
 
