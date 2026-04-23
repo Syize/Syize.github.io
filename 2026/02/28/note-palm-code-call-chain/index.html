@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>PALM 代码函数调用链解析 | Syize の blog</title><meta name="robots" content="noindex">
+
+
+
+
+
+    <!-- OpenGraph -->
+
+    
+    <meta name="description" content="搞清楚 PALM 函数调用链解析是为了更好的进行 debug。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PALM 代码函数调用链解析">
+<meta property="og:url" content="https://blog.syize.cn/2026/02/28/note-palm-code-call-chain/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="搞清楚 PALM 函数调用链解析是为了更好的进行 debug。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-02-28T09:23:28.000Z">
+<meta property="article:modified_time" content="2026-04-23T07:00:57.211Z">
+<meta property="article:author" content="Syize">
+<meta name="twitter:card" content="summary_large_image">
+
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">Home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">Tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">Archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">Categories</a>
+                
+                    <a href="/categories/notes/" class="navbar-menu button">Notes</a>
+                
+                    <a href="/about/" class="navbar-menu button">About</a>
+                
+                    <a href="/friend/" class="navbar-menu button">Links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">Home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">Tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">Archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">Categories</a>
+                
+                    <a href="/categories/notes/" class="dropdown-menu button">Notes</a>
+                
+                    <a href="/about/" class="dropdown-menu button">About</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">Links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        PALM 代码函数调用链解析
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2026/02/" class="post-meta__date button">2026-02-28</a>
+        
+    <span class="separate-dot"></span><a href="/categories/notes/" class="button">notes</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#palmf90"><span class="toc-number">1.</span> <span class="toc-text"> palm.f90</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#parinf90"><span class="toc-number">1.1.</span> <span class="toc-text"> parin.f90</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E5%88%B0%E4%B8%BB%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text"> 回到主函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#topography_modf90"><span class="toc-number">1.3.</span> <span class="toc-text"> topography_mod.f90</span></a></li></ol></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#palmf90"><span class="toc-number">1.</span> <span class="toc-text"> palm.f90</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#parinf90"><span class="toc-number">1.1.</span> <span class="toc-text"> parin.f90</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E5%88%B0%E4%B8%BB%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text"> 回到主函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#topography_modf90"><span class="toc-number">1.3.</span> <span class="toc-text"> topography_mod.f90</span></a></li></ol></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2026-04-23"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>搞清楚 PALM 函数调用链解析是为了更好的进行 debug。</p>
+<span id="more"></span>
+<h2 id="palmf90"><a class="markdownIt-Anchor" href="#palmf90"></a> palm.f90</h2>
+<p>程序的主入口在 <code>palm.f90</code> 中。开头的一大段暂时不看，都是 <code>use</code> 声明，变量声明和 <code>mpi</code> 并行设置。真正有意义的代码从大约 220 行开始。</p>
+<p>首先是读取 <code>namelist</code> 设置。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! Read control parameters from NAMELIST files and read environment-variables.</span></span><br><span class="line"><span class="keyword">call</span> parin</span><br></pre></td></tr></table></figure>
+<h3 id="parinf90"><a class="markdownIt-Anchor" href="#parinf90"></a> parin.f90</h3>
+<p>这个文件中只有一个 <code>parin</code> 函数，用来从 <code>namelist</code> 和 <code>ENVPAR</code> (所谓的环境变量) 中读取设置。实际上这也相当于一个总入口，除了读取部分设置外，其中有调用各个子函数读取剩余的设置。</p>
+<p>初始化参数在 <code>parin</code> 中读取。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">read (<span class="number">11</span>, initialization_parameters, <span class="keyword">IOSTAT</span>=io_status)</span><br></pre></td></tr></table></figure>
+<p>表层数据输出参数在 <code>surface_data_output_parin</code> 中读取。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! parin.f90</span></span><br><span class="line"><span class="keyword">call</span> surface_data_output_parin</span><br><span class="line"></span><br><span class="line"><span class="comment">! surface_data_output_mod.f90</span></span><br><span class="line">read (<span class="number">11</span>, surface_data_output_parameters, <span class="keyword">IOSTAT</span>=io_status)</span><br></pre></td></tr></table></figure>
+<p>PALM 各个模块的参数在 <code>module_interface_parin</code> 中读取，这个函数又调用了很多其他子函数来读取，暂时不详细深究。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! parin.f90</span></span><br><span class="line"><span class="keyword">call</span> module_interface_parin</span><br><span class="line"></span><br><span class="line"><span class="comment">! model_interface.f90</span></span><br><span class="line"><span class="keyword">call</span> dynamics_parin</span><br><span class="line"><span class="keyword">call</span> bio_parin</span><br><span class="line"><span class="keyword">call</span> bcm_parin</span><br><span class="line"><span class="keyword">call</span> chem_parin</span><br><span class="line"><span class="keyword">call</span> dcep_parin</span><br><span class="line"><span class="keyword">call</span> det_parin</span><br><span class="line"><span class="keyword">call</span> dmp_parin</span><br><span class="line"><span class="keyword">call</span> f8c_parin</span><br><span class="line"><span class="keyword">call</span> fct_parin</span><br><span class="line"><span class="keyword">call</span> flight_parin</span><br><span class="line"><span class="keyword">call</span> gust_parin</span><br><span class="line"><span class="keyword">call</span> im_parin</span><br><span class="line"><span class="keyword">call</span> lpm_parin</span><br><span class="line"><span class="keyword">call</span> lsm_parin</span><br><span class="line"><span class="keyword">call</span> mas_parin</span><br><span class="line"><span class="keyword">call</span> nesting_offl_parin</span><br><span class="line"><span class="keyword">call</span> ocean_parin</span><br><span class="line"><span class="keyword">call</span> pcm_parin</span><br><span class="line"><span class="keyword">call</span> radiation_parin</span><br><span class="line"><span class="keyword">call</span> salsa_parin</span><br><span class="line"><span class="keyword">call</span> slurb_parin</span><br><span class="line"><span class="keyword">call</span> spectra_parin</span><br><span class="line"><span class="keyword">call</span> stg_parin</span><br><span class="line"><span class="keyword">call</span> trm_parin</span><br><span class="line"><span class="keyword">call</span> turbulent_inflow_parin</span><br><span class="line"><span class="keyword">call</span> usm_parin</span><br><span class="line"><span class="keyword">call</span> uv_radiation_parin</span><br><span class="line"><span class="keyword">call</span> vm_parin</span><br><span class="line"><span class="keyword">call</span> wtm_parin</span><br><span class="line"><span class="keyword">call</span> user_parin</span><br></pre></td></tr></table></figure>
+<p>除了读取参数设置，<code>parin</code> 还计算了分块的数量，以并行读取数据。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">io_blocks = global_procs / maximum_parallel_io_streams</span><br><span class="line">io_group = <span class="built_in">mod</span>(global_id + <span class="number">1</span>, io_blocks)</span><br><span class="line">...</span><br><span class="line"><span class="comment">! Blockwise I/O does not work together with MPI-I/O</span></span><br><span class="line"><span class="keyword">if</span> (restart_data_format_input(<span class="number">1</span>:<span class="number">3</span>) == <span class="string">&#x27;mpi&#x27;</span> <span class="keyword">.and.</span> io_blocks /= <span class="number">1</span>) <span class="keyword">then</span></span><br><span class="line">	<span class="keyword">call</span> rrd_global</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="comment">! Data is read in parallel by groups of PEs</span></span><br><span class="line">	<span class="keyword">do</span> i = <span class="number">0</span>, io_blocks - <span class="number">1</span></span><br><span class="line">		<span class="keyword">if</span> (i == io_group) <span class="keyword">then</span></span><br><span class="line">			<span class="keyword">call</span> rrd_global</span><br><span class="line">		<span class="keyword">end</span> <span class="keyword">if</span></span><br><span class="line">#<span class="keyword">if</span> defined( __parallel )</span><br><span class="line">		<span class="keyword">call</span> MPI_BARRIER(comm2d, ierr)</span><br><span class="line">#<span class="keyword">endif</span></span><br><span class="line">	<span class="keyword">end</span> <span class="keyword">do</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">if</span></span><br></pre></td></tr></table></figure>
+<p>运行时参数也在 <code>parin</code> 中读取。如果是 restart 模拟，这个函数会再读取 restart 参数后再调用一次，以让新的设置覆盖旧参数。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">read (<span class="number">11</span>, runtime_parameters, <span class="keyword">IOSTAT</span>=io_status)</span><br></pre></td></tr></table></figure>
+<p>如果是嵌套模拟，还会设置子区域的边界条件</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (nested_run <span class="keyword">.and.</span> child_domain) <span class="keyword">then</span></span><br><span class="line">    <span class="comment">! Set conditions along x.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">.not.</span> (nesting_bounds == <span class="string">&#x27;vertical_only&#x27;</span> <span class="keyword">.or.</span> nesting_bounds == <span class="string">&#x27;cyclic_along_x&#x27;</span>)) &amp;</span><br><span class="line">        <span class="keyword">then</span></span><br><span class="line">        bc_lr = <span class="string">&#x27;nested&#x27;</span></span><br><span class="line">        bc_lr_set_internally = <span class="literal">.true.</span></span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">if</span></span><br><span class="line">    <span class="comment">! Set conditions along y.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">.not.</span> (nesting_bounds == <span class="string">&#x27;vertical_only&#x27;</span> <span class="keyword">.or.</span> nesting_bounds == <span class="string">&#x27;cyclic_along_y&#x27;</span>)) &amp;</span><br><span class="line">        <span class="keyword">then</span></span><br><span class="line">        bc_ns = <span class="string">&#x27;nested&#x27;</span></span><br><span class="line">        bc_ns_set_internally = <span class="literal">.true.</span></span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">if</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">if</span></span><br></pre></td></tr></table></figure>
+<p>以及一些正常的边界条件的设置。</p>
+<hr />
+<h3 id="回到主函数"><a class="markdownIt-Anchor" href="#回到主函数"></a> 回到主函数</h3>
+<p>参数读取完毕之后，是关于处理器拓扑的计算。因为 PALM 模式中的某些算法对 CPU 核数有要求。详细内容暂时先跳过。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! Determine processor topology and local array indices.</span></span><br><span class="line"><span class="keyword">call</span> init_pegrid</span><br></pre></td></tr></table></figure>
+<p>然后是输入数据的检查，主要是在启用了 <code>__netcdf</code> 的情况下检查各个 driver 是否存在。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! Check if input file according to input-data standard exists.</span></span><br><span class="line"><span class="keyword">call</span> netcdf_data_input_inquire_file</span><br></pre></td></tr></table></figure>
+<p>然后是网格的初始化。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! Generate grid parameters.</span></span><br><span class="line"><span class="keyword">call</span> init_grid</span><br></pre></td></tr></table></figure>
+<p>然后是输入数据一些全局属性的读取。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! Read global attributes if available.</span></span><br><span class="line"><span class="keyword">call</span> netcdf_data_input_init</span><br></pre></td></tr></table></figure>
+<p>然后是地形数据的读取。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! Initialize topography.</span></span><br><span class="line"><span class="keyword">call</span> init_topography</span><br></pre></td></tr></table></figure>
+<h3 id="topography_modf90"><a class="markdownIt-Anchor" href="#topography_modf90"></a> topography_mod.f90</h3>
+<p>在函数 <code>init_topography</code> 中，首先调用了子函数 <code>topography_input</code>。</p>
+<blockquote>
+<p>以下只考虑从 static driver 输入地形的情况。</p>
+</blockquote>
+<hr />
+<p>该函数首先检查地形数据的属性，判断其网格分布和模式的网格是否匹配。然后试图读取地形高度数据，存储在 <code>terrain_height_f % var</code> 中。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! Terrain height. First, get variable-related _fillvalue attribute.</span></span><br><span class="line"><span class="keyword">if</span> (check_existence(var_names, <span class="string">&#x27;zt&#x27;</span>)) <span class="keyword">then</span></span><br><span class="line">    terrain_height_f % from_file = <span class="literal">.true.</span></span><br><span class="line">    <span class="keyword">call</span> get_attribute(id_topo, char_fill, terrain_height_f % fill, <span class="literal">.false.</span>, <span class="string">&#x27;zt&#x27;</span>)</span><br><span class="line">    <span class="comment">! Input 2D terrain height.</span></span><br><span class="line">    <span class="built_in">allocate</span> (terrain_height_f % var(nys:nyn, nxl:nxr))</span><br><span class="line">    <span class="keyword">call</span> get_variable(id_topo, <span class="string">&#x27;zt&#x27;</span>, terrain_height_f % var, nxl, nxr, nys, nyn, nbgp=<span class="number">0</span>)</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    terrain_height_f % from_file = <span class="literal">.false.</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">if</span></span><br></pre></td></tr></table></figure>
+<p>然后通过判断 <code>buildings_2d</code> 和 <code>buildings_3d</code> 是否存在来读取建筑数据，分别存储在 <code>buildings_f % var_2d</code> 和 <code>buildings_f % var_3d</code> 中。如果两者都存在，优先使用 3d 的数据。建筑物的 id (<code>building_id</code>) 和类型 (<code>building_type</code>) 也会被读取，存储在 <code>building_id_f % var</code> 和 <code>building_type_f % var</code> 中。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! Read building IDs and its FillValue attribute. Further required for mapping buildings on top</span></span><br><span class="line"><span class="comment">! of orography.</span></span><br><span class="line"><span class="keyword">if</span> (check_existence(var_names, <span class="string">&#x27;building_id&#x27;</span>)) <span class="keyword">then</span></span><br><span class="line">    building_id_f % from_file = <span class="literal">.true.</span></span><br><span class="line">    <span class="keyword">call</span> get_attribute(id_topo, char_fill, building_id_f % fill, <span class="literal">.false.</span>, <span class="string">&#x27;building_id&#x27;</span>)</span><br><span class="line">    <span class="built_in">allocate</span> (building_id_f % var(nysg:nyng, nxlg:nxrg))</span><br><span class="line">    <span class="keyword">call</span> get_variable(id_topo, <span class="string">&#x27;building_id&#x27;</span>, building_id_f % var, nxl, nxr, nys, nyn, &amp;</span><br><span class="line">                      nbgp=nbgp)</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    building_id_f % from_file = <span class="literal">.false.</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">if</span></span><br><span class="line"><span class="comment">! Read building_type and required attributes.</span></span><br><span class="line"><span class="keyword">if</span> (check_existence(var_names, <span class="string">&#x27;building_type&#x27;</span>)) <span class="keyword">then</span></span><br><span class="line">    building_type_f % from_file = <span class="literal">.true.</span></span><br><span class="line">    <span class="keyword">call</span> get_attribute(id_topo, char_fill, building_type_f % fill, <span class="literal">.false.</span>, <span class="string">&#x27;building_type&#x27;</span>)</span><br><span class="line">    <span class="built_in">allocate</span> (building_type_f % var(nysg:nyng, nxlg:nxrg))</span><br><span class="line">    <span class="keyword">call</span> get_variable(id_topo, <span class="string">&#x27;building_type&#x27;</span>, building_type_f % var, nxl, nxr, nys, nyn, &amp;</span><br><span class="line">                      nbgp=nbgp)</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    building_type_f % from_file = <span class="literal">.false.</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">if</span></span><br></pre></td></tr></table></figure>
+<hr />
+<p>然后函数 <code>topography_prepare_and_check</code> 被调用，来进行相关的初始化和一致性检查。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! Perform general initialization tasks and consistency checks.</span></span><br><span class="line"><span class="keyword">call</span> topography_prepare_and_check</span><br></pre></td></tr></table></figure>
+<hr />
+<!-- flag of hidden posts -->
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2026/02/28/note-palm-code-call-chain/">https://blog.syize.cn/2026/02/28/note-palm-code-call-chain/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2026-04-23</p></div> 
+    <div class="post-entry__tags"></div> 
+</article>
+
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2026 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF6Y5KEM39"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-VF6Y5KEM39');
+    </script>
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" crossorigin="anonymous"></script>
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: '2026/02/28/note-palm-code-call-chain/',
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+
+    </body>
+</html>
