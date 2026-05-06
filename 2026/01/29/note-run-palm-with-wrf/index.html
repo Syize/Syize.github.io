@@ -44,7 +44,7 @@
 <meta property="og:description" content="数据的准备 如果要使用 WRF 的模拟结果驱动 PALM，需要将 WRF 的结果处理成 PALM 可以读取的 dynamic driver，而要生成 dynamic driver 的话，还需要使用静态地理数据先生成 static driver 才可以。  static driver 的生成 static driver 的生成需要使用 PALM 仓库内附带的工具 palm_csd (PALM 团">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2026-01-29T10:37:17.000Z">
-<meta property="article:modified_time" content="2026-05-06T06:28:15.723Z">
+<meta property="article:modified_time" content="2026-05-06T06:42:05.488Z">
 <meta property="article:author" content="Syize">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -261,7 +261,7 @@
 <p>除了上面提到过的注意事项外，我摸索过程中踩过的坑还有：</p>
 <ol>
 <li>建筑物数据中，非建筑物区域一定要设置为无效值 (例如-9999)，0也会识别为是建筑物，导致异常的下垫面高度。</li>
-<li><code>psolver</code> 我使用了 <code>multigrid</code>，这个方法要求水平格点数 (<code>nx+1</code> 和 <code>ny+1</code>) 能够被 2 整除。</li>
+<li><code>psolver</code> 我使用了 <code>multigrid</code>，这个方法要求水平格点数 (<code>nx+1</code> 和 <code>ny+1</code>) 能够被 2 整除，并且如果使用的核数大于1的话，水平格点数还能被相应方向上分配的核数整除。</li>
 <li><code>fft_method</code> 我使用了 <code>fftw</code>，这个设置要求设置编译宏 <code>-D__fftw</code>，并且水平格点数 (<code>nx+1</code> 和 <code>ny+1</code>) 最好满足：</li>
 </ol>
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>X</mi><mo>=</mo><msup><mn>2</mn><mi>a</mi></msup><msup><mn>3</mn><mi>b</mi></msup><msup><mn>5</mn><mi>c</mi></msup><msup><mn>7</mn><mi>d</mi></msup><mn>1</mn><msup><mn>1</mn><mi>e</mi></msup><mn>1</mn><msup><mn>3</mn><mi>f</mi></msup><mo separator="true">,</mo><mi>e</mi><mo>+</mo><mi>f</mi><mo>=</mo><mn>0</mn><mtext> </mtext><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><mtext> </mtext><mn>1</mn></mrow><annotation encoding="application/x-tex">X = 2^a3^b5^c7^d11^e13^f, e+f = 0 \ || \ 1
