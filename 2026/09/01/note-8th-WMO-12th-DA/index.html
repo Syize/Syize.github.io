@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>第12届国际数据同化研讨会 | Syize の blog</title><meta name="robots" content="noindex">
+
+
+
+
+
+    <!-- OpenGraph -->
+
+    
+    <meta name="description" content="The Convergence of Machine Learning and Data Assimilation in Earth System Science  Peter Jan Van Leeuwen   Article with the same name Off-line learning of DA components Article: Bocqute 2020 et al.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第12届国际数据同化研讨会">
+<meta property="og:url" content="https://blog.syize.cn/2026/09/01/note-8th-WMO-12th-DA/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="The Convergence of Machine Learning and Data Assimilation in Earth System Science  Peter Jan Van Leeuwen   Article with the same name Off-line learning of DA components Article: Bocqute 2020 et al.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-09-01T08:57:49.000Z">
+<meta property="article:modified_time" content="2026-09-07T07:26:54.675Z">
+<meta property="article:author" content="Syize">
+<meta name="twitter:card" content="summary_large_image">
+
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">Home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">Tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">Archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">Categories</a>
+                
+                    <a href="/categories/notes/" class="navbar-menu button">Notes</a>
+                
+                    <a href="/about/" class="navbar-menu button">About</a>
+                
+                    <a href="/friend/" class="navbar-menu button">Links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">Home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">Tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">Archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">Categories</a>
+                
+                    <a href="/categories/notes/" class="dropdown-menu button">Notes</a>
+                
+                    <a href="/about/" class="dropdown-menu button">About</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">Links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        第12届国际数据同化研讨会
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2026/09/" class="post-meta__date button">2026-09-01</a>
+        
+    <span class="separate-dot"></span><a href="/categories/notes/" class="button">notes</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#the-convergence-of-machine-learning-and-data-assimilation-in-earth-system-science"><span class="toc-number">1.</span> <span class="toc-text"> The Convergence of Machine Learning and Data Assimilation in Earth System Science</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-data-assimilation-inspired-approach-to-post-processing-river-discharge-forecasts"><span class="toc-number">2.</span> <span class="toc-text"> A data-assimilation inspired approach to post-processing river discharge forecasts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pdaf-recent-developments-for-opensource-community-data-assimilation"><span class="toc-number">3.</span> <span class="toc-text"> PDAF Recent Developments for OpenSource Community Data Assimilation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#controlling-inflow-boundary-conditions-in-a-les-model-for-urban-flows"><span class="toc-number">4.</span> <span class="toc-text"> Controlling inflow boundary conditions in a LES model for urban flows</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#long-window-4dvar-for-reanalysis-using-differential-models"><span class="toc-number">5.</span> <span class="toc-text"> Long window 4dvar for reanalysis using differential models</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pre-emptive-forecasting-of-radar-imagery-using-flow-dependent-convariance-localisation-not-entire-title"><span class="toc-number">6.</span> <span class="toc-text"> Pre-emptive Forecasting of Radar Imagery Using Flow-dependent Convariance Localisation (not entire title)</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#the-convergence-of-machine-learning-and-data-assimilation-in-earth-system-science"><span class="toc-number">1.</span> <span class="toc-text"> The Convergence of Machine Learning and Data Assimilation in Earth System Science</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-data-assimilation-inspired-approach-to-post-processing-river-discharge-forecasts"><span class="toc-number">2.</span> <span class="toc-text"> A data-assimilation inspired approach to post-processing river discharge forecasts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pdaf-recent-developments-for-opensource-community-data-assimilation"><span class="toc-number">3.</span> <span class="toc-text"> PDAF Recent Developments for OpenSource Community Data Assimilation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#controlling-inflow-boundary-conditions-in-a-les-model-for-urban-flows"><span class="toc-number">4.</span> <span class="toc-text"> Controlling inflow boundary conditions in a LES model for urban flows</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#long-window-4dvar-for-reanalysis-using-differential-models"><span class="toc-number">5.</span> <span class="toc-text"> Long window 4dvar for reanalysis using differential models</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pre-emptive-forecasting-of-radar-imagery-using-flow-dependent-convariance-localisation-not-entire-title"><span class="toc-number">6.</span> <span class="toc-text"> Pre-emptive Forecasting of Radar Imagery Using Flow-dependent Convariance Localisation (not entire title)</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2026-09-07"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><span id="more"></span>
+<h2 id="the-convergence-of-machine-learning-and-data-assimilation-in-earth-system-science"><a class="markdownIt-Anchor" href="#the-convergence-of-machine-learning-and-data-assimilation-in-earth-system-science"></a> The Convergence of Machine Learning and Data Assimilation in Earth System Science</h2>
+<blockquote>
+<p>Peter Jan Van Leeuwen</p>
+</blockquote>
+<ul>
+<li>Article with the same name</li>
+<li>Off-line learning of DA components</li>
+<li>Article: Bocqute 2020 et al.</li>
+<li>Expectation-Maximization</li>
+</ul>
+<h2 id="a-data-assimilation-inspired-approach-to-post-processing-river-discharge-forecasts"><a class="markdownIt-Anchor" href="#a-data-assimilation-inspired-approach-to-post-processing-river-discharge-forecasts"></a> A data-assimilation inspired approach to post-processing river discharge forecasts</h2>
+<blockquote>
+<p>Sarah Dance</p>
+</blockquote>
+<ul>
+<li>Apply data assimilation before product generation.</li>
+<li>Use EnKF to correct ensemble errors.</li>
+</ul>
+<h2 id="pdaf-recent-developments-for-opensource-community-data-assimilation"><a class="markdownIt-Anchor" href="#pdaf-recent-developments-for-opensource-community-data-assimilation"></a> PDAF Recent Developments for OpenSource Community Data Assimilation</h2>
+<blockquote>
+<p>Lars Nerger</p>
+</blockquote>
+<ul>
+<li>See repo on Github.</li>
+</ul>
+<h2 id="controlling-inflow-boundary-conditions-in-a-les-model-for-urban-flows"><a class="markdownIt-Anchor" href="#controlling-inflow-boundary-conditions-in-a-les-model-for-urban-flows"></a> Controlling inflow boundary conditions in a LES model for urban flows</h2>
+<blockquote>
+<p>Geir Evensen</p>
+</blockquote>
+<ul>
+<li>Model: LBM</li>
+<li>GPU friendly model</li>
+<li>Maxwell Boltzmann equation</li>
+<li>Check the code on Github.</li>
+</ul>
+<h2 id="long-window-4dvar-for-reanalysis-using-differential-models"><a class="markdownIt-Anchor" href="#long-window-4dvar-for-reanalysis-using-differential-models"></a> Long window 4dvar for reanalysis using differential models</h2>
+<blockquote>
+<p>Jeffrey Whitaker</p>
+</blockquote>
+<ul>
+<li>See the paper in arXiv</li>
+</ul>
+<h2 id="pre-emptive-forecasting-of-radar-imagery-using-flow-dependent-convariance-localisation-not-entire-title"><a class="markdownIt-Anchor" href="#pre-emptive-forecasting-of-radar-imagery-using-flow-dependent-convariance-localisation-not-entire-title"></a> Pre-emptive Forecasting of Radar Imagery Using Flow-dependent Convariance Localisation (not entire title)</h2>
+<blockquote>
+<p>Craig Bishop</p>
+</blockquote>
+<ul>
+<li>Paper to be accepted.</li>
+</ul>
+<!-- flag of hidden posts -->
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2026/09/01/note-8th-WMO-12th-DA/">https://blog.syize.cn/2026/09/01/note-8th-WMO-12th-DA/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2026-09-07</p></div> 
+    <div class="post-entry__tags"></div> 
+</article>
+
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2026 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF6Y5KEM39"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-VF6Y5KEM39');
+    </script>
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" crossorigin="anonymous"></script>
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: '2026/09/01/note-8th-WMO-12th-DA/',
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+
+    </body>
+</html>
