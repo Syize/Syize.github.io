@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>在PALM中运行前置和正式理想模拟试验 | Syize の blog</title><meta name="robots" content="noindex">
+
+
+    <meta name="keywords" content="PALM">
+
+
+
+
+    <!-- OpenGraph -->
+
+    
+    <meta name="description" content="记录一下使用PALM跑理想建筑绕流试验的具体流程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在PALM中运行前置和正式理想模拟试验">
+<meta property="og:url" content="https://blog.syize.cn/2026/10/11/note-palm-precursor-and-main-simulation/index.html">
+<meta property="og:site_name" content="Syize の blog">
+<meta property="og:description" content="记录一下使用PALM跑理想建筑绕流试验的具体流程。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.syize.cn/2026/10/11/note-palm-precursor-and-main-simulation/image-20261011204333445.png">
+<meta property="article:published_time" content="2026-10-11T11:06:53.000Z">
+<meta property="article:modified_time" content="2026-10-11T13:59:33.438Z">
+<meta property="article:author" content="Syize">
+<meta property="article:tag" content="PALM">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.syize.cn/2026/10/11/note-palm-precursor-and-main-simulation/image-20261011204333445.png">
+
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Syize の blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">Home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">Tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">Archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">Categories</a>
+                
+                    <a href="/categories/notes/" class="navbar-menu button">Notes</a>
+                
+                    <a href="/about/" class="navbar-menu button">About</a>
+                
+                    <a href="/friend/" class="navbar-menu button">Links</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">Home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">Tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">Archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">Categories</a>
+                
+                    <a href="/categories/notes/" class="dropdown-menu button">Notes</a>
+                
+                    <a href="/about/" class="dropdown-menu button">About</a>
+                
+                    <a href="/friend/" class="dropdown-menu button">Links</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        在PALM中运行前置和正式理想模拟试验
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2026/10/" class="post-meta__date button">2026-10-11</a>
+        
+    <span class="separate-dot"></span><a href="/categories/notes/" class="button">notes</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text"> 整体流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#precursor-%E8%AF%95%E9%AA%8C"><span class="toc-number">2.</span> <span class="toc-text"> precursor 试验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#initialization-parameters"><span class="toc-number">2.1.</span> <span class="toc-text"> Initialization parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#runtime-parameters"><span class="toc-number">2.2.</span> <span class="toc-text"> Runtime parameters</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dynamic-driver-%E7%9A%84%E7%94%9F%E6%88%90"><span class="toc-number">3.</span> <span class="toc-text"> Dynamic driver 的生成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E5%BC%8F%E8%AF%95%E9%AA%8C"><span class="toc-number">4.</span> <span class="toc-text"> 正式试验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#initialization-parameters-2"><span class="toc-number">4.1.</span> <span class="toc-text"> Initialization parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#runtime-parameters-2"><span class="toc-number">4.2.</span> <span class="toc-text"> Runtime parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#turbulent-inflow-parameters"><span class="toc-number">4.3.</span> <span class="toc-text"> Turbulent inflow parameters</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%AD%E8%B7%91-precursor-%E8%AF%95%E9%AA%8C"><span class="toc-number">5.</span> <span class="toc-text"> 续跑 precursor 试验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#initialization-parameters-3"><span class="toc-number">5.1.</span> <span class="toc-text"> Initialization parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#runtime-parameters-3"><span class="toc-number">5.2.</span> <span class="toc-text"> Runtime parameters</span></a></li></ol></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text"> 整体流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#precursor-%E8%AF%95%E9%AA%8C"><span class="toc-number">2.</span> <span class="toc-text"> precursor 试验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#initialization-parameters"><span class="toc-number">2.1.</span> <span class="toc-text"> Initialization parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#runtime-parameters"><span class="toc-number">2.2.</span> <span class="toc-text"> Runtime parameters</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dynamic-driver-%E7%9A%84%E7%94%9F%E6%88%90"><span class="toc-number">3.</span> <span class="toc-text"> Dynamic driver 的生成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E5%BC%8F%E8%AF%95%E9%AA%8C"><span class="toc-number">4.</span> <span class="toc-text"> 正式试验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#initialization-parameters-2"><span class="toc-number">4.1.</span> <span class="toc-text"> Initialization parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#runtime-parameters-2"><span class="toc-number">4.2.</span> <span class="toc-text"> Runtime parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#turbulent-inflow-parameters"><span class="toc-number">4.3.</span> <span class="toc-text"> Turbulent inflow parameters</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%AD%E8%B7%91-precursor-%E8%AF%95%E9%AA%8C"><span class="toc-number">5.</span> <span class="toc-text"> 续跑 precursor 试验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#initialization-parameters-3"><span class="toc-number">5.1.</span> <span class="toc-text"> Initialization parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#runtime-parameters-3"><span class="toc-number">5.2.</span> <span class="toc-text"> Runtime parameters</span></a></li></ol></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+    <div class="post__expire" id="post-expired-notify">
+        <p>
+            This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.
+        </p>
+    </div>
+    <script>
+        (() => {
+            var update = Date.parse("2026-10-11"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();
+    </script>
+</div>
+    <div class="post__content">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>记录一下使用PALM跑理想建筑绕流试验的具体流程。</p>
+<span id="more"></span>
+<p>这次试验的目的是想看来流遇到建筑物阻挡时，绕流形成的 horseshoe vortex 和 arch vortex。想要清晰的看到这两个结构，以及扰动向下游传播的情况的话，需要保证开始模拟时模拟模拟的大气就已经接近或达到稳态了，因此需要有一个 precursor 试验来在无建筑物的网格中提前模拟一段时间。</p>
+<h2 id="整体流程"><a class="markdownIt-Anchor" href="#整体流程"></a> 整体流程</h2>
+<p>整个模拟的流程大概如下。</p>
+<ol>
+<li>首先是要跑一个 precursor 试验，这一步是为了得到稳态的大气场数据，也是为了得到用于在正式试验中提供侧边界强迫的数据。这一步应该至少得到两个数据文件：
+<ol>
+<li>包含稳态大气场数据的 restart 文件 <code>xxxx.d3d.yyy</code>，其中 <code>xxx</code> 是模拟的 Identifier，<code>yyy</code> 是一串数字用来标识这个 restart 文件是第几次产生的，一般 precursor 只运行一次，所以通常是 <code>000</code>。但是如果你在第一次 precursor 试验的基础上又 restart 延长了一下 precursor 的时间，则后面的数字会增加1。再次 restart 的话同理，会再增加1。</li>
+<li>某个剖面的数据。我的正式试验是西侧边界来流，所以要取得的剖面是 Y-Z 平面的数据，命名类似于 <code>xxxx_yz.yyy.nc</code>。</li>
+</ol>
+</li>
+<li>剖面数据要进一步转换成 PALM 能够使用的 dynamic driver，这一步是比较难处理的，因为 PALM 没有提供方便的脚本进行转换，需要自己对照 PALM 对 dynamic driver 的要求对数据进行转换。</li>
+<li>使用得到的 <code>d3d</code> 和 dynamic driver 进行正式的模拟。</li>
+</ol>
+<p>下面详细讲一下相关的配置，其中试验的一些参数的设置参考了 Shin et al. (2021, JAS)<sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="Shin, H. H., D. Muñoz-Esparza, J. A. Sauer, and M. Steiner, 2021: Large-Eddy Simulations of Stability-Varying Atmospheric Boundary Layer Flow over Isolated Buildings. *Journal of the Atmospheric Sciences*, **78**, 1487–1501, https://doi.org/10.1175/JAS-D-20-0160.1.
+">[1]</span></a></sup></p>
+<h2 id="precursor-试验"><a class="markdownIt-Anchor" href="#precursor-试验"></a> precursor 试验</h2>
+<h3 id="initialization-parameters"><a class="markdownIt-Anchor" href="#initialization-parameters"></a> Initialization parameters</h3>
+<p>根据 AI 的回答，precursor 试验设置的模拟域可以比正式试验的网格小，这样在正式试验时，PALM 会重复使用 precursor 试验的三维大气填充整个模拟域。但是为了让结果受到的影响因素在可控范围内降到最小，我设置的 precursor 试验的模拟域和正式试验时一样大小的。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">nx</th>
+<th style="text-align:center">dx</th>
+<th style="text-align:center">ny</th>
+<th style="text-align:center">dy</th>
+<th style="text-align:center">nz</th>
+<th style="text-align:center">dz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">479</td>
+<td style="text-align:center">5.0</td>
+<td style="text-align:center">287</td>
+<td style="text-align:center">5.0</td>
+<td style="text-align:center">250</td>
+<td style="text-align:center">4.8</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>网格设置和分辨率设置</p>
+</blockquote>
+<p>Shin 等的模拟使用了 FastEddy 垂直方向的拉伸，但是我这里为了方便垂直方向使用了固定的分辨率。precursor 试验四个边界都使用周期性边界条件，地形是 <code>flat</code>，omega 设置为 <code>0</code> 以关闭科氏力，初始场的初始化方式是 <code>set_constant_profiles</code>，这几项应该是必须的设置，其余参数则按照具体的试验要求进行更改即可，这一部分的具体参数如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&amp;<span class="type">initialization_parameters</span></span><br><span class="line">    <span class="variable">nx</span> <span class="operator">=</span> <span class="number">479</span></span><br><span class="line">    ny = <span class="number">287</span></span><br><span class="line">    nz = <span class="number">250</span></span><br><span class="line">    dx = <span class="number">5.0</span></span><br><span class="line">    dy = <span class="number">5.0</span></span><br><span class="line">    dz = <span class="number">4.8</span></span><br><span class="line">    bc_lr = <span class="string">&#x27;cyclic&#x27;</span></span><br><span class="line">    bc_ns = <span class="string">&#x27;cyclic&#x27;</span></span><br><span class="line">    topography = <span class="string">&#x27;flat&#x27;</span></span><br><span class="line">    momentum_advec = <span class="string">&#x27;ws-scheme&#x27;</span></span><br><span class="line">    timestep_scheme = <span class="string">&#x27;runge-kutta-3&#x27;</span></span><br><span class="line">    turbulence_closure = <span class="string">&#x27;1.5-order&#x27;</span></span><br><span class="line">    call_psolver_at_all_substeps = .<span class="literal">true</span>.</span><br><span class="line">    initializing_actions = <span class="string">&#x27;set_constant_profiles&#x27;</span></span><br><span class="line">    ug_surface = <span class="number">10.0</span></span><br><span class="line">    vg_surface = <span class="number">0.0</span></span><br><span class="line">    latitude = <span class="number">32.0</span></span><br><span class="line">    roughness_length = <span class="number">0.1</span></span><br><span class="line">    constant_flux_layer = .<span class="literal">true</span>.</span><br><span class="line">    bc_uv_b = <span class="string">&#x27;dirichlet&#x27;</span></span><br><span class="line">    pt_surface = <span class="number">300.0</span></span><br><span class="line">    pt_vertical_gradient = <span class="number">8.0</span>, <span class="number">0.3</span></span><br><span class="line">    pt_vertical_gradient_level = <span class="number">400.0</span>, <span class="number">650.0</span></span><br><span class="line">    surface_heatflux = <span class="number">0.0</span></span><br><span class="line">    bc_pt_b = <span class="string">&#x27;neumann&#x27;</span></span><br><span class="line">    bc_pt_t = <span class="string">&#x27;initial_gradient&#x27;</span></span><br><span class="line">    neutral = .<span class="literal">false</span>.</span><br><span class="line">    cfl_factor = <span class="number">0.9</span></span><br><span class="line">/</span><br></pre></td></tr></table></figure>
+<h3 id="runtime-parameters"><a class="markdownIt-Anchor" href="#runtime-parameters"></a> Runtime parameters</h3>
+<p>这一部分主要涉及试验的运行时间和输出的设置。precursor 试验应当尽量久的运行，以给大气调整到稳态的时间。经验上来讲，中性大气一般需要 2 天的调整时间，但是在我的测试下，PALM 似乎运行一天后就能接近稳态</p>
+<img src="/2026/10/11/note-palm-precursor-and-main-simulation/image-20261011204333445.png" class="" alt="image-20261011204333445">
+<blockquote>
+<p>最后6小时模拟30分钟平均的风速、总TKE、雷诺应力和总动量通量随高度的差异</p>
+</blockquote>
+<p>正常应该计算一下 <code>u*</code> 来看一下是否还有改变的，但是我忘了在 PALM 中输出这个变量了。在 precursor 的试验中，应该至少将以下变量添加到 PALM 的输出中：</p>
+<ul>
+<li><code>u_yz</code></li>
+<li><code>v_yz</code></li>
+<li><code>w_yz</code></li>
+<li><code>e_yz</code></li>
+<li><code>theta_yz</code></li>
+<li><code>us*_xy</code></li>
+</ul>
+<p>剖面的位置最好在 precursor 试验模拟域的中间，然后 <code>dt_do2d_yz</code> 设置的比较细，这样才能输出时间精度足够高的数据，用来在正式试验中提供动态的侧边界强迫。<code>end_time</code> 最好大于等于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>最短</mtext><mi>p</mi><mi>r</mi><mi>e</mi><mi>c</mi><mi>u</mi><mi>r</mi><mi>s</mi><mi>o</mi><mi>r</mi><mtext>模拟时间</mtext><mo>+</mo><mtext>正式试验模拟时间</mtext><mo>+</mo><mn>5</mn><mi>s</mi></mrow><annotation encoding="application/x-tex">最短 precursor 模拟时间 + 正式试验模拟时间 + 5s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord cjk_fallback">最</span><span class="mord cjk_fallback">短</span><span class="mord mathnormal">p</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">e</span><span class="mord mathnormal">c</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">s</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord cjk_fallback">模</span><span class="mord cjk_fallback">拟</span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord cjk_fallback">正</span><span class="mord cjk_fallback">式</span><span class="mord cjk_fallback">试</span><span class="mord cjk_fallback">验</span><span class="mord cjk_fallback">模</span><span class="mord cjk_fallback">拟</span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span><span class="mord mathnormal">s</span></span></span></span>，最后的 5s 是为了预留出允许误差的时间，因为 PALM 的数据不是精确的整时输出，会比设定的目标时间略小。如果完全卡着时间来，最后正式试验会发现 PALM 报错说 dynamic driver 能够提供强迫的最大时间小于正式试验设定的结束时间，这就是因为 precursor 试验输出的最后一个结果略早于设定的结束时间导致的。</p>
+<p>举个具体的例子，如果我想至少运行 24 小时来模拟稳态大气，正式试验运行6个小时，那么 precursor 的 <code>end_time</code> 应该至少设置为 108005 秒</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>24</mn><mo>∗</mo><mn>60</mn><mo>∗</mo><mn>60</mn><mo>+</mo><mn>6</mn><mo>∗</mo><mn>60</mn><mo>∗</mo><mn>60</mn><mo>+</mo><mn>5</mn><mo>=</mo><mn>108005</mn><mtext> </mtext><mi>s</mi></mrow><annotation encoding="application/x-tex">24*60*60+6*60*60+5 = 108005\ s
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">6</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">6</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">6</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">6</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">6</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">8</span><span class="mord">0</span><span class="mord">0</span><span class="mord">5</span><span class="mspace"> </span><span class="mord mathnormal">s</span></span></span></span></span></p>
+<p>最后我的 runtime parameters 配置如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&amp;<span class="type">runtime_parameters</span></span><br><span class="line">    <span class="variable">end_time</span> <span class="operator">=</span> <span class="number">108005.0</span></span><br><span class="line">    dt_max = <span class="number">1.0</span></span><br><span class="line">    create_disturbances = .<span class="literal">true</span>.</span><br><span class="line">    section_yz_m = <span class="number">1200.0</span></span><br><span class="line">    dt_do2d_yz = <span class="number">1</span></span><br><span class="line">    skip_time_do2d_yz = <span class="number">86400.0</span></span><br><span class="line">    sectoin_xy = -<span class="number">1</span></span><br><span class="line">    dt_do2d_xy = <span class="number">60</span></span><br><span class="line">    skip_time_do2d_xz = <span class="number">86400.0</span></span><br><span class="line">    npex = <span class="number">20</span></span><br><span class="line">    npey = <span class="number">18</span></span><br><span class="line">    data_output_pr = <span class="string">&#x27;#u&#x27;</span>, <span class="string">&#x27;u*2&#x27;</span>, <span class="string">&#x27;wu&#x27;</span>, <span class="string">&#x27;w*u*&#x27;</span>, <span class="string">&#x27;w&quot;u&quot;&#x27;</span>, <span class="string">&#x27;#v&#x27;</span>, <span class="string">&#x27;v*2&#x27;</span>, <span class="string">&#x27;wv&#x27;</span>,</span><br><span class="line">                     <span class="string">&#x27;w*v*&#x27;</span>, <span class="string">&#x27;w&quot;v&quot;&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, <span class="string">&#x27;w*2&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;e*&#x27;</span>, <span class="string">&#x27;#km&#x27;</span>, <span class="string">&#x27;#l&#x27;</span></span><br><span class="line">    dt_dopr = <span class="number">300.0</span></span><br><span class="line">    skip_time_dopr = <span class="number">86400.0</span></span><br><span class="line">    averaging_interval = <span class="number">300.0</span></span><br><span class="line">    dt_data_output_av = <span class="number">300.0</span></span><br><span class="line">    skip_time_data_output_av = <span class="number">86400.0</span></span><br><span class="line">    data_output = <span class="string">&#x27;u_av&#x27;</span>, <span class="string">&#x27;v_av&#x27;</span>, <span class="string">&#x27;w_av&#x27;</span>, <span class="string">&#x27;u_yz&#x27;</span>, <span class="string">&#x27;v_yz&#x27;</span>, <span class="string">&#x27;w_yz&#x27;</span>, <span class="string">&#x27;e_yz&#x27;</span>,</span><br><span class="line">                  <span class="string">&#x27;theta_yz&#x27;</span>, <span class="string">&#x27;us*_xy&#x27;</span></span><br><span class="line">    dt_data_output = <span class="number">99999.0</span></span><br><span class="line">/</span><br></pre></td></tr></table></figure>
+<p>运行方面，要将 namelist 保存为 <code>xxxx_pcr</code>，并且向 palmrun 传递参数 <code>-a 'pcr restart'</code>。有了 <code>restart</code> 参数，PALM 才能生成重启需要的数据文件。</p>
+<h2 id="dynamic-driver-的生成"><a class="markdownIt-Anchor" href="#dynamic-driver-的生成"></a> Dynamic driver 的生成</h2>
+<p>这部分比较麻烦，所以我直接扔给 ChatGPT 让它帮我写了。由于代码量有点大，就不放在博客中展示了。如果你需要这个代码来生成 dynamic driver，可以留言联系我。</p>
+<h2 id="正式试验"><a class="markdownIt-Anchor" href="#正式试验"></a> 正式试验</h2>
+<p>经过前面两步的准备，现在应该有两个文件：<code>xxxx_d3d.yyy</code> 和 <code>xxxx_dynamic</code>。</p>
+<p>正式试验的配置基本沿用 precursor 试验，但是有几个地方需要修改。</p>
+<h3 id="initialization-parameters-2"><a class="markdownIt-Anchor" href="#initialization-parameters-2"></a> Initialization parameters</h3>
+<ul>
+<li>由于我是西侧入流，东侧出流，对应的边界条件配置 <code>bc_lr</code> 要改为 <code>dirichlet/radiation</code>。</li>
+<li>因为放入了单个理想建筑，<code>topography</code> 设为 <code>single_building</code>，并通过相关的建筑参数设定了建筑物的大小和位置。</li>
+<li><code>initializing_actions</code> 要改为 <code>cyclic_fill</code>，因为我们要读取 precursor 试验生成的 restart 文件。</li>
+</ul>
+<h3 id="runtime-parameters-2"><a class="markdownIt-Anchor" href="#runtime-parameters-2"></a> Runtime parameters</h3>
+<ul>
+<li><code>end_time</code> 要在 precursor 的基础上再加上正式试验的模拟时长。</li>
+<li>其他相关的变量输出设置要根据实际需要进行修改。</li>
+</ul>
+<h3 id="turbulent-inflow-parameters"><a class="markdownIt-Anchor" href="#turbulent-inflow-parameters"></a> Turbulent inflow parameters</h3>
+<p>正式试验要添加这个配置块，并设置 <code>turbulent_inflow_method = 'read_from_file'</code>，这样 PALM 就会从 dynamic driver 中读取入流强迫。</p>
+<hr />
+<p>将 namelist 文件保存为 <code>xxxx_p3d</code>，并向 palmrun 传递参数 <code>-a 'd3# cyclic'</code>，即可开始正式的绕流试验模拟。</p>
+<h2 id="续跑-precursor-试验"><a class="markdownIt-Anchor" href="#续跑-precursor-试验"></a> 续跑 precursor 试验</h2>
+<p>如果你跑完了 precursor 试验，发现大气还没有达到稳态怎么办？可以通过修改部分设置，在前面 precursor 试验的基础上续跑，因为 precursor 试验生成了用于 restart 的 <code>d3d</code> 数据，完全可以从保存的点继续续跑。</p>
+<h3 id="initialization-parameters-3"><a class="markdownIt-Anchor" href="#initialization-parameters-3"></a> Initialization parameters</h3>
+<p>只需要将参数 <code>initializing_actions</code> 修改为 <code>'read_restart_data'</code> 即可。</p>
+<h3 id="runtime-parameters-3"><a class="markdownIt-Anchor" href="#runtime-parameters-3"></a> Runtime parameters</h3>
+<p>将要续跑的时间添加到 <code>end_time</code>，使其值变成从最开始的第一次模拟起计算，到你续跑的试验模拟完所模拟的总模式时间。</p>
+<hr />
+<p>将 namelist 文件保存为 <code>xxxx_p3dr</code>，并向 palmrun 传递参数 <code>-a 'd3r restart'</code>，即可开始续跑 precursor 试验。</p>
+<hr />
+<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style: none; padding-left: 0; margin-left: 40px"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px; margin-left: -40px">1.</span><span style="display: inline-block; vertical-align: top; margin-left: 10px;">Shin, H. H., D. Muñoz-Esparza, J. A. Sauer, and M. Steiner, 2021: Large-Eddy Simulations of Stability-Varying Atmospheric Boundary Layer Flow over Isolated Buildings. <em>Journal of the Atmospheric Sciences</em>, <strong>78</strong>, 1487–1501, https://doi.org/10.1175/JAS-D-20-0160.1.<a href="#fnref:1" rev="footnote"> ↩</a></span></li></ol></div></div><!-- flag of hidden posts -->
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Syize
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.syize.cn/2026/10/11/note-palm-precursor-and-main-simulation/">https://blog.syize.cn/2026/10/11/note-palm-precursor-and-main-simulation/</a>
+        </p>
+        
+            <strong>
+                <p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.syize.cn">Syizeのblog</a>！</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2026-10-11</p></div> 
+    <div class="post-entry__tags"><a href="/tags/PALM/" class="post-tags__link button"># PALM</a></div> 
+</article>
+
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    
+    <div id="gitalk-container"></div>
+
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+    
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2021&nbsp;-&nbsp;2026 <a href="/">Syize の blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF6Y5KEM39"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-VF6Y5KEM39');
+    </script>
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" crossorigin="anonymous"></script>
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+    <script>
+        function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'f9cc68800d4b4684b855',
+                    clientSecret: '41ec43e27f543f00eca863b311d04e7be6533111',
+                    repo: 'blog-comment',
+                    owner: 'Syize',
+                    admin: 'Syize',
+                    id: '2026/10/11/note-palm-precursor-and-main-simulation/',
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+
+    </body>
+</html>
